@@ -28,7 +28,7 @@
 .top-menu .top-menu-item:hover > a,
 .top-menu .top-menu-item-active:hover > a {
     border-radius: 5px;
-    background-color: #8f8f8f4f;
+    background-color: #abe8fd6f;
 }
 .top-menu .top-menu-item a {
     display: block;
@@ -54,6 +54,7 @@
     box-shadow: 3px 3px 12px var(--color-border-base);
     border-radius: 5px;
     background-color: var(--color-background-base);
+    text-shadow: none;
 }
 .top-sub-menu .top-menu-item {
     float: none;

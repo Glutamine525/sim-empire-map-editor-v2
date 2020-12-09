@@ -13,7 +13,7 @@
     -ms-user-select: none;
     user-select: none;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0 3px 10px var(--color-border-base);
+    box-shadow: 3px 3px 10px var(--color-border-base);
     z-index: 1;
     text-shadow: var(--color-border-lighter) 0px 1px 10px;
     /* background: var(--color-background-darker); */

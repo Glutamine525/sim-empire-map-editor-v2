@@ -5,9 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>模拟帝国地图编辑器V2</title>
         <link rel="icon" href="./img/logo.png" />
-        <!-- <link rel="stylesheet" href="./library/element-ui.v2.14.1.css" />
-            <script src="./library/vue.v2.6.12.js"></script>
-            <script src="./library/element-ui.v2.14.1.js"></script> -->
+        <link rel="stylesheet" href="./library/element-ui.v2.14.1.css" />
+        <script src="./library/jquery.v3.5.1.min.js"></script>
         <link rel="stylesheet" href="./style/color.css" />
         <link rel="stylesheet" href="./style/flip-button.css" />
         <link rel="stylesheet" href="./style/switcher.css" />
@@ -22,7 +21,6 @@
         <script src="./js/util.js"></script>
         <script src="./js/config.js"></script>
         <script src="./js/top-nav.js"></script>
-        <script src="./js/side-nav.js"></script>
         <script src="./js/content.js"></script>
         <script src="./js/building.js"></script>
     </head>
@@ -164,7 +162,66 @@
                 </div>
             </div>
             <div id="main-page">
-                <div id="side-nav"></div>
+                <div id="side-nav">
+                    <div class="side-nav-container">
+                        <el-menu
+                            :collapse="true"
+                            :background-color="backgroundColor"
+                            :text-color="textColor"
+                            :active-text-color="activeTextColor"
+                            @select="onSelect"
+                        >
+                            <el-menu-item index="道路">
+                                <img :src="'./img/道路.png'" />
+                                <span slot="title">道路</span>
+                            </el-menu-item>
+                            <el-submenu
+                                v-for="item1 in buildingCatagory"
+                                :key="item1"
+                                :index="item1"
+                                :show-timeout="100"
+                                :hide-timeout="100"
+                                popper-class="popper"
+                            >
+                                <template slot="title">
+                                    <img :src="'./img/' + item1 + '.png'" />
+                                    <span slot="title">{{ item1 }}</span>
+                                </template>
+                                <el-menu-item-group :title="item1">
+                                    <el-menu-item
+                                        v-for="item2 in buildingInfo[item1]"
+                                        :key="item2.name"
+                                        :index="item2.name"
+                                    >
+                                        {{ item2.name }}
+                                    </el-menu-item>
+                                </el-menu-item-group>
+                            </el-submenu>
+                            <el-menu-item v-for="item1 in operationCatagory2" :key="item1" :index="item1">
+                                <img :src="'./img/' + item1 + '.png'" />
+                                <span slot="title">{{ item1 }}</span>
+                            </el-menu-item>
+                            <el-submenu
+                                v-for="item1 in operationCatagory1"
+                                :key="item1"
+                                :index="item1"
+                                :show-timeout="100"
+                                :hide-timeout="100"
+                                popper-class="popper"
+                            >
+                                <template slot="title">
+                                    <img :src="'./img/' + item1 + '.png'" />
+                                    <span slot="title">{{ item1 }}</span>
+                                </template>
+                                <el-menu-item-group :title="item1">
+                                    <el-menu-item v-for="item2 in labelText[item1]" :key="item2" :index="item2">
+                                        {{ item2 }}
+                                    </el-menu-item>
+                                </el-menu-item-group>
+                            </el-submenu>
+                        </el-menu>
+                    </div>
+                </div>
                 <div id="content">
                     <div id="map">
                         <canvas id="cell" width="3480" height="3480"></canvas>
@@ -179,6 +236,9 @@
                 </div>
             </div>
         </div>
+        <script src="./library/vue.v2.6.12.js"></script>
+        <script src="./library/element-ui.v2.14.1.js"></script>
+        <script src="./js/side-nav.js"></script>
         <script src="./js/main.js"></script>
     </body>
 </html>
