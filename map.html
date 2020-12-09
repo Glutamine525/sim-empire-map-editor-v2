@@ -16,6 +16,12 @@
         <link rel="stylesheet" href="./style/top-nav.css" />
         <link rel="stylesheet" href="./style/content.css" />
         <script src="./js/constant/label-text.js"></script>
+        <script src="./js/constant/building-fixed.js"></script>
+        <script src="./js/constant/building-china.js"></script>
+        <script src="./js/constant/building-persian.js"></script>
+        <script src="./js/constant/building-egypt.js"></script>
+        <script src="./js/constant/building-greece.js"></script>
+        <script src="./js/constant/building-aztaka.js"></script>
         <script src="./js/constant/light-mode.js"></script>
         <script src="./js/constant/dark-mode.js"></script>
         <script src="./js/util.js"></script>
@@ -23,6 +29,7 @@
         <script src="./js/top-nav.js"></script>
         <script src="./js/content.js"></script>
         <script src="./js/building.js"></script>
+        <script src="./js/building-range.js"></script>
     </head>
     <body>
         <div id="app">
@@ -54,7 +61,7 @@
                                         id="wood-num"
                                         style="color: var(--color-text-primary); font-weight: bold"
                                         onmouseover="$$$('#wood-num + ul li', true).forEach((node) => (node.style.display = 'block'))"
-                                        >5</a
+                                        >0</a
                                     >
                                     <ul class="top-sub-menu">
                                         <li class="top-menu-item-active">
@@ -105,7 +112,12 @@
                         <div>
                             <div>无木之地:</div>
                             <div class="toggle toggle--ordinary">
-                                <input type="checkbox" id="toggle-no-wood" class="toggle--checkbox" />
+                                <input
+                                    type="checkbox"
+                                    id="toggle-no-wood"
+                                    class="toggle--checkbox"
+                                    onclick="onClickNoWood(this.checked)"
+                                />
                                 <label class="toggle--btn" for="toggle-no-wood"></label>
                             </div>
                         </div>
@@ -164,13 +176,7 @@
             <div id="main-page">
                 <div id="side-nav">
                     <div class="side-nav-container">
-                        <el-menu
-                            :collapse="true"
-                            :background-color="backgroundColor"
-                            :text-color="textColor"
-                            :active-text-color="activeTextColor"
-                            @select="onSelect"
-                        >
+                        <el-menu :collapse="true" @select="onSelect">
                             <el-menu-item index="道路">
                                 <img :src="'./img/道路.png'" />
                                 <span slot="title">道路</span>
@@ -225,9 +231,7 @@
                 <div id="content">
                     <div id="map">
                         <canvas id="cell" width="3480" height="3480"></canvas>
-                        <div id="building">
-                            <div></div>
-                        </div>
+                        <div id="building"></div>
                         <div id="sign"></div>
                     </div>
                     <div id="preview"></div>

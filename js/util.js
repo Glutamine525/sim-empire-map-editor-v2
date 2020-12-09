@@ -11,6 +11,25 @@ function getColor(property) {
     return document.body.style.getPropertyValue(property);
 }
 
+function getBuildingID(bConfig) {
+    if (bConfig.id) return bConfig.id;
+    if (bConfig.width === bConfig.height) return `${bConfig.line}-${bConfig.column}-${bConfig.width}`;
+    else return `${bConfig.line}-${bConfig.column}-${bConfig.width}-${bConfig.height}`;
+}
+
+function initCell() {
+    $cell = [];
+    for (let i = 0; i <= $length; i++) {
+        let row = [];
+        for (let j = 0; j <= $length; j++) {
+            row.push({
+                isInRange: isInRange(i, j),
+            });
+        }
+        $cell.push(row);
+    }
+}
+
 function isBoundary(length, li, co) {
     let halfLength = length / 2;
     let result = false;
@@ -25,8 +44,8 @@ function isBoundary(length, li, co) {
     return result;
 }
 
-function isInRange(length, li, co) {
-    let halfLength = length / 2;
+function isInRange(li, co) {
+    let halfLength = $length / 2;
     if (li + co <= halfLength + 2) return false;
     if (li + co >= halfLength * 3) return false;
     if (li <= co - halfLength) return false;
@@ -43,4 +62,20 @@ function isInBuildingRange(li, co, originLi, originCo, width, height, range) {
     if (li < co - (range + diff + width - 1)) return false;
     if (li > co + (range + diff + height - 1)) return false;
     return true;
+}
+
+function getAdjacence(li, co) {
+    return {
+        top: $cell[li - 1][co].occupied,
+        right: $cell[li][co + 1].occupied,
+        bottom: $cell[li + 1][co].occupied,
+        left: $cell[li][co - 1].occupied,
+    };
+}
+
+function clearBuilding() {
+    let building = $$("building");
+    $$$("#building > div", true).forEach((v) => {
+        building.removeChild(v);
+    });
 }

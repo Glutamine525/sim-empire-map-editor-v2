@@ -19,7 +19,7 @@ class SideNav {
     }
 }
 
-var vm = new Vue({
+var $sideNavVue = new Vue({
     el: "#app",
     data() {
         return {
@@ -29,13 +29,13 @@ var vm = new Vue({
             backgroundColor: "",
             textColor: "",
             activeTextColor: "",
-            // civilBuildingMap: {
-            //     China: BuildingChina,
-            //     Persian: BuildingPersian,
-            //     Egypt: BuildingEgypt,
-            //     Greece: BuildingGreece,
-            //     Aztaka: BuildingAztaka,
-            // },
+            civilBuildingMap: {
+                中国: BuildingChina,
+                波斯: BuildingPersian,
+                埃及: BuildingEgypt,
+                希腊: BuildingGreece,
+                阿兹特克: BuildingAztaka,
+            },
             buildingInfo: {
                 住宅: [],
                 农业: [],
@@ -66,18 +66,8 @@ var vm = new Vue({
         },
     },
     methods: {
-        onClickDarkMode(isDarkMode) {
-            if (isDarkMode) {
-                this.backgroundColor = DarkMode["color-background-base"];
-                this.textColor = DarkMode["color-primary-text"];
-                this.activeTextColor = DarkMode["color-primary"];
-            } else {
-                this.backgroundColor = LightMode["color-background-base"];
-                this.textColor = LightMode["color-primary-text"];
-                this.activeTextColor = LightMode["color-primary"];
-            }
-        },
         onChangeCivil(civil) {
+            civil = civil || $config.civil;
             let that = this;
             Object.keys(this.buildingInfo).map(function (v) {
                 that.buildingInfo[v] = that.civilBuildingMap[civil][v];
@@ -105,20 +95,20 @@ var vm = new Vue({
                     newHolding.isProtection = false;
                     newHolding.isRoad = true;
                     newHolding.isPreview = true;
-                    Vue.prototype.operation = "placing-building";
-                    Vue.prototype.holding = newHolding;
-                    Vue.prototype.holdingSession = new Date().getTime();
-                    this.$emit("update:select-building", ["道路"]);
+                    $config.operation = "placing-building";
+                    $config.holding = newHolding;
+                    $config.holdingSession = new Date().getTime();
+                    $topNav.setOperation("道路");
                     break;
                 case "取消操作":
-                    Vue.prototype.operation = "null";
-                    Vue.prototype.holding = {};
-                    this.$emit("update:select-building", ["无"]);
+                    $config.operation = "null";
+                    $config.holding = {};
+                    $topNav.setOperation("无");
                     break;
                 case "删除建筑":
-                    Vue.prototype.operation = "deleting-building";
-                    Vue.prototype.holding = {};
-                    this.$emit("update:select-building", ["删除建筑"]);
+                    $config.operation = "deleting-building";
+                    $config.holding = {};
+                    $topNav.setOperation("删除建筑");
                     break;
                 default:
                     console.log(index, indexPath);
@@ -127,7 +117,7 @@ var vm = new Vue({
         },
         onSelectBuilding(index, indexPath) {
             let newHolding = {};
-            let selectedBuilding = this.getBuildingInfo(this.civil, indexPath[0], index);
+            let selectedBuilding = this.getBuildingInfo($config.civil, indexPath[0], index);
             newHolding.text = selectedBuilding.text;
             newHolding.width = selectedBuilding.size;
             newHolding.height = selectedBuilding.size;
@@ -137,16 +127,20 @@ var vm = new Vue({
             newHolding.borderColor = selectedBuilding.border_color;
             newHolding.borderWidth = 1;
             newHolding.isPreview = true;
-            newHolding.isProtection = LabelText.protection_building[this.civil].indexOf(selectedBuilding.text) > -1;
-            Vue.prototype.operation = "placing-building";
-            Vue.prototype.holding = newHolding;
-            Vue.prototype.holdingSession = new Date().getTime();
-            this.$emit("update:select-building", indexPath);
+            newHolding.isProtection = LabelText.protection_building[$config.civil].indexOf(selectedBuilding.text) > -1;
+            $config.operation = "placing-building";
+            $config.holding = newHolding;
+            $config.holdingSession = new Date().getTime();
+            $topNav.setOperation(indexPath.join("-"));
+            console.log($config.holding);
         },
         getBuildingInfo(civil, catagory, name) {
             return this.civilBuildingMap[civil][catagory].filter(function (v) {
                 return v.name === name;
             })[0];
         },
+    },
+    mounted() {
+        this.onChangeCivil("中国");
     },
 });

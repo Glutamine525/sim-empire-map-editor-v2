@@ -4,6 +4,7 @@ var $cellSize = 30;
 var $topNav = new TopNav(40);
 var $sideNav = new SideNav(64);
 var $config = new Config();
+var $cell = {};
 
 const topNavResizeObserver = new ResizeObserver((entries) => {
     let height = 0;
@@ -22,6 +23,7 @@ topNavResizeObserver.observe($$("top-nav-height-helper"));
 onClickDisplayMode(true);
 drawBoundary("black");
 drawCell(getColor("--color-border-lighter"), getColor("--color-background-lighter"));
+onClickWoodNum(5);
 
 if ("backdrop-filter" in document.documentElement.style) {
     // if (false) {
@@ -34,16 +36,16 @@ if ("backdrop-filter" in document.documentElement.style) {
     topNav.style.border = "1px solid var(--color-border-darker)";
     topNav.style.width = "calc(100% - 10px)";
     $$("side-nav").style.background = "transparent";
-    let sideMenu = $$$("#side-nav .el-menu");
+    let sideMenu = $$$("#side-nav > .side-nav-container > .el-menu");
     sideMenu.style.width = "56px";
-    sideMenu.style.margin = "0 0 4px 4px";
+    sideMenu.style.margin = "0 0 3px 4px";
     sideMenu.style.border = "1px solid var(--color-border-darker)";
     sideMenu.style.borderRadius = "20px";
     sideMenu.style.backdropFilter = "blur(15px)";
     $$$("#side-nav .el-submenu__title", true).forEach((v) => {
         v.style.borderRadius = "20px";
     });
-    $$$("#side-nav .el-menu-item", true).forEach((v) => {
+    $$$("#side-nav > .el-menu--collapse.el-menu > .el-menu-item", true).forEach((v) => {
         v.style.borderRadius = "20px";
     });
     $topNav.setHeight($config.height);

@@ -8,7 +8,7 @@ function drawCell(borderColor, backgroundColor) {
     ctx.fillStyle = backgroundColor;
     for (let li = 1; li <= length; li++) {
         for (let co = 1; co <= length; co++) {
-            if (isInRange(length, li, co)) {
+            if (isInRange(li, co)) {
                 let x = co * 30 - 30 + offset;
                 let y = li * 30 - 30 + offset;
                 ctx.clearRect(x, y, 29, 29);
@@ -88,4 +88,65 @@ function drawBoundary(boundaryColor) {
             }
         }
     }
+}
+
+function createBuilding(bConfig) {
+    let { line, column, width, height } = bConfig;
+    let building = new Building(bConfig);
+    if (bConfig.barrierType) {
+        let adj = getAdjacence(line, column);
+        if (adj.top && adj.top.barrierType && adj.top.barrierType === bConfig.barrierType) {
+            adj.top.borderBottom = false;
+            adj.top.updateBorderStyle();
+            building.borderTop = false;
+        }
+        if (adj.right && adj.right.barrierType && adj.right.barrierType === bConfig.barrierType) {
+            adj.right.borderLeft = false;
+            adj.right.updateBorderStyle();
+            building.borderRight = false;
+        }
+        if (adj.bottom && adj.bottom.barrierType && adj.bottom.barrierType === bConfig.barrierType) {
+            adj.bottom.borderTop = false;
+            adj.bottom.updateBorderStyle();
+            building.borderBottom = false;
+        }
+        if (adj.left && adj.left.barrierType && adj.left.barrierType === bConfig.barrierType) {
+            adj.left.borderRight = false;
+            adj.left.updateBorderStyle();
+            building.borderLeft = false;
+        }
+    }
+    building.init();
+    for (let i = line; i < line + height; i++) {
+        for (let j = column; j < column + width; j++) {
+            $cell[i][j].occupied = building;
+        }
+    }
+}
+
+function drawFixedBuilding(type, woodNum) {
+    woodNum = woodNum || $config.woodNum;
+    woodNum -= 3;
+    BuildingFixed[type][woodNum].map((v) => {
+        let unit = v.split("-").map((w) => +w);
+        if (unit.length < 3) unit.push(1);
+        if (unit.length < 4) unit.push(unit[2]);
+        let catagory = "water|mountain|tree|road".split("|").indexOf(type) > -1 ? type : "building";
+        let barrierType = catagory !== "building" && catagory !== "road" ? type : "";
+        createBuilding({
+            line: unit[0],
+            column: unit[1],
+            width: unit[2],
+            height: unit[3],
+            range: 0,
+            isFixed: true,
+            barrierType: barrierType,
+            isRoad: type === "road",
+            text: BuildingFixed[`text_${type}`],
+            color: "var(--color-black)",
+            background: BuildingFixed[`color_${type}`],
+            borderWidth: 1,
+            borderColor: "var(--color-border-base)",
+        });
+    });
 }

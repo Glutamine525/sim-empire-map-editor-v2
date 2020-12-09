@@ -15,6 +15,7 @@ class TopNav {
     }
 
     setWoodNum(woodNum) {
+        woodNum = woodNum || $config.woodNum;
         $$("wood-num").innerHTML = woodNum;
     }
 
@@ -23,26 +24,49 @@ class TopNav {
     }
 
     setCivil(civil) {
+        civil = civil || $config.civil;
         $$("civil").innerHTML = civil;
     }
 
     getCivil() {
         return $$("civil").innerHTML;
     }
+
+    setSelected(selected) {
+        selected = selected || $config.selected;
+        $$("top-nav-selected").innerHTML = selected;
+    }
+
+    setOperation(operation) {
+        operation = operation || $config.operation;
+        $$("top-nav-holding").innerHTML = operation;
+    }
 }
 
 onClickWoodNum = (woodNum) => {
     $$$("#wood-num + ul li", true).forEach((node) => (node.style.display = "none"));
     if (+woodNum === $topNav.getWoodNum()) return;
-    $topNav.setWoodNum(woodNum);
     $config.woodNum = woodNum;
+    $topNav.setWoodNum();
+    clearBuilding();
+    initCell();
+    drawFixedBuilding("water");
+    drawFixedBuilding("mountain");
+    drawFixedBuilding("road");
+    drawFixedBuilding("stone");
+    drawFixedBuilding("copper");
+    drawFixedBuilding("wood");
+    drawFixedBuilding("clay");
+    drawFixedBuilding("wharf");
+    if (!$config.isNoWood) onClickNoWood(false);
 };
 
 onClickCivil = (civil) => {
     $$$("#civil + ul li", true).forEach((node) => (node.style.display = "none"));
     if (civil === $topNav.getCivil()) return;
-    $topNav.setCivil(civil);
     $config.civil = civil;
+    $topNav.setCivil();
+    $sideNavVue.onChangeCivil();
 };
 
 onClickDisplayMode = (isLightMode) => {
@@ -57,4 +81,19 @@ onClickDisplayMode = (isLightMode) => {
         });
     }
     drawCell(getColor("--color-border-lighter"), getColor("--color-background-lighter"));
+};
+
+onClickNoWood = (isNoWood) => {
+    $config.isNoWood = isNoWood;
+    if (isNoWood) {
+        let building = $$("building");
+        BuildingFixed["tree"][$config.woodNum - 3].map((v) => {
+            let unit = v.split("-").map((w) => +w);
+            let id = `${v}-1`;
+            delete $cell[unit[0]][unit[1]].occupied;
+            building.removeChild($$(id));
+        });
+    } else {
+        drawFixedBuilding("tree");
+    }
 };
