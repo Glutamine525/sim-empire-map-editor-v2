@@ -97,7 +97,7 @@ var $sideNavVue = new Vue({
                     newHolding.isPreview = true;
                     $config.operation = "placing-building";
                     $config.holding = newHolding;
-                    $config.holdingSession = new Date().getTime();
+                    $config.newHold = true;
                     $topNav.setOperation("道路");
                     break;
                 case "取消操作":
@@ -130,9 +130,8 @@ var $sideNavVue = new Vue({
             newHolding.isProtection = LabelText.protection_building[$config.civil].indexOf(selectedBuilding.text) > -1;
             $config.operation = "placing-building";
             $config.holding = newHolding;
-            $config.holdingSession = new Date().getTime();
+            $config.newHold = true;
             $topNav.setOperation(indexPath.join("-"));
-            console.log($config.holding);
         },
         getBuildingInfo(civil, catagory, name) {
             return this.civilBuildingMap[civil][catagory].filter(function (v) {

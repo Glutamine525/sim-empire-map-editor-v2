@@ -26,6 +26,7 @@
         <script src="./js/constant/dark-mode.js"></script>
         <script src="./js/util.js"></script>
         <script src="./js/config.js"></script>
+        <script src="./js/mouse-event.js"></script>
         <script src="./js/top-nav.js"></script>
         <script src="./js/content.js"></script>
         <script src="./js/building.js"></script>
@@ -234,9 +235,13 @@
                         <div id="building"></div>
                         <div id="sign"></div>
                     </div>
-                    <div id="preview"></div>
-                    <div id="range"></div>
-                    <div id="mini-map"></div>
+                    <div style="position: absolute; margin: 72px 32px 32px 96px; top: 0; left: 0">
+                        <div id="preview" class="building">
+                            <div id="preview-text" class="text"></div>
+                        </div>
+                        <div id="range-container"></div>
+                        <div id="mini-map"></div>
+                    </div>
                 </div>
             </div>
         </div>

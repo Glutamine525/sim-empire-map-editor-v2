@@ -90,36 +90,25 @@ function drawBoundary(boundaryColor) {
     }
 }
 
-function createBuilding(bConfig) {
-    let { line, column, width, height } = bConfig;
-    let building = new Building(bConfig);
-    if (bConfig.barrierType) {
-        let adj = getAdjacence(line, column);
-        if (adj.top && adj.top.barrierType && adj.top.barrierType === bConfig.barrierType) {
-            adj.top.borderBottom = false;
-            adj.top.updateBorderStyle();
-            building.borderTop = false;
-        }
-        if (adj.right && adj.right.barrierType && adj.right.barrierType === bConfig.barrierType) {
-            adj.right.borderLeft = false;
-            adj.right.updateBorderStyle();
-            building.borderRight = false;
-        }
-        if (adj.bottom && adj.bottom.barrierType && adj.bottom.barrierType === bConfig.barrierType) {
-            adj.bottom.borderTop = false;
-            adj.bottom.updateBorderStyle();
-            building.borderBottom = false;
-        }
-        if (adj.left && adj.left.barrierType && adj.left.barrierType === bConfig.barrierType) {
-            adj.left.borderRight = false;
-            adj.left.updateBorderStyle();
-            building.borderLeft = false;
-        }
-    }
+function createBuilding(config) {
+    let { line, column, width, height } = config;
+    let building = new Building(config);
+    updateBorder(building, false);
     building.init();
     for (let i = line; i < line + height; i++) {
         for (let j = column; j < column + width; j++) {
             $cell[i][j].occupied = building;
+        }
+    }
+}
+
+function deleteBuilding(li, co) {
+    let builiding = $cell[li][co].occupied;
+    updateBorder(builiding, true);
+    $$("building").removeChild($$(builiding.id));
+    for (let i = builiding.line; i < builiding.line + builiding.height; i++) {
+        for (let j = builiding.column; j < builiding.column + builiding.width; j++) {
+            delete $cell[li][co].occupied;
         }
     }
 }
@@ -149,4 +138,46 @@ function drawFixedBuilding(type, woodNum) {
             borderColor: "var(--color-border-base)",
         });
     });
+}
+
+function updateBorder(building, show) {
+    if (building.barrierType || building.isRoad) {
+        let adj = getAdjacence(building.line, building.column);
+        if (
+            adj.top &&
+            ((adj.top.barrierType && adj.top.barrierType === building.barrierType) ||
+                (adj.top.isRoad && building.isRoad))
+        ) {
+            adj.top.borderBottom = show;
+            adj.top.updateBorderStyle();
+            building.borderTop = show;
+        }
+        if (
+            adj.right &&
+            ((adj.right.barrierType && adj.right.barrierType === building.barrierType) ||
+                (adj.right.isRoad && building.isRoad))
+        ) {
+            adj.right.borderLeft = show;
+            adj.right.updateBorderStyle();
+            building.borderRight = show;
+        }
+        if (
+            adj.bottom &&
+            ((adj.bottom.barrierType && adj.bottom.barrierType === building.barrierType) ||
+                (adj.bottom.isRoad && building.isRoad))
+        ) {
+            adj.bottom.borderTop = show;
+            adj.bottom.updateBorderStyle();
+            building.borderBottom = show;
+        }
+        if (
+            adj.left &&
+            ((adj.left.barrierType && adj.left.barrierType === building.barrierType) ||
+                (adj.left.isRoad && building.isRoad))
+        ) {
+            adj.left.borderRight = show;
+            adj.left.updateBorderStyle();
+            building.borderLeft = show;
+        }
+    }
 }

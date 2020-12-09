@@ -10,6 +10,8 @@ class Config {
         this.isMapRotated = false;
         this.operation = "";
         this.holding = {};
-        this.holdingSession = "";
+        this.newHold = false;
+        this.isMouseDown = false;
+        this.showEffect = true;
     }
 }

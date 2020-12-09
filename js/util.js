@@ -11,10 +11,10 @@ function getColor(property) {
     return document.body.style.getPropertyValue(property);
 }
 
-function getBuildingID(bConfig) {
-    if (bConfig.id) return bConfig.id;
-    if (bConfig.width === bConfig.height) return `${bConfig.line}-${bConfig.column}-${bConfig.width}`;
-    else return `${bConfig.line}-${bConfig.column}-${bConfig.width}-${bConfig.height}`;
+function getBuildingID(config) {
+    if (config.id) return config.id;
+    if (config.width === config.height) return `${config.line}-${config.column}-${config.width}`;
+    else return `${config.line}-${config.column}-${config.width}-${config.height}`;
 }
 
 function initCell() {
@@ -75,7 +75,9 @@ function getAdjacence(li, co) {
 
 function clearBuilding() {
     let building = $$("building");
-    $$$("#building > div", true).forEach((v) => {
-        building.removeChild(v);
-    });
+    building.innerHTML = "";
+}
+
+function parseID(id) {
+    return id.split("-").map((v) => +v);
 }

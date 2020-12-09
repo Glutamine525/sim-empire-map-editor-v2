@@ -1,28 +1,27 @@
 class Building {
-    constructor(bConfig) {
-        this.line = bConfig.line;
-        this.column = bConfig.column;
-        this.width = bConfig.width;
-        this.height = bConfig.height;
-        this.range = bConfig.range;
-        this.text = bConfig.text;
-        this.color = bConfig.color;
-        this.background = bConfig.background;
-        this.borderColor = bConfig.borderColor;
-        this.borderWidth = bConfig.borderWidth;
-        this.id = bConfig.id || getBuildingID(bConfig);
-        this.borderTop = bConfig.borderTop || true;
-        this.borderRight = bConfig.borderRight || true;
-        this.borderBottom = bConfig.borderBottom || true;
-        this.borderLeft = bConfig.borderLeft || true;
-        this.isMiracel = bConfig.isMiracel || false;
-        this.isFixed = bConfig.isFixed || false;
-        this.isProtection = bConfig.isProtection || false;
-        this.barrierType = bConfig.barrierType || "";
-        this.isRoad = bConfig.isRoad || false;
-        this.special = bConfig.special || "";
-        this.isPreview = bConfig.isPreview || false;
-        this.marker = bConfig.marker || 0;
+    constructor(config) {
+        this.line = config.line;
+        this.column = config.column;
+        this.width = config.width;
+        this.height = config.height;
+        this.text = config.text;
+        this.color = config.color;
+        this.background = config.background;
+        this.borderColor = config.borderColor;
+        this.borderWidth = config.borderWidth;
+        this.range = config.range || 0;
+        this.id = config.id || getBuildingID(config);
+        this.borderTop = config.borderTop || true;
+        this.borderRight = config.borderRight || true;
+        this.borderBottom = config.borderBottom || true;
+        this.borderLeft = config.borderLeft || true;
+        this.isMiracel = config.isMiracel || false;
+        this.isFixed = config.isFixed || false;
+        this.isProtection = config.isProtection || false;
+        this.barrierType = config.barrierType || "";
+        this.isRoad = config.isRoad || false;
+        this.special = config.special || "";
+        this.marker = config.marker || 0;
     }
 
     init() {
@@ -40,12 +39,17 @@ class Building {
         node.style.borderStyle = this.getBorderStyle();
         node.id = this.id;
         node.className = "building";
-        if ((!this.isFixed || this.text) && !this.isPreview && !this.isRoad) node.className += " hoverable";
+        if ((!this.isFixed || this.text) && !this.isRoad) node.className += " hoverable";
+        // if (this.isProtection && $config.showEffect) node.className += " protection-mask";
         text.innerHTML = this.text;
         text.className = "text";
         marker.innerHTML = this.marker;
         marker.className = "marker";
         if (!this.showMarker()) marker.style.display = "none";
+        if (this.range) {
+            node.onmouseover = this.onMouseEnter;
+            node.onmouseleave = this.onMouseLeave;
+        }
         node.append(text, marker);
         $$("building").appendChild(node);
     }
@@ -69,5 +73,15 @@ class Building {
 
     updateBorderStyle() {
         $$(this.id).style.borderStyle = this.getBorderStyle();
+    }
+
+    onMouseEnter() {
+        let unit = parseID(this.id);
+        let building = $cell[unit[0]][unit[1]].occupied;
+        $range.show(building);
+    }
+
+    onMouseLeave() {
+        $range.hide(this.id);
     }
 }

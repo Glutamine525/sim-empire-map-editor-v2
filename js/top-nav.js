@@ -94,6 +94,12 @@ onClickNoWood = (isNoWood) => {
             building.removeChild($$(id));
         });
     } else {
+        BuildingFixed["tree"][$config.woodNum - 3].map((v) => {
+            let unit = v.split("-").map((w) => +w);
+            if ($cell[unit[0]][unit[1]].occupied) {
+                deleteBuilding(unit[0], unit[1]);
+            }
+        });
         drawFixedBuilding("tree");
     }
 };

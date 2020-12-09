@@ -5,6 +5,7 @@ var $topNav = new TopNav(40);
 var $sideNav = new SideNav(64);
 var $config = new Config();
 var $cell = {};
+var $range = new BuildingRange({});
 
 const topNavResizeObserver = new ResizeObserver((entries) => {
     let height = 0;
@@ -24,6 +25,10 @@ onClickDisplayMode(true);
 drawBoundary("black");
 drawCell(getColor("--color-border-lighter"), getColor("--color-background-lighter"));
 onClickWoodNum(5);
+document.onclick = onMouseClick;
+document.onmousemove = onMouseMove;
+document.onmousedown = () => ($config.isMouseDown = true);
+document.onmouseup = () => ($config.isMouseDown = false);
 
 if ("backdrop-filter" in document.documentElement.style) {
     // if (false) {
@@ -40,13 +45,13 @@ if ("backdrop-filter" in document.documentElement.style) {
     sideMenu.style.width = "56px";
     sideMenu.style.margin = "0 0 3px 4px";
     sideMenu.style.border = "1px solid var(--color-border-darker)";
-    sideMenu.style.borderRadius = "20px";
+    sideMenu.style.borderRadius = "28px";
     sideMenu.style.backdropFilter = "blur(15px)";
     $$$("#side-nav .el-submenu__title", true).forEach((v) => {
-        v.style.borderRadius = "20px";
+        v.style.borderRadius = "28px";
     });
-    $$$("#side-nav > .el-menu--collapse.el-menu > .el-menu-item", true).forEach((v) => {
-        v.style.borderRadius = "20px";
+    $$$("#side-nav .el-menu--collapse > .el-menu-item", true).forEach((v) => {
+        v.style.borderRadius = "28px";
     });
     $topNav.setHeight($config.height);
     $config.topNavHeight += 8;
@@ -56,3 +61,20 @@ if ("backdrop-filter" in document.documentElement.style) {
     $$("side-nav").style.background = "var(--color-background-darker)";
     $$("side-nav").style.boxShadow = "3px 3px 5px var(--color-border-base)";
 }
+
+// for (let i = 61; i < 70; i += 3) {
+//     for (let j = 40; j < 50; j += 3) {
+//         createBuilding({
+//             line: i,
+//             column: j,
+//             width: 3,
+//             height: 3,
+//             range: 4,
+//             text: "测试",
+//             color: "#000000",
+//             background: "#ffffff",
+//             borderColor: "#000000",
+//             borderWidth: 1,
+//         });
+//     }
+// }
