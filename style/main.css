@@ -1,0 +1,21 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    color: var(--color-text-regular);
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+#main-page {
+    position: relative;
+    width: 0;
+    height: 0;
+}

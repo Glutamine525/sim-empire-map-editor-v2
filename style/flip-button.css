@@ -1,0 +1,35 @@
+.flip-button {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 400ms;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.flip-button-rotate.active {
+    transform: rotate(180deg);
+}
+.flip-button .line {
+    fill: none;
+    transition: stroke-dasharray 400ms, stroke-dashoffset 400ms;
+    stroke: var(--color-primary);
+    stroke-width: 5.5;
+    stroke-linecap: round;
+}
+.flip-button .top {
+    stroke-dasharray: 40 82;
+}
+.flip-button .bottom {
+    stroke-dasharray: 40 82;
+}
+.flip-button.active .top {
+    stroke-dasharray: 14 82;
+    stroke-dashoffset: -72px;
+}
+.flip-button.active .bottom {
+    stroke-dasharray: 14 82;
+    stroke-dashoffset: -72px;
+}

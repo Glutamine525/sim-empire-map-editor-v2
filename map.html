@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>模拟帝国地图编辑器V2</title>
+        <link rel="icon" href="./img/logo.png" />
+        <!-- <link rel="stylesheet" href="./library/element-ui.v2.14.1.css" />
+            <script src="./library/vue.v2.6.12.js"></script>
+            <script src="./library/element-ui.v2.14.1.js"></script> -->
+        <link rel="stylesheet" href="./style/color.css" />
+        <link rel="stylesheet" href="./style/flip-button.css" />
+        <link rel="stylesheet" href="./style/switcher.css" />
+        <link rel="stylesheet" href="./style/top-menu.css" />
+        <link rel="stylesheet" href="./style/main.css" />
+        <link rel="stylesheet" href="./style/side-nav.css" />
+        <link rel="stylesheet" href="./style/top-nav.css" />
+        <link rel="stylesheet" href="./style/content.css" />
+        <script src="./js/constant/label-text.js"></script>
+        <script src="./js/constant/light-mode.js"></script>
+        <script src="./js/constant/dark-mode.js"></script>
+        <script src="./js/util.js"></script>
+        <script src="./js/config.js"></script>
+        <script src="./js/top-nav.js"></script>
+        <script src="./js/side-nav.js"></script>
+        <script src="./js/content.js"></script>
+        <script src="./js/building.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <div id="top-nav">
+                <div id="top-nav-controller">
+                    <div id="top-nav-height-helper">
+                        <svg
+                            class="flip-button flip-button-rotate"
+                            viewBox="0 0 100 100"
+                            width="80"
+                            style="margin-left: 10px"
+                            onclick="this.classList.toggle('active')"
+                        >
+                            <path
+                                class="line top"
+                                d="m 30,33 h 40 c 0,0 8.5,-0.68551 8.5,10.375 0,8.292653 -6.122707,9.002293 -8.5,6.625 l -11.071429,-11.071429"
+                            />
+                            <path class="line middle" d="m 70,50 h -40" />
+                            <path
+                                class="line bottom"
+                                d="m 30,67 h 40 c 0,0 8.5,0.68551 8.5,-10.375 0,-8.292653 -6.122707,-9.002293 -8.5,-6.625 l -11.071429,11.071429"
+                            />
+                        </svg>
+                        <div>
+                            <div>地图类型:</div>
+                            <ul class="top-menu">
+                                <li class="top-menu-item">
+                                    <a
+                                        id="wood-num"
+                                        style="color: var(--color-text-primary); font-weight: bold"
+                                        onmouseover="$$$('#wood-num + ul li', true).forEach((node) => (node.style.display = 'block'))"
+                                        >5</a
+                                    >
+                                    <ul class="top-sub-menu">
+                                        <li class="top-menu-item-active">
+                                            <a value="5" onclick="onClickWoodNum(this.getAttribute('value'))">5</a>
+                                        </li>
+                                        <li class="top-menu-item-active">
+                                            <a value="4" onclick="onClickWoodNum(this.getAttribute('value'))">4</a>
+                                        </li>
+                                        <li class="top-menu-item-active">
+                                            <a value="3" onclick="onClickWoodNum(this.getAttribute('value'))">3</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div>文明:</div>
+                            <ul class="top-menu">
+                                <li class="top-menu-item">
+                                    <a
+                                        id="civil"
+                                        style="color: var(--color-text-primary); font-weight: bold"
+                                        onmouseover="$$$('#civil + ul li', true).forEach((node) => (node.style.display = 'block'))"
+                                        >中国</a
+                                    >
+                                    <ul class="top-sub-menu">
+                                        <li class="top-menu-item-active">
+                                            <a value="中国" onclick="onClickCivil(this.getAttribute('value'))">中国</a>
+                                        </li>
+                                        <li class="top-menu-item-active">
+                                            <a value="波斯" onclick="onClickCivil(this.getAttribute('value'))">波斯</a>
+                                        </li>
+                                        <li class="top-menu-item-active">
+                                            <a value="埃及" onclick="onClickCivil(this.getAttribute('value'))">埃及</a>
+                                        </li>
+                                        <li class="top-menu-item-active">
+                                            <a value="希腊" onclick="onClickCivil(this.getAttribute('value'))">希腊</a>
+                                        </li>
+                                        <li class="top-menu-item-active">
+                                            <a value="阿兹特克" onclick="onClickCivil(this.getAttribute('value'))"
+                                                >阿兹特克</a
+                                            >
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div>无木之地:</div>
+                            <div class="toggle toggle--ordinary">
+                                <input type="checkbox" id="toggle-no-wood" class="toggle--checkbox" />
+                                <label class="toggle--btn" for="toggle-no-wood"></label>
+                            </div>
+                        </div>
+                        <div>
+                            <div>显示模式:</div>
+                            <div class="toggle toggle--daynight">
+                                <input
+                                    type="checkbox"
+                                    id="toggle-display-mode"
+                                    class="toggle--checkbox"
+                                    checked="true"
+                                    onclick="onClickDisplayMode(this.checked)"
+                                />
+                                <label class="toggle--btn" for="toggle-display-mode"
+                                    ><span class="toggle--feature"></span
+                                ></label>
+                            </div>
+                        </div>
+                        <div>
+                            <div>小地图:</div>
+                            <div class="toggle toggle--ordinary">
+                                <input type="checkbox" id="toggle-mini-map" class="toggle--checkbox" checked="true" />
+                                <label class="toggle--btn" for="toggle-mini-map"></label>
+                            </div>
+                        </div>
+                        <div>
+                            <div>旋转地图:</div>
+                            <div class="toggle toggle--ordinary">
+                                <input type="checkbox" id="toggle-rotation" class="toggle--checkbox" />
+                                <label class="toggle--btn" for="toggle-rotation"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="top-nav-operation">
+                    <div>
+                        选中:
+                        <strong id="top-nav-selected">无</strong>
+                    </div>
+                    <div>
+                        操作:
+                        <strong id="top-nav-holding">无</strong>
+                    </div>
+                </div>
+                <div id="top-nav-info">
+                    <div>
+                        模拟帝国地图编辑器
+                        <strong id="top-nav-version">V2.0</strong>
+                    </div>
+                    <div>
+                        作者:
+                        <strong id="top-nav-author">咕噜他命</strong>
+                    </div>
+                </div>
+            </div>
+            <div id="main-page">
+                <div id="side-nav"></div>
+                <div id="content">
+                    <div id="map">
+                        <canvas id="cell" width="3480" height="3480"></canvas>
+                        <div id="building">
+                            <div></div>
+                        </div>
+                        <div id="sign"></div>
+                    </div>
+                    <div id="preview"></div>
+                    <div id="range"></div>
+                    <div id="mini-map"></div>
+                </div>
+            </div>
+        </div>
+        <script src="./js/main.js"></script>
+    </body>
+</html>

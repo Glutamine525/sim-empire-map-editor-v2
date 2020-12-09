@@ -1,0 +1,24 @@
+#content {
+    position: absolute;
+    /* margin: 40px 0 0 64px; */
+    padding: 72px 32px 32px 96px;
+    /* box-sizing: border-box; */
+    background: var(--color-background-darker);
+    transition: all 0.3s ease-in-out;
+}
+
+#map {
+    position: relative;
+}
+
+#cell {
+    display: block;
+}
+
+#building {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3480px;
+    height: 3480px;
+}

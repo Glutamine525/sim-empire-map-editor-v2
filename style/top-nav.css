@@ -1,0 +1,68 @@
+#top-nav {
+    position: fixed;
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
+    display: flex;
+    margin: auto 0;
+    justify-content: space-between;
+    text-align: center;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 3px 10px var(--color-border-base);
+    z-index: 1;
+    text-shadow: var(--color-border-lighter) 0px 1px 10px;
+    /* background: var(--color-background-darker); */
+    /* background: transparent; */
+    /* backdrop-filter: blur(20px); */
+}
+
+#top-nav-controller {
+    align-items: center;
+    white-space: initial;
+}
+
+#top-nav-controller > div > * {
+    display: inline-flex;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+#top-nav-controller > div > div > div {
+    margin: auto 0 auto 10px;
+}
+
+#top-nav-operation {
+    text-align: left;
+    margin: auto 0 auto 20px;
+}
+
+#top-nav-operation > *:not(:last-child) {
+    margin-right: 10px;
+}
+
+#top-nav-operation > * {
+    display: inline-block;
+    /* white-space: nowrap; */
+}
+
+#top-nav-info {
+    text-align: right;
+    margin: auto 20px auto 0;
+    font-size: 12px;
+    /* white-space: nowrap; */
+}
+
+#top-nav-info > *:not(:last-child) {
+    margin-left: 10px;
+    /* white-space: nowrap; */
+}
+
+#top-nav-operation strong,
+#top-nav-info strong {
+    color: var(--color-text-primary);
+}
