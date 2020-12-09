@@ -26,13 +26,13 @@ class BuildingRange {
         $$("range-container").appendChild(node);
         if ($config.operation !== "placing-building") {
             node.style.display = "none";
-            $(`#range-${config.id}`).fadeIn(500);
+            $(`#range-${config.id}`).fadeIn(350);
         }
     }
 
     hide(id) {
         if ($config.operation !== "placing-building") {
-            $(`#range-${id}`).fadeOut(500, () => $$("range-container").removeChild($$(`range-${id}`)));
+            $(`#range-${id}`).fadeOut(150, () => $$("range-container").removeChild($$(`range-${id}`)));
         } else {
             $$("range-container").removeChild($$(`range-${id}`));
         }

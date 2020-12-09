@@ -1,4 +1,5 @@
 const BuildingGreece = {
+    防: ["消", "维", "瞭", "诊所"],
     住宅: [
         {
             name: "普通住宅",

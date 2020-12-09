@@ -65,6 +65,7 @@ onClickCivil = (civil) => {
     $$$("#civil + ul li", true).forEach((node) => (node.style.display = "none"));
     if (civil === $topNav.getCivil()) return;
     $config.civil = civil;
+    $config.protection = $config.civilBuilding[civil]["防"];
     $topNav.setCivil();
     $sideNavVue.onChangeCivil();
 };
@@ -97,7 +98,7 @@ onClickNoWood = (isNoWood) => {
         BuildingFixed["tree"][$config.woodNum - 3].map((v) => {
             let unit = v.split("-").map((w) => +w);
             if ($cell[unit[0]][unit[1]].occupied) {
-                deleteBuilding(unit[0], unit[1]);
+                deleteBuilding(unit[0], unit[1], true);
             }
         });
         drawFixedBuilding("tree");

@@ -1,4 +1,5 @@
 const BuildingPersian = {
+    防: ["消", "维", "治", "医疗"],
     住宅: [
         {
             name: "普通住宅",

@@ -13,5 +13,13 @@ class Config {
         this.newHold = false;
         this.isMouseDown = false;
         this.showEffect = true;
+        this.civilBuilding = {
+            中国: BuildingChina,
+            波斯: BuildingPersian,
+            埃及: BuildingEgypt,
+            希腊: BuildingGreece,
+            阿兹特克: BuildingAztaka,
+        };
+        this.protection = this.civilBuilding["中国"]["防"];
     }
 }

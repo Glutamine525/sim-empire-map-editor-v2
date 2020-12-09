@@ -1,4 +1,5 @@
 const BuildingAztaka = {
+    防: ["哨", "维", "医院"],
     住宅: [
         {
             name: "普通住宅",

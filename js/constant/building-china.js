@@ -1,4 +1,5 @@
 const BuildingChina = {
+    防: ["值", "捕", "永和"],
     住宅: [
         {
             name: "普通住宅",

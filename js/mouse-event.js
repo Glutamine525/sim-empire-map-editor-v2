@@ -9,6 +9,13 @@ function onMouseClick(event) {
             })
         );
     }
+    if (
+        $config.operation === "deleting-building" &&
+        (event.path[0].className.indexOf("building hoverable") > -1 ||
+            event.path[1].className.indexOf("building hoverable") > -1)
+    ) {
+        deleteBuilding(li, co);
+    }
 }
 
 function onMouseMove(event) {

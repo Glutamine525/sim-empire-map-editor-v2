@@ -29,13 +29,6 @@ var $sideNavVue = new Vue({
             backgroundColor: "",
             textColor: "",
             activeTextColor: "",
-            civilBuildingMap: {
-                中国: BuildingChina,
-                波斯: BuildingPersian,
-                埃及: BuildingEgypt,
-                希腊: BuildingGreece,
-                阿兹特克: BuildingAztaka,
-            },
             buildingInfo: {
                 住宅: [],
                 农业: [],
@@ -70,7 +63,7 @@ var $sideNavVue = new Vue({
             civil = civil || $config.civil;
             let that = this;
             Object.keys(this.buildingInfo).map(function (v) {
-                that.buildingInfo[v] = that.civilBuildingMap[civil][v];
+                that.buildingInfo[v] = $config.civilBuilding[civil][v];
             });
         },
         onSelect(index, indexPath) {
@@ -127,14 +120,14 @@ var $sideNavVue = new Vue({
             newHolding.borderColor = selectedBuilding.border_color;
             newHolding.borderWidth = 1;
             newHolding.isPreview = true;
-            newHolding.isProtection = LabelText.protection_building[$config.civil].indexOf(selectedBuilding.text) > -1;
+            newHolding.isProtection = $config.civilBuilding[$config.civil]["防"].indexOf(selectedBuilding.text) > -1;
             $config.operation = "placing-building";
             $config.holding = newHolding;
             $config.newHold = true;
             $topNav.setOperation(indexPath.join("-"));
         },
         getBuildingInfo(civil, catagory, name) {
-            return this.civilBuildingMap[civil][catagory].filter(function (v) {
+            return $config.civilBuilding[civil][catagory].filter(function (v) {
                 return v.name === name;
             })[0];
         },

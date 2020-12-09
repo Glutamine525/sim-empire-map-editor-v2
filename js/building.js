@@ -40,7 +40,7 @@ class Building {
         node.id = this.id;
         node.className = "building";
         if ((!this.isFixed || this.text) && !this.isRoad) node.className += " hoverable";
-        // if (this.isProtection && $config.showEffect) node.className += " protection-mask";
+        if (this.isProtection && $config.showEffect) node.className += " protection-mask";
         text.innerHTML = this.text;
         text.className = "text";
         marker.innerHTML = this.marker;
@@ -75,13 +75,22 @@ class Building {
         $$(this.id).style.borderStyle = this.getBorderStyle();
     }
 
+    updateMarker() {
+        if (this.showMarker()) {
+            $$(this.id).lastChild.style.display = "block";
+            $$(this.id).lastChild.innerHTML = this.marker;
+        } else $$(this.id).lastChild.style.display = "none";
+    }
+
     onMouseEnter() {
+        if ($config.operation === "deleting-building") return;
         let unit = parseID(this.id);
         let building = $cell[unit[0]][unit[1]].occupied;
         $range.show(building);
     }
 
     onMouseLeave() {
+        if ($config.operation === "deleting-building") return;
         $range.hide(this.id);
     }
 }

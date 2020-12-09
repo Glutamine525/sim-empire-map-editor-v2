@@ -3,7 +3,6 @@ var $cellSize = 30;
 
 var $topNav = new TopNav(40);
 var $sideNav = new SideNav(64);
-var $config = new Config();
 var $cell = {};
 var $range = new BuildingRange({});
 

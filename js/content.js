@@ -91,24 +91,69 @@ function drawBoundary(boundaryColor) {
 }
 
 function createBuilding(config) {
-    let { line, column, width, height } = config;
+    let { line, column, width, height, text, range } = config;
+    let id = getBuildingID(config);
+    let protectionRecord = [];
     let building = new Building(config);
-    updateBorder(building, false);
-    building.init();
     for (let i = line; i < line + height; i++) {
         for (let j = column; j < column + width; j++) {
             $cell[i][j].occupied = building;
+            if ($cell[i][j].isRoad || $cell[i][j].barrierType || $cell[i][j].isProtection) continue;
+            for (let v of $config.protection) {
+                if ($cell[i][j][v] && $cell[i][j][v].length && protectionRecord.indexOf(v) === -1) {
+                    protectionRecord.push(v);
+                }
+            }
         }
+    }
+    building.marker = protectionRecord.length;
+    updateBorder(building, false);
+    building.init();
+    if (building.isProtection) {
+        let buildingRecord = [];
+        for (let i = line - range; i < line + height + range; i++) {
+            for (let j = column - range; j < column + width + range; j++) {
+                if (!isInBuildingRange(i, j, line, column, width, height, range)) continue;
+                if ($cell[i][j][text]) {
+                    $cell[i][j][text].push(id);
+                } else {
+                    $cell[i][j][text] = [id];
+                }
+                let b = $cell[i][j].occupied;
+                if (!b) continue;
+                if (b.isRoad || b.barrierType || b.isProtection) continue;
+                if (buildingRecord.indexOf(b) === -1) buildingRecord.push(b);
+            }
+        }
+        updateMarker(buildingRecord);
     }
 }
 
-function deleteBuilding(li, co) {
-    let builiding = $cell[li][co].occupied;
-    updateBorder(builiding, true);
-    $$("building").removeChild($$(builiding.id));
-    for (let i = builiding.line; i < builiding.line + builiding.height; i++) {
-        for (let j = builiding.column; j < builiding.column + builiding.width; j++) {
-            delete $cell[li][co].occupied;
+function deleteBuilding(li, co, force) {
+    let building = $cell[li][co].occupied;
+    if (!building) return;
+    if (building.isFixed && !force) return;
+    if (!$$(building.id)) return;
+    updateBorder(building, true);
+    $$("building").removeChild($$(building.id));
+    let { id, line, column, width, height, text, range } = building;
+    if (building.isProtection) {
+        let buildingRecord = [];
+        for (let i = line - range; i < line + height + range; i++) {
+            for (let j = column - range; j < column + width + range; j++) {
+                if (!isInBuildingRange(i, j, line, column, width, height, range)) continue;
+                $cell[i][j][text].splice($cell[i][j][text].indexOf(id), 1);
+                let b = $cell[i][j].occupied;
+                if (!b) continue;
+                if (b.isRoad || b.barrierType || b.isProtection) continue;
+                if (buildingRecord.indexOf(b) === -1) buildingRecord.push(b);
+            }
+        }
+        updateMarker(buildingRecord);
+    }
+    for (let i = line; i < line + height; i++) {
+        for (let j = column; j < column + width; j++) {
+            delete $cell[i][j].occupied;
         }
     }
 }
@@ -179,5 +224,23 @@ function updateBorder(building, show) {
             adj.left.updateBorderStyle();
             building.borderLeft = show;
         }
+    }
+}
+
+function updateMarker(buildings) {
+    for (let v of buildings) {
+        let protectionRecord = [];
+        for (let i = v.line; i < v.line + v.height; i++) {
+            for (let j = v.column; j < v.column + v.width; j++) {
+                if ($cell[i][j].isRoad || $cell[i][j].barrierType || $cell[i][j].isProtection) continue;
+                for (let w of $config.protection) {
+                    if ($cell[i][j][w] && $cell[i][j][w].length && protectionRecord.indexOf(w) === -1) {
+                        protectionRecord.push(w);
+                    }
+                }
+            }
+        }
+        v.marker = protectionRecord.length;
+        v.updateMarker();
     }
 }

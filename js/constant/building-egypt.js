@@ -1,4 +1,5 @@
 const BuildingEgypt = {
+    防: ["消", "维", "警", "医院"],
     住宅: [
         {
             name: "普通住宅",
