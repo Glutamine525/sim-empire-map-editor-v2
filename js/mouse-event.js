@@ -2,6 +2,12 @@ function onMouseClick(event) {
     let li = Math.ceil((event.pageY - 72) / 30);
     let co = Math.ceil((event.pageX - 96) / 30);
     if ($config.operation === "placing-building" && $$("preview").style.display === "flex") {
+        let { offsetLi, offsetCo, width, height } = $config.holding;
+        for (let i = li - offsetLi; i < li - offsetLi + height; i++) {
+            for (let j = co - offsetCo; j < co - offsetCo + width; j++) {
+                if ($cell[i][j].occupied) return;
+            }
+        }
         createBuilding(
             Object.assign({}, $config.holding, {
                 line: li - $config.holding.offsetLi,

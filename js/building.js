@@ -22,6 +22,11 @@ class Building {
         this.isRoad = config.isRoad || false;
         this.special = config.special || "";
         this.marker = config.marker || 0;
+        //road sub-border color
+        this.rBorderTop = false;
+        this.rBorderRight = false;
+        this.rBorderBottom = false;
+        this.rBorderLeft = false;
     }
 
     init() {
@@ -63,6 +68,15 @@ class Building {
         return style;
     }
 
+    getRoadBorderColor() {
+        let color = "";
+        color += this.rBorderTop ? "var(--color-border-lighter) " : "var(--color-border-base) ";
+        color += this.rBorderRight ? "var(--color-border-lighter) " : "var(--color-border-base) ";
+        color += this.rBorderBottom ? "var(--color-border-lighter) " : "var(--color-border-base) ";
+        color += this.rBorderLeft ? "var(--color-border-lighter) " : "var(--color-border-base) ";
+        return color;
+    }
+
     showMarker() {
         if (this.marker === 0) return false;
         if (this.barrierType) return false;
@@ -73,6 +87,10 @@ class Building {
 
     updateBorderStyle() {
         $$(this.id).style.borderStyle = this.getBorderStyle();
+    }
+
+    updateBorderSolor() {
+        if (this.isRoad) $$(this.id).style.borderColor = this.getRoadBorderColor();
     }
 
     updateMarker() {

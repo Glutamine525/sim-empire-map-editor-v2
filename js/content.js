@@ -98,7 +98,7 @@ function createBuilding(config) {
     for (let i = line; i < line + height; i++) {
         for (let j = column; j < column + width; j++) {
             $cell[i][j].occupied = building;
-            if ($cell[i][j].isRoad || $cell[i][j].barrierType || $cell[i][j].isProtection) continue;
+            if (building.isRoad || building.barrierType || building.isProtection) continue;
             for (let v of $config.protection) {
                 if ($cell[i][j][v] && $cell[i][j][v].length && protectionRecord.indexOf(v) === -1) {
                     protectionRecord.push(v);
@@ -135,7 +135,6 @@ function deleteBuilding(li, co, force) {
     if (building.isFixed && !force) return;
     if (!$$(building.id)) return;
     updateBorder(building, true);
-    $$("building").removeChild($$(building.id));
     let { id, line, column, width, height, text, range } = building;
     if (building.isProtection) {
         let buildingRecord = [];
@@ -156,6 +155,7 @@ function deleteBuilding(li, co, force) {
             delete $cell[i][j].occupied;
         }
     }
+    $$("building").removeChild($$(building.id));
 }
 
 function drawFixedBuilding(type, woodNum) {
