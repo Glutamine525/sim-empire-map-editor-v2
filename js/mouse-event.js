@@ -40,13 +40,26 @@ function onMouseMove(event) {
             $config.holding.offsetCo = Math.floor(($config.holding.width - 1) / 2);
         }
         let { offsetLi, offsetCo, width, height } = $config.holding;
+        let protectionRecord = [];
         for (let i = li - offsetLi; i < li - offsetLi + height; i++) {
             for (let j = co - offsetCo; j < co - offsetCo + width; j++) {
                 if (!isInRange(li, co) || $cell[i][j].occupied) {
                     preview.style.display = "none";
                     return;
                 }
+                if ($config.holding.isRoad || $config.holding.isProtection) continue;
+                for (let v of $config.protection) {
+                    if ($cell[i][j][v] && $cell[i][j][v].length && protectionRecord.indexOf(v) === -1) {
+                        protectionRecord.push(v);
+                    }
+                }
             }
+        }
+        if (protectionRecord.length) {
+            $$("preview-marker").style.display = "block";
+            $$("preview-marker").innerHTML = protectionRecord.length;
+        } else {
+            $$("preview-marker").style.display = "none";
         }
         preview.style.display = "flex";
         preview.style.top = `${(li - 1 - $config.holding.offsetLi) * $cellSize}px`;

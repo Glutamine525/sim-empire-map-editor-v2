@@ -40,12 +40,14 @@ if ("backdrop-filter" in document.documentElement.style) {
     topNav.style.border = "1px solid var(--color-border-darker)";
     topNav.style.width = "calc(100% - 10px)";
     $$("side-nav").style.background = "transparent";
+    $$("side-nav").style.width = "80px";
     let sideMenu = $$$("#side-nav > .side-nav-container > .el-menu");
     sideMenu.style.width = "56px";
     sideMenu.style.margin = "0 0 3px 4px";
     sideMenu.style.border = "1px solid var(--color-border-darker)";
     sideMenu.style.borderRadius = "28px";
     sideMenu.style.backdropFilter = "blur(15px)";
+    sideMenu.style.boxShadow = "3px 3px 5px var(--color-border-base)";
     $$$("#side-nav .el-submenu__title", true).forEach((v) => {
         v.style.borderRadius = "28px";
     });
@@ -59,21 +61,6 @@ if ("backdrop-filter" in document.documentElement.style) {
     $$("top-nav").style.background = "var(--color-background-darker)";
     $$("side-nav").style.background = "var(--color-background-darker)";
     $$("side-nav").style.boxShadow = "3px 3px 5px var(--color-border-base)";
+    $$$("#side-nav .side-nav-container").style.display = "flex";
+    $$$("#side-nav .el-menu--collapse").style.margin = "auto 0";
 }
-
-// for (let i = 61; i < 70; i += 3) {
-//     for (let j = 40; j < 50; j += 3) {
-//         createBuilding({
-//             line: i,
-//             column: j,
-//             width: 3,
-//             height: 3,
-//             range: 4,
-//             text: "测试",
-//             color: "#000000",
-//             background: "#ffffff",
-//             borderColor: "#000000",
-//             borderWidth: 1,
-//         });
-//     }
-// }

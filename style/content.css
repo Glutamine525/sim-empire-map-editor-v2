@@ -46,7 +46,8 @@
     text-align: center;
 }
 
-#building .building .marker {
+#building .building .marker,
+#preview .marker {
     font-size: 10px;
     position: absolute;
     left: 2px;
