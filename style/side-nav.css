@@ -11,10 +11,10 @@
     margin-top: var(--margin-top);
     overflow: hidden;
     height: calc(100% - var(--margin-top));
-    -webkit-user-select: none;
+    /* -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;
+    user-select: none; */
 
     /* background: var(--color-background-darker);
     box-shadow: 3px 3px 5px var(--color-border-base); */
@@ -72,7 +72,7 @@
 
 #side-nav .el-menu--popup {
     box-shadow: 3px 3px 12px 0 var(--color-border-base) !important;
-    user-select: none;
+    /* user-select: none; */
 }
 
 .el-menu--vertical.popper ul.el-menu {
@@ -90,7 +90,7 @@
 }
 
 .el-menu-item-group {
-    -webkit-user-select: none;
+    /* -webkit-user-select: none;
     -moz-user-select: none;
-    -ms-user-select: none;
+    -ms-user-select: none; */
 }

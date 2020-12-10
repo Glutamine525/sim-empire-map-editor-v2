@@ -10,12 +10,12 @@ class Building {
         this.borderColor = config.borderColor;
         this.borderWidth = config.borderWidth;
         this.range = config.range || 0;
-        this.id = config.id || getBuildingID(config);
+        this.id = getBuildingID(config);
         this.borderTop = config.borderTop || true;
         this.borderRight = config.borderRight || true;
         this.borderBottom = config.borderBottom || true;
         this.borderLeft = config.borderLeft || true;
-        this.isMiracel = config.isMiracel || false;
+        this.isMiracle = config.isMiracle || false;
         this.isFixed = config.isFixed || false;
         this.isProtection = config.isProtection || false;
         this.barrierType = config.barrierType || "";
@@ -79,9 +79,10 @@ class Building {
 
     showMarker() {
         if (this.marker === 0) return false;
+        if (this.isRoad && this.marker <= 1) return false;
         if (this.barrierType) return false;
         if (this.isProtection) return false;
-        if (this.isMiracel) return false;
+        if (this.isMiracle) return false;
         return true;
     }
 

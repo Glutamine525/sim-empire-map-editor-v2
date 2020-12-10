@@ -31,6 +31,9 @@
         <script src="./js/content.js"></script>
         <script src="./js/building.js"></script>
         <script src="./js/building-range.js"></script>
+        <script src="./js/block.js"></script>
+        <script src="./js/selection-block.js"></script>
+        <script src="./js/deletion-block.js"></script>
     </head>
     <body>
         <div id="app">
@@ -241,9 +244,48 @@
                             <div id="preview-marker" class="marker"></div>
                         </div>
                         <div id="range-container"></div>
+                        <div id="selection-block"></div>
+                        <div id="deletion-block"></div>
+                        <div id="selection-operation">
+                            <el-button
+                                id="selection-operation-left"
+                                type="primary"
+                                icon="el-icon-back"
+                                onclick="onClickBlockMove('left', 3)"
+                                circle
+                            ></el-button>
+                            <el-button
+                                id="selection-operation-right"
+                                type="primary"
+                                icon="el-icon-right"
+                                onclick="onClickBlockMove('right', 1)"
+                                circle
+                            ></el-button>
+                            <el-button
+                                id="selection-operation-bottom"
+                                type="primary"
+                                icon="el-icon-bottom"
+                                onclick="onClickBlockMove('bottom', 2)"
+                                circle
+                            ></el-button>
+                            <el-button
+                                id="selection-operation-top"
+                                type="primary"
+                                icon="el-icon-top"
+                                onclick="onClickBlockMove('top', 0)"
+                                circle
+                            ></el-button>
+                        </div>
+                        <div id="deletion-operation">
+                            <el-button
+                                id="deletion-operation-button"
+                                type="danger"
+                                icon="el-icon-delete"
+                                onclick="onClickBlockDelete()"
+                                circle
+                            ></el-button>
+                        </div>
                         <div id="mini-map"></div>
-                        <div id="deleting-block"></div>
-                        <div id="selecting-block"></div>
                     </div>
                 </div>
             </div>

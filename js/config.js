@@ -21,5 +21,7 @@ class Config {
             阿兹特克: BuildingAztaka,
         };
         this.protection = this.civilBuilding["中国"]["防"];
+        this.startX = -1;
+        this.startY = -1;
     }
 }

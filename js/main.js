@@ -5,6 +5,8 @@ var $topNav = new TopNav(40);
 var $sideNav = new SideNav(64);
 var $cell = {};
 var $range = new BuildingRange({});
+var $selectionBlock = new SelectionBlock();
+var $deletionBlock = new DeletionBlock();
 
 const topNavResizeObserver = new ResizeObserver((entries) => {
     let height = 0;
@@ -26,8 +28,8 @@ drawCell(getColor("--color-border-lighter"), getColor("--color-background-lighte
 onClickWoodNum(5);
 document.onclick = onMouseClick;
 document.onmousemove = onMouseMove;
-document.onmousedown = () => ($config.isMouseDown = true);
-document.onmouseup = () => ($config.isMouseDown = false);
+document.onmousedown = onMouseDown;
+document.onmouseup = onMouseUp;
 
 if ("backdrop-filter" in document.documentElement.style) {
     // if (false) {

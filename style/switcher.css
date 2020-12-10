@@ -14,7 +14,7 @@ Some defaults across all toggle demos
 .toggle {
     display: inline-block;
     text-align: center;
-    user-select: none;
+    /* user-select: none; */
 }
 
 .toggle--checkbox {

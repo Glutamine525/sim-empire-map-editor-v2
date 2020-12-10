@@ -1,3 +1,56 @@
+function onMouseDown(event) {
+    // console.log("down", event);
+    $config.isMouseDown = true;
+    $config.startX = event.pageX - 96;
+    $config.startY = event.pageY - 72;
+
+    if (
+        event.path.length > 3 &&
+        event.path[1].id !== "selection-operation" &&
+        event.path[2].id !== "selection-operation"
+    ) {
+        $selectionBlock.hide();
+    }
+    if (
+        event.path.length > 3 &&
+        event.path[1].id !== "deletion-operation" &&
+        event.path[2].id !== "deletion-operation"
+    ) {
+        $deletionBlock.hide();
+    }
+}
+
+function onMouseUp(event) {
+    // console.log("up", event);
+    $config.isMouseDown = false;
+    if (
+        $config.operation === "selecting-building" &&
+        event.path.length > 3 &&
+        event.path[1].id !== "selection-operation" &&
+        event.path[2].id !== "selection-operation"
+    ) {
+        $selectionBlock.finalize({
+            startX: $config.startX,
+            startY: $config.startY,
+            nowX: event.pageX - 96,
+            nowY: event.pageY - 72,
+        });
+    }
+    if (
+        $config.operation === "deleting-building" &&
+        event.path.length > 3 &&
+        event.path[1].id !== "deletion-operation" &&
+        event.path[2].id !== "deletion-operation"
+    ) {
+        $deletionBlock.finalize({
+            startX: $config.startX,
+            startY: $config.startY,
+            nowX: event.pageX - 96,
+            nowY: event.pageY - 72,
+        });
+    }
+}
+
 function onMouseClick(event) {
     let li = Math.ceil((event.pageY - 72) / 30);
     let co = Math.ceil((event.pageX - 96) / 30);
@@ -14,13 +67,6 @@ function onMouseClick(event) {
                 column: co - $config.holding.offsetCo,
             })
         );
-    }
-    if (
-        $config.operation === "deleting-building" &&
-        (event.path[0].className.indexOf("building hoverable") > -1 ||
-            event.path[1].className.indexOf("building hoverable") > -1)
-    ) {
-        deleteBuilding(li, co);
     }
 }
 
@@ -49,11 +95,11 @@ function onMouseMove(event) {
         let protectionRecord = [];
         for (let i = li - offsetLi; i < li - offsetLi + height; i++) {
             for (let j = co - offsetCo; j < co - offsetCo + width; j++) {
-                if (!isInRange(li, co) || $cell[i][j].occupied) {
+                if (!$cell[i][j].isInRange || $cell[i][j].occupied) {
                     preview.style.display = "none";
                     return;
                 }
-                if ($config.holding.isRoad || $config.holding.isProtection) continue;
+                if ($config.holding.isRoad || $config.holding.isProtection || $config.holding.isMiracle) continue;
                 for (let v of $config.protection) {
                     if ($cell[i][j][v] && $cell[i][j][v].length && protectionRecord.indexOf(v) === -1) {
                         protectionRecord.push(v);
@@ -74,6 +120,36 @@ function onMouseMove(event) {
         preview.style.display = "none";
     }
     if ($config.isMouseDown) {
+        if (
+            $config.operation === "selecting-building" &&
+            event.path.length > 2 &&
+            (event.path[0].id === "building" ||
+                event.path[0].id === "selection-block" ||
+                event.path[0].className.indexOf("building") > -1 ||
+                event.path[1].className.indexOf("building") > -1)
+        ) {
+            $selectionBlock.update({
+                startX: $config.startX,
+                startY: $config.startY,
+                nowX: event.pageX - 96,
+                nowY: event.pageY - 72,
+            });
+        }
+        if (
+            $config.operation === "deleting-building" &&
+            event.path.length > 2 &&
+            (event.path[0].id === "building" ||
+                event.path[0].id === "deletion-block" ||
+                event.path[0].className.indexOf("building") > -1 ||
+                event.path[1].className.indexOf("building") > -1)
+        ) {
+            $deletionBlock.update({
+                startX: $config.startX,
+                startY: $config.startY,
+                nowX: event.pageX - 96,
+                nowY: event.pageY - 72,
+            });
+        }
         onMouseClick(event);
     }
 }

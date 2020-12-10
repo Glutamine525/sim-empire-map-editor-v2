@@ -98,6 +98,11 @@ var $sideNavVue = new Vue({
                     $config.holding = {};
                     $topNav.setOperation("无");
                     break;
+                case "选中建筑":
+                    $config.operation = "selecting-building";
+                    $config.holding = {};
+                    $topNav.setOperation("选中建筑");
+                    break;
                 case "删除建筑":
                     $config.operation = "deleting-building";
                     $config.holding = {};
@@ -121,6 +126,7 @@ var $sideNavVue = new Vue({
             newHolding.borderWidth = 1;
             newHolding.isPreview = true;
             newHolding.isProtection = $config.civilBuilding[$config.civil]["防"].indexOf(selectedBuilding.text) > -1;
+            newHolding.isMiracle = indexPath[0] === "奇迹";
             $config.operation = "placing-building";
             $config.holding = newHolding;
             $config.newHold = true;

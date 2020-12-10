@@ -98,7 +98,7 @@ function createBuilding(config) {
     for (let i = line; i < line + height; i++) {
         for (let j = column; j < column + width; j++) {
             $cell[i][j].occupied = building;
-            if (building.isRoad || building.barrierType || building.isProtection) continue;
+            if (building.isRoad || building.barrierType || building.isProtection || building.isMiracle) continue;
             for (let v of $config.protection) {
                 if ($cell[i][j][v] && $cell[i][j][v].length && protectionRecord.indexOf(v) === -1) {
                     protectionRecord.push(v);
@@ -109,6 +109,7 @@ function createBuilding(config) {
     building.marker = protectionRecord.length;
     updateBorder(building, false);
     building.init();
+    if (building.isRoad) updateRoadMarker(line, column);
     if (building.isProtection) {
         let buildingRecord = [];
         for (let i = line - range; i < line + height + range; i++) {
@@ -121,11 +122,11 @@ function createBuilding(config) {
                 }
                 let b = $cell[i][j].occupied;
                 if (!b) continue;
-                if (b.isRoad || b.barrierType || b.isProtection) continue;
+                if (b.isRoad || b.barrierType || b.isProtection || b.isMiracle) continue;
                 if (buildingRecord.indexOf(b) === -1) buildingRecord.push(b);
             }
         }
-        updateMarker(buildingRecord);
+        updateProtectionMarker(buildingRecord);
     }
 }
 
@@ -148,13 +149,14 @@ function deleteBuilding(li, co, force) {
                 if (buildingRecord.indexOf(b) === -1) buildingRecord.push(b);
             }
         }
-        updateMarker(buildingRecord);
+        updateProtectionMarker(buildingRecord);
     }
     for (let i = line; i < line + height; i++) {
         for (let j = column; j < column + width; j++) {
             delete $cell[i][j].occupied;
         }
     }
+    if (building.isRoad) updateRoadMarker(line, column);
     $$("building").removeChild($$(building.id));
 }
 
@@ -227,7 +229,7 @@ function updateBorder(building, show) {
     }
 }
 
-function updateMarker(buildings) {
+function updateProtectionMarker(buildings) {
     for (let v of buildings) {
         let protectionRecord = [];
         for (let i = v.line; i < v.line + v.height; i++) {
@@ -243,4 +245,8 @@ function updateMarker(buildings) {
         v.marker = protectionRecord.length;
         v.updateMarker();
     }
+}
+
+function updateRoadMarker(li, co) {
+    console.log("update road", li, co);
 }

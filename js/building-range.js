@@ -13,7 +13,7 @@ class BuildingRange {
                 let co = j - config.range;
                 let cell = document.createElement("div");
                 cell.className = "range-cell";
-                if (!isInRange(li + line, co + column) || !isInBuildingRange(li, co, 0, 0, width, height, range))
+                if (!$cell[li + line][co + column].isInRange || !isInBuildingRange(li, co, 0, 0, width, height, range))
                     cell.className += " range-hide";
                 row.appendChild(cell);
             }
@@ -24,14 +24,14 @@ class BuildingRange {
         node.style.width = `${(width + range * 2) * $cellSize}px`;
         node.style.height = `${(height + range * 2) * $cellSize}px`;
         $$("range-container").appendChild(node);
-        if ($config.operation !== "placing-building") {
+        if ($config.operation === "null") {
             node.style.display = "none";
             $(`#range-${config.id}`).fadeIn(350);
         }
     }
 
     hide(id) {
-        if ($config.operation !== "placing-building") {
+        if ($config.operation === "null") {
             $(`#range-${id}`).fadeOut(150, () => $$("range-container").removeChild($$(`range-${id}`)));
         } else {
             $$("range-container").removeChild($$(`range-${id}`));

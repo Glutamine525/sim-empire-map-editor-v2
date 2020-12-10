@@ -12,7 +12,6 @@ function getColor(property) {
 }
 
 function getBuildingID(config) {
-    if (config.id) return config.id;
     if (config.width === config.height) return `${config.line}-${config.column}-${config.width}`;
     else return `${config.line}-${config.column}-${config.width}-${config.height}`;
 }

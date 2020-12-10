@@ -7,10 +7,10 @@
     margin: auto 0;
     justify-content: space-between;
     text-align: center;
-    -webkit-user-select: none;
+    /* -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;
+    user-select: none; */
     transition: all 0.3s ease-in-out;
     box-shadow: 3px 3px 10px var(--color-border-base);
     z-index: 100;
