@@ -48,6 +48,7 @@ class Building {
         node.className = "building";
         if ((!this.isFixed || this.text) && !this.isRoad) node.className += " hoverable";
         if (this.isProtection && $config.showEffect) node.className += " protection-mask";
+        if (this.isRoad) node.className += " road";
         text.innerHTML = this.text;
         text.className = "text";
         marker.innerHTML = this.marker;
@@ -73,22 +74,18 @@ class Building {
 
     getRoadBorderColor() {
         let color = "";
-        if (this.rBorderTop) color += "var(--color-border-lighter) ";
+        if (this.rBorderTop) color += "var(--color-border-darker) ";
         else if (this.borderTop) color += "var(--color-border-base) ";
         else color += "transparent ";
-        if (this.rBorderRight) color += "var(--color-border-lighter) ";
+        if (this.rBorderRight) color += "var(--color-border-darker) ";
         else if (this.borderRight) color += "var(--color-border-base) ";
         else color += "transparent ";
-        if (this.rBorderBottom) color += "var(--color-border-lighter) ";
+        if (this.rBorderBottom) color += "var(--color-border-darker) ";
         else if (this.borderBottom) color += "var(--color-border-base) ";
         else color += "transparent ";
-        if (this.rBorderLeft) color += "var(--color-border-lighter) ";
+        if (this.rBorderLeft) color += "var(--color-border-darker) ";
         else if (this.borderLeft) color += "var(--color-border-base) ";
         else color += "transparent ";
-        // color += this.rBorderTop ? "var(--color-border-lighter) " : "var(--color-border-base) ";
-        // color += this.rBorderRight ? "var(--color-border-lighter) " : "var(--color-border-base) ";
-        // color += this.rBorderBottom ? "var(--color-border-lighter) " : "var(--color-border-base) ";
-        // color += this.rBorderLeft ? "var(--color-border-lighter) " : "var(--color-border-base) ";
         return color;
     }
 

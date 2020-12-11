@@ -91,6 +91,11 @@ function onMouseMove(event) {
             previewText.innerHTML = $config.holding.text;
             $config.holding.offsetLi = Math.floor(($config.holding.height - 1) / 2);
             $config.holding.offsetCo = Math.floor(($config.holding.width - 1) / 2);
+            if ($config.holding.isRoad) {
+                preview.className += " road";
+            } else {
+                preview.className = preview.className.replace(" road", "");
+            }
         }
         let { offsetLi, offsetCo, width, height } = $config.holding;
         let protectionRecord = [];
