@@ -29,6 +29,7 @@ class SelectionBlock extends Block {
             $$(v).className = $$(v).className.replace(" selected-blue", "");
         });
         this.cache = [];
+        $$("selection-block").style.display = "none";
         $$("selection-operation-top").style.display = "none";
         $$("selection-operation-right").style.display = "none";
         $$("selection-operation-bottom").style.display = "none";
@@ -122,4 +123,16 @@ function onClickBlockMove(dir, index) {
         nowX: ($selectionBlock.nowCo + offsetCo) * $cellSize - 15,
         nowY: ($selectionBlock.nowLi + offsetLi) * $cellSize - 15,
     });
+    if (dir === "top") {
+        $$$("html").scrollTop -= 30;
+    }
+    if (dir === "right") {
+        $$$("html").scrollLeft += 30;
+    }
+    if (dir === "bottom") {
+        $$$("html").scrollTop += 30;
+    }
+    if (dir === "left") {
+        $$$("html").scrollLeft -= 30;
+    }
 }

@@ -21,6 +21,7 @@ class Building {
         this.isProtection = config.isProtection || false;
         this.barrierType = config.barrierType || "";
         this.isRoad = config.isRoad || false;
+        this.isGeneral = config.isGeneral || false;
         this.special = config.special || "";
         this.marker = config.marker || 0;
         //road sub-border color

@@ -30,6 +30,8 @@ document.onclick = onMouseClick;
 document.onmousemove = onMouseMove;
 document.onmousedown = onMouseDown;
 document.onmouseup = onMouseUp;
+document.onkeydown = onKeyDown;
+document.onkeyup = onKeyUp;
 
 if ("backdrop-filter" in document.documentElement.style) {
     // if (false) {
