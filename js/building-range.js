@@ -1,5 +1,6 @@
 class BuildingRange {
     show(config) {
+        if ($config.dragMap.isDragging) return;
         let { line, column, width, height, range } = config;
         if ($$(`range-${config.id}`)) return;
         let node = document.createElement("div");

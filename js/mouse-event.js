@@ -27,6 +27,7 @@ function onMouseDown(event) {
         $config.dragMap.startY = event.clientY;
         $config.dragMap.nowX = event.clientX;
         $config.dragMap.nowY = event.clientY;
+        $config.dragMap.isDragging = true;
     }
     if (
         $config.isCtrlDown &&
@@ -43,12 +44,14 @@ function onMouseDown(event) {
         $config.dragMap.startY = event.clientY;
         $config.dragMap.nowX = event.clientX;
         $config.dragMap.nowY = event.clientY;
+        $config.dragMap.isDragging = true;
     }
 }
 
 function onMouseUp(event) {
     // console.log("up", event);
     $config.isMouseDown = false;
+    $config.dragMap.isDragging = false;
     if (
         $config.operation === "selecting-building" &&
         event.path.length > 3 &&
@@ -78,10 +81,9 @@ function onMouseUp(event) {
 }
 
 function onMouseClick(event) {
-    if ($config.isCtrlDown) return;
     let li = Math.ceil((event.pageY - 72) / 30);
     let co = Math.ceil((event.pageX - 96) / 30);
-    if ($config.operation === "placing-building" && $$("preview").style.display === "flex") {
+    if (!$config.isCtrlDown && $config.operation === "placing-building" && $$("preview").style.display === "flex") {
         let { offsetLi, offsetCo, width, height } = $config.holding;
         for (let i = li - offsetLi; i < li - offsetLi + height; i++) {
             for (let j = co - offsetCo; j < co - offsetCo + width; j++) {

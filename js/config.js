@@ -8,6 +8,7 @@ class Config {
             startY: -1,
             nowX: -1,
             nowY: -1,
+            isDragging: false,
         };
         this.startX = -1;
         this.startY = -1;

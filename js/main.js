@@ -74,3 +74,16 @@ if ("backdrop-filter" in document.documentElement.style) {
     $$$("#side-nav .side-nav-container").style.display = "flex";
     $$$("#side-nav .el-menu--collapse").style.margin = "auto 0";
 }
+
+let centerTop = (3480 + 72 + 32 - window.innerHeight) / 2;
+let centerLeft = (3480 + 96 + 32 - window.innerWidth) / 2;
+
+$$("app").style.display = "block";
+window.scrollTo({
+    top: centerTop,
+    left: centerLeft,
+    behavior: "smooth",
+});
+
+$$("loading").style.display = "none";
+$$("loading-background").style.display = "none";
