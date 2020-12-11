@@ -126,6 +126,7 @@ var $sideNavVue = new Vue({
             newHolding.borderWidth = 1;
             newHolding.isPreview = true;
             newHolding.isProtection = $config.civilBuilding[$config.civil]["防"].indexOf(selectedBuilding.text) > -1;
+            newHolding.isDecoration = indexPath[0] === "美化";
             newHolding.isMiracle = indexPath[0] === "奇迹";
             $config.operation = "placing-building";
             $config.holding = newHolding;

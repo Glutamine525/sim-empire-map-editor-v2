@@ -16,6 +16,7 @@ class Building {
         this.borderBottom = config.borderBottom || true;
         this.borderLeft = config.borderLeft || true;
         this.isMiracle = config.isMiracle || false;
+        this.isDecoration = config.isDecoration || false;
         this.isFixed = config.isFixed || false;
         this.isProtection = config.isProtection || false;
         this.barrierType = config.barrierType || "";
@@ -23,6 +24,7 @@ class Building {
         this.special = config.special || "";
         this.marker = config.marker || 0;
         //road sub-border color
+        this.isRoadVertex = false;
         this.rBorderTop = false;
         this.rBorderRight = false;
         this.rBorderBottom = false;
@@ -79,10 +81,11 @@ class Building {
 
     showMarker() {
         if (this.marker === 0) return false;
-        if (this.isRoad && this.marker <= 1) return false;
+        if (this.isRoad && (!this.marker || !this.isRoadVertex)) return false;
         if (this.barrierType) return false;
         if (this.isProtection) return false;
         if (this.isMiracle) return false;
+        if (this.isDecoration) return false;
         return true;
     }
 
@@ -90,7 +93,7 @@ class Building {
         $$(this.id).style.borderStyle = this.getBorderStyle();
     }
 
-    updateBorderSolor() {
+    updateBorderColor() {
         if (this.isRoad) $$(this.id).style.borderColor = this.getRoadBorderColor();
     }
 

@@ -61,6 +61,7 @@ function onMouseClick(event) {
                 if ($cell[i][j].occupied) return;
             }
         }
+        $$("preview").style.display = "none";
         createBuilding(
             Object.assign({}, $config.holding, {
                 line: li - $config.holding.offsetLi,
@@ -99,7 +100,13 @@ function onMouseMove(event) {
                     preview.style.display = "none";
                     return;
                 }
-                if ($config.holding.isRoad || $config.holding.isProtection || $config.holding.isMiracle) continue;
+                if (
+                    $config.holding.isRoad ||
+                    $config.holding.isProtection ||
+                    $config.holding.isMiracle ||
+                    $config.holding.isDecoration
+                )
+                    continue;
                 for (let v of $config.protection) {
                     if ($cell[i][j][v] && $cell[i][j][v].length && protectionRecord.indexOf(v) === -1) {
                         protectionRecord.push(v);

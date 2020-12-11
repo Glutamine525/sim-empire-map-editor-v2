@@ -44,7 +44,10 @@ if ("backdrop-filter" in document.documentElement.style) {
     topNav.style.boxShadow = "0 0 5px var(--color-border-base)";
     $$("side-nav").style.background = "transparent";
     $$("side-nav").style.width = "66px";
+    $$("side-nav").style.display = "flex";
+    $$("side-nav").style.flexDirection = "column";
     $$$("#side-nav > .side-nav-container").style.width = "86px";
+    $$$("#side-nav > .side-nav-container").style.margin = "auto 0";
     let sideMenu = $$$("#side-nav > .side-nav-container > .el-menu");
     sideMenu.style.width = "56px";
     sideMenu.style.margin = "0 0 3px 4px";
@@ -65,6 +68,7 @@ if ("backdrop-filter" in document.documentElement.style) {
     $$("top-nav").style.background = "var(--color-background-darker)";
     $$("side-nav").style.background = "var(--color-background-darker)";
     $$("side-nav").style.boxShadow = "3px 3px 5px var(--color-border-base)";
+    $$$("#side-nav > .side-nav-container").style.height = "100%";
     $$$("#side-nav .side-nav-container").style.display = "flex";
     $$$("#side-nav .el-menu--collapse").style.margin = "auto 0";
 }

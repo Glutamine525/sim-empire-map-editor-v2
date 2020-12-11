@@ -98,7 +98,14 @@ function createBuilding(config) {
     for (let i = line; i < line + height; i++) {
         for (let j = column; j < column + width; j++) {
             $cell[i][j].occupied = building;
-            if (building.isRoad || building.barrierType || building.isProtection || building.isMiracle) continue;
+            if (
+                building.isRoad ||
+                building.barrierType ||
+                building.isProtection ||
+                building.isMiracle ||
+                building.isDecoration
+            )
+                continue;
             for (let v of $config.protection) {
                 if ($cell[i][j][v] && $cell[i][j][v].length && protectionRecord.indexOf(v) === -1) {
                     protectionRecord.push(v);
@@ -109,7 +116,10 @@ function createBuilding(config) {
     building.marker = protectionRecord.length;
     updateBorder(building, false);
     building.init();
-    if (building.isRoad) updateRoadMarker(line, column);
+    if (building.isRoad) {
+        // building.marker = 1;
+        updateRoadMarker(line, column);
+    }
     if (building.isProtection) {
         let buildingRecord = [];
         for (let i = line - range; i < line + height + range; i++) {
@@ -122,7 +132,7 @@ function createBuilding(config) {
                 }
                 let b = $cell[i][j].occupied;
                 if (!b) continue;
-                if (b.isRoad || b.barrierType || b.isProtection || b.isMiracle) continue;
+                if (b.isRoad || b.barrierType || b.isProtection || b.isMiracle || b.isDecoration) continue;
                 if (buildingRecord.indexOf(b) === -1) buildingRecord.push(b);
             }
         }
@@ -247,6 +257,156 @@ function updateProtectionMarker(buildings) {
     }
 }
 
+function isRoad(li, co) {
+    return $cell[li][co].occupied && $cell[li][co].occupied.isRoad;
+}
+
+function isDirRoad(li, co, dir) {
+    if (isRoad(li, co) && getRoadDir(li, co) === dir) return true;
+}
+
+function getRoad(li, co) {
+    if (isRoad(li, co)) return $cell[li][co].occupied;
+}
+
+function getRoadDir(li, co) {
+    if (isRoad(li, co - 1)) return "h";
+    if (isRoad(li, co + 1)) return "h";
+    if (isRoad(li - 1, co) && !isRoad(li - 1, co - 1) && !isRoad(li - 1, co + 1)) return "v";
+    if (isRoad(li + 1, co) && !isRoad(li + 1, co - 1) && !isRoad(li + 1, co + 1)) return "v";
+    return "n";
+}
+
 function updateRoadMarker(li, co) {
-    console.log("update road", li, co);
+    // console.log(getRoadDir(li, co));
+    // return;
+    //update neighbors
+    for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+            if (!isRoad(li + i, co + j)) continue;
+            let self = getRoad(li + i, co + j);
+            let left = getRoad(li + i, co + j - 1);
+            let top = getRoad(li + i - 1, co + j);
+            if (left) {
+                if (isRoad(li + i, co + j - 2)) {
+                    self.marker = left.marker + 1;
+                    if (
+                        isDirRoad(li + i - 1, co + i - 1, "v") ||
+                        isDirRoad(li + i - 1, co + i - 1, "n") ||
+                        isDirRoad(li + i + 1, co + i - 1, "v") ||
+                        isDirRoad(li + i + 1, co + i - 1, "n")
+                    ) {
+                        left.isRoadVertex = true;
+                    } else {
+                        left.isRoadVertex = false;
+                    }
+                    self.isRoadVertex = true;
+                    left.updateMarker();
+                    self.updateMarker();
+                } else {
+                    let r = getRoad(li + i - 1, co + j - 1);
+                    if (left.marker === 2) {
+                        r.marker = 0;
+                        r.isRoadVertex = false;
+                        r.updateMarker();
+                    } else if (left.marker > 2) {
+                        r.isRoadVertex = true;
+                        r.updateMarker();
+                    }
+                    left.marker = 1;
+                    self.marker = 2;
+                    left.isRoadVertex = true;
+                    self.isRoadVertex = true;
+                    left.updateMarker();
+                    self.updateMarker();
+                }
+            } else if (top && isDirRoad(li + i - 1, co + j, "v")) {
+                if (!top.marker) {
+                    top.marker = 1;
+                    top.isRoadVertex = true;
+                    top.updateMarker();
+                }
+                self.marker = top.marker + 1;
+                if (top.marker > 1) top.isRoadVertex = false;
+                self.isRoadVertex = true;
+                top.updateMarker();
+                self.updateMarker();
+            } else if (top && isDirRoad(li + i - 1, co + j, "h")) {
+                self.marker = 0;
+                top.isRoadVertex = true;
+                self.isRoadVertex = false;
+                top.updateMarker();
+                self.updateMarker();
+            } else {
+                self.marker = 0;
+                self.isRoadVertex = false;
+                self.updateMarker();
+                if (top) {
+                    top.isRoadVertex = true;
+                    top.updateMarker();
+                }
+            }
+            if (left && top) {
+                self.isRoadVertex = true;
+                self.updateMarker();
+            }
+        }
+    }
+    //update right
+    for (let i = -1; i <= 1; i++) {
+        if (!isRoad(li + i, co + 1) || !isRoad(li + i, co + 2)) continue;
+        let marker = $cell[li + i][co + 1].occupied.marker;
+        if (!marker) {
+            $cell[li + i][co + 1].occupied.marker = 1;
+            $cell[li + i][co + 1].occupied.isRoadVertex = true;
+            $cell[li + i][co + 1].occupied.updateMarker();
+            marker++;
+        }
+        marker++;
+        let idx = 2;
+        while (isRoad(li + i, co + idx)) {
+            $cell[li + i][co + idx].occupied.marker = marker;
+            if ($cell[li + i][co + idx - 1].occupied.marker > 1)
+                $cell[li + i][co + idx - 1].occupied.isRoadVertex = false;
+            if (
+                isDirRoad(li + i - 1, co + idx - 1, "h") ||
+                isDirRoad(li + i - 1, co + idx - 1, "n") ||
+                isDirRoad(li + i + 1, co + idx - 1, "h") ||
+                isDirRoad(li + i + 1, co + idx - 1, "n")
+            ) {
+                $cell[li + i][co + idx - 1].occupied.isRoadVertex = true;
+            } else {
+                $cell[li + i][co + idx - 1].occupied.isRoadVertex = false;
+            }
+            $cell[li + i][co + idx].occupied.isRoadVertex = true;
+            $cell[li + i][co + idx - 1].occupied.updateMarker();
+            $cell[li + i][co + idx].occupied.updateMarker();
+            idx++;
+            marker++;
+        }
+    }
+    //update bottom
+    for (let i = -1; i <= 1; i++) {
+        if (!isRoad(li + 1, co + i) || !isRoad(li + 2, co + i)) continue;
+        if (isDirRoad(li + 1, co + i, "h") || isDirRoad(li + 2, co + i, "h")) continue;
+        let marker = $cell[li + 1][co + i].occupied.marker;
+        if (!marker) {
+            $cell[li + 1][co + i].occupied.marker = 1;
+            $cell[li + 1][co + i].occupied.isRoadVertex = true;
+            $cell[li + 1][co + i].occupied.updateMarker();
+            marker++;
+        }
+        marker++;
+        let idx = 2;
+        while (isRoad(li + idx, co + i) && getRoadDir(li + idx, co + i) !== "h") {
+            $cell[li + idx][co + i].occupied.marker = marker;
+            if ($cell[li + idx - 1][co + i].occupied.marker > 1)
+                $cell[li + idx - 1][co + i].occupied.isRoadVertex = false;
+            $cell[li + idx][co + i].occupied.isRoadVertex = true;
+            $cell[li + idx - 1][co + i].occupied.updateMarker();
+            $cell[li + idx][co + i].occupied.updateMarker();
+            idx++;
+            marker++;
+        }
+    }
 }
