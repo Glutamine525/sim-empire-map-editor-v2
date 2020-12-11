@@ -62,6 +62,7 @@ class Building {
     }
 
     getBorderStyle() {
+        if (this.isRoad) return "solid";
         let style = "";
         style += this.borderTop ? "solid " : "none ";
         style += this.borderRight ? "solid " : "none ";
@@ -72,16 +73,27 @@ class Building {
 
     getRoadBorderColor() {
         let color = "";
-        color += this.rBorderTop ? "var(--color-border-lighter) " : "var(--color-border-base) ";
-        color += this.rBorderRight ? "var(--color-border-lighter) " : "var(--color-border-base) ";
-        color += this.rBorderBottom ? "var(--color-border-lighter) " : "var(--color-border-base) ";
-        color += this.rBorderLeft ? "var(--color-border-lighter) " : "var(--color-border-base) ";
+        if (this.rBorderTop) color += "var(--color-border-lighter) ";
+        else if (this.borderTop) color += "var(--color-border-base) ";
+        else color += "transparent ";
+        if (this.rBorderRight) color += "var(--color-border-lighter) ";
+        else if (this.borderRight) color += "var(--color-border-base) ";
+        else color += "transparent ";
+        if (this.rBorderBottom) color += "var(--color-border-lighter) ";
+        else if (this.borderBottom) color += "var(--color-border-base) ";
+        else color += "transparent ";
+        if (this.rBorderLeft) color += "var(--color-border-lighter) ";
+        else if (this.borderLeft) color += "var(--color-border-base) ";
+        else color += "transparent ";
+        // color += this.rBorderTop ? "var(--color-border-lighter) " : "var(--color-border-base) ";
+        // color += this.rBorderRight ? "var(--color-border-lighter) " : "var(--color-border-base) ";
+        // color += this.rBorderBottom ? "var(--color-border-lighter) " : "var(--color-border-base) ";
+        // color += this.rBorderLeft ? "var(--color-border-lighter) " : "var(--color-border-base) ";
         return color;
     }
 
     showMarker() {
         if (this.marker === 0) return false;
-        // if (this.isRoad && !this.marker) return false;
         if (this.isRoad && !this.isRoadVertex) return false;
         if (this.barrierType) return false;
         if (this.isProtection) return false;

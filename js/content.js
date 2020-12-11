@@ -297,13 +297,13 @@ function updateRoadDisplay(li, co) {
                 self.rBorderBottom = true;
                 self.borderBottom = true;
             }
-            if (isDirRoad(li + i, co, "v") || isDirRoad(li + i, co, "n")) self.isRoadVertex = true;
-            adj.updateBorderStyle();
+            if (isDirRoad(li + i, co, "v") || isDirRoad(li + i, co, "n")) {
+                self.isRoadVertex = true;
+            }
             adj.updateBorderColor();
             adj.updateMarker();
         }
     }
-    self.updateBorderStyle();
     self.updateBorderColor();
     self.updateMarker();
 }
@@ -384,6 +384,7 @@ function updateRoadMarker(li, co) {
                     getRoad(v.li, v.co).marker = 1;
                     getRoad(v.li + 1, v.co).marker = 2;
                     getRoad(v.li, v.co).isRoadVertex = true;
+                    marker = 1;
                 } else {
                     getRoad(v.li + 1, v.co).marker = marker + 1;
                     if (marker > 1) getRoad(v.li, v.co).isRoadVertex = false;
@@ -391,6 +392,12 @@ function updateRoadMarker(li, co) {
                 getRoad(v.li + 1, v.co).isRoadVertex = true;
                 getRoad(v.li, v.co).updateMarker();
                 getRoad(v.li + 1, v.co).updateMarker();
+                getRoad(v.li, v.co).rBorderBottom = false;
+                getRoad(v.li, v.co).borderBottom = false;
+                getRoad(v.li + 1, v.co).rBorderTop = false;
+                getRoad(v.li + 1, v.co).borderTop = false;
+                getRoad(v.li, v.co).updateBorderColor();
+                getRoad(v.li + 1, v.co).updateBorderColor();
                 marker += 2;
                 let idx = v.li + 2;
                 while (isDirRoad(idx, v.co, "v")) {
