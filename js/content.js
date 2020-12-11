@@ -207,6 +207,8 @@ function updateBorder(building, show) {
         ) {
             adj.top.borderBottom = show;
             adj.top.updateBorderStyle();
+            adj.top.rBorderBottom = false;
+            adj.top.updateBorderColor();
             building.borderTop = show;
         }
         if (
@@ -225,6 +227,8 @@ function updateBorder(building, show) {
         ) {
             adj.bottom.borderTop = show;
             adj.bottom.updateBorderStyle();
+            adj.bottom.rBorderTop = false;
+            adj.bottom.updateBorderColor();
             building.borderBottom = show;
         }
         if (
@@ -277,136 +281,133 @@ function getRoadDir(li, co) {
     return "n";
 }
 
+function updateRoadDisplay(li, co) {
+    let self = getRoad(li, co);
+    for (let i = -1; i < 2; i += 2) {
+        if (isRoad(li + i, co)) {
+            let adj = getRoad(li + i, co);
+            if (i === -1) {
+                adj.rBorderBottom = true;
+                adj.borderBottom = true;
+                self.rBorderTop = true;
+                self.borderTop = true;
+            } else {
+                adj.rBorderTop = true;
+                adj.borderTop = true;
+                self.rBorderBottom = true;
+                self.borderBottom = true;
+            }
+            if (isDirRoad(li + i, co, "v") || isDirRoad(li + i, co, "n")) self.isRoadVertex = true;
+            adj.updateBorderStyle();
+            adj.updateBorderColor();
+            adj.updateMarker();
+        }
+    }
+    self.updateBorderStyle();
+    self.updateBorderColor();
+    self.updateMarker();
+}
+
 function updateRoadMarker(li, co) {
-    // console.log(getRoadDir(li, co));
-    // return;
-    //update neighbors
+    let neighbors = [];
     for (let i = -1; i <= 1; i++) {
         for (let j = -1; j <= 1; j++) {
-            if (!isRoad(li + i, co + j)) continue;
-            let self = getRoad(li + i, co + j);
-            let left = getRoad(li + i, co + j - 1);
-            let top = getRoad(li + i - 1, co + j);
-            if (left) {
-                if (isRoad(li + i, co + j - 2)) {
-                    self.marker = left.marker + 1;
-                    if (
-                        isDirRoad(li + i - 1, co + i - 1, "v") ||
-                        isDirRoad(li + i - 1, co + i - 1, "n") ||
-                        isDirRoad(li + i + 1, co + i - 1, "v") ||
-                        isDirRoad(li + i + 1, co + i - 1, "n")
-                    ) {
-                        left.isRoadVertex = true;
-                    } else {
-                        left.isRoadVertex = false;
-                    }
-                    self.isRoadVertex = true;
-                    left.updateMarker();
-                    self.updateMarker();
+            if (isRoad(li + i, co + j)) neighbors.push({ li: li + i, co: co + j });
+        }
+    }
+    for (let v of neighbors) {
+        if (getRoadDir(v.li, v.co) === "h") {
+            let hasLeft = false;
+            if (isRoad(v.li, v.co - 1)) {
+                let marker = getRoad(v.li, v.co - 1).marker;
+                if (!marker) {
+                    getRoad(v.li, v.co - 1).setMarker(1);
+                    getRoad(v.li, v.co).setMarker(2);
+                    getRoad(v.li, v.co - 1).isRoadVertex = true;
                 } else {
-                    let r = getRoad(li + i - 1, co + j - 1);
-                    if (left.marker === 2) {
-                        r.marker = 0;
-                        r.isRoadVertex = false;
-                        r.updateMarker();
-                    } else if (left.marker > 2) {
-                        r.isRoadVertex = true;
-                        r.updateMarker();
-                    }
-                    left.marker = 1;
-                    self.marker = 2;
-                    left.isRoadVertex = true;
-                    self.isRoadVertex = true;
-                    left.updateMarker();
-                    self.updateMarker();
+                    getRoad(v.li, v.co).setMarker(marker + 1);
+                    if (marker > 1) getRoad(v.li, v.co - 1).isRoadVertex = false;
                 }
-            } else if (top && isDirRoad(li + i - 1, co + j, "v")) {
-                if (!top.marker) {
-                    top.marker = 1;
-                    top.isRoadVertex = true;
-                    top.updateMarker();
-                }
-                self.marker = top.marker + 1;
-                if (top.marker > 1) top.isRoadVertex = false;
-                self.isRoadVertex = true;
-                top.updateMarker();
-                self.updateMarker();
-            } else if (top && isDirRoad(li + i - 1, co + j, "h")) {
-                self.marker = 0;
-                top.isRoadVertex = true;
-                self.isRoadVertex = false;
-                top.updateMarker();
-                self.updateMarker();
-            } else {
-                self.marker = 0;
-                self.isRoadVertex = false;
-                self.updateMarker();
-                if (top) {
-                    top.isRoadVertex = true;
-                    top.updateMarker();
-                }
+                getRoad(v.li, v.co).isRoadVertex = true;
+                updateRoadDisplay(v.li, v.co - 1);
+                updateRoadDisplay(v.li, v.co);
+                hasLeft = true;
             }
-            if (left && top) {
-                self.isRoadVertex = true;
-                self.updateMarker();
+            if (isRoad(v.li, v.co + 1)) {
+                let marker = getRoad(v.li, v.co).marker;
+                if (!marker || !hasLeft) {
+                    getRoad(v.li, v.co).setMarker(1);
+                    getRoad(v.li, v.co + 1).setMarker(2);
+                    getRoad(v.li, v.co).isRoadVertex = true;
+                    marker = 1;
+                } else {
+                    getRoad(v.li, v.co + 1).setMarker(marker + 1);
+                    if (marker > 1) getRoad(v.li, v.co).isRoadVertex = false;
+                }
+                getRoad(v.li, v.co + 1).isRoadVertex = true;
+                updateRoadDisplay(v.li, v.co);
+                updateRoadDisplay(v.li, v.co + 1);
+                marker += 2;
+                let idx = v.co + 2;
+                while (isRoad(v.li, idx)) {
+                    getRoad(v.li, idx).isRoadVertex = true;
+                    getRoad(v.li, idx).setMarker(marker);
+                    getRoad(v.li, idx - 1).isRoadVertex = false;
+                    updateRoadDisplay(v.li, idx - 1);
+                    marker++;
+                    idx++;
+                }
             }
         }
     }
-    //update right
-    for (let i = -1; i <= 1; i++) {
-        if (!isRoad(li + i, co + 1) || !isRoad(li + i, co + 2)) continue;
-        let marker = $cell[li + i][co + 1].occupied.marker;
-        if (!marker) {
-            $cell[li + i][co + 1].occupied.marker = 1;
-            $cell[li + i][co + 1].occupied.isRoadVertex = true;
-            $cell[li + i][co + 1].occupied.updateMarker();
-            marker++;
-        }
-        marker++;
-        let idx = 2;
-        while (isRoad(li + i, co + idx)) {
-            $cell[li + i][co + idx].occupied.marker = marker;
-            if ($cell[li + i][co + idx - 1].occupied.marker > 1)
-                $cell[li + i][co + idx - 1].occupied.isRoadVertex = false;
-            if (
-                isDirRoad(li + i - 1, co + idx - 1, "h") ||
-                isDirRoad(li + i - 1, co + idx - 1, "n") ||
-                isDirRoad(li + i + 1, co + idx - 1, "h") ||
-                isDirRoad(li + i + 1, co + idx - 1, "n")
-            ) {
-                $cell[li + i][co + idx - 1].occupied.isRoadVertex = true;
-            } else {
-                $cell[li + i][co + idx - 1].occupied.isRoadVertex = false;
+    for (let v of neighbors) {
+        if (getRoadDir(v.li, v.co) === "v") {
+            let hasTop = false;
+            if (isDirRoad(v.li - 1, v.co, "v")) {
+                let marker = getRoad(v.li - 1, v.co).marker;
+                if (!marker) {
+                    getRoad(v.li - 1, v.co).marker = 1;
+                    getRoad(v.li, v.co).marker = 2;
+                    getRoad(v.li - 1, v.co).isRoadVertex = true;
+                } else {
+                    getRoad(v.li, v.co).marker = marker + 1;
+                    if (marker > 1) getRoad(v.li - 1, v.co).isRoadVertex = false;
+                }
+                getRoad(v.li, v.co).isRoadVertex = true;
+                getRoad(v.li - 1, v.co).updateMarker();
+                getRoad(v.li, v.co).updateMarker();
+                hasTop = true;
             }
-            $cell[li + i][co + idx].occupied.isRoadVertex = true;
-            $cell[li + i][co + idx - 1].occupied.updateMarker();
-            $cell[li + i][co + idx].occupied.updateMarker();
-            idx++;
-            marker++;
+            if (isDirRoad(v.li + 1, v.co, "v")) {
+                let marker = getRoad(v.li, v.co).marker;
+                if (!marker || !hasTop) {
+                    getRoad(v.li, v.co).marker = 1;
+                    getRoad(v.li + 1, v.co).marker = 2;
+                    getRoad(v.li, v.co).isRoadVertex = true;
+                } else {
+                    getRoad(v.li + 1, v.co).marker = marker + 1;
+                    if (marker > 1) getRoad(v.li, v.co).isRoadVertex = false;
+                }
+                getRoad(v.li + 1, v.co).isRoadVertex = true;
+                getRoad(v.li, v.co).updateMarker();
+                getRoad(v.li + 1, v.co).updateMarker();
+                marker += 2;
+                let idx = v.li + 2;
+                while (isDirRoad(idx, v.co, "v")) {
+                    getRoad(idx, v.co).marker = marker;
+                    getRoad(idx - 1, v.co).isRoadVertex = false;
+                    getRoad(idx, v.co).isRoadVertex = true;
+                    getRoad(idx - 1, v.co).updateMarker();
+                    getRoad(idx, v.co).updateMarker();
+                    marker++;
+                    idx++;
+                }
+            }
         }
-    }
-    //update bottom
-    for (let i = -1; i <= 1; i++) {
-        if (!isRoad(li + 1, co + i) || !isRoad(li + 2, co + i)) continue;
-        if (isDirRoad(li + 1, co + i, "h") || isDirRoad(li + 2, co + i, "h")) continue;
-        let marker = $cell[li + 1][co + i].occupied.marker;
-        if (!marker) {
-            $cell[li + 1][co + i].occupied.marker = 1;
-            $cell[li + 1][co + i].occupied.isRoadVertex = true;
-            $cell[li + 1][co + i].occupied.updateMarker();
-            marker++;
-        }
-        marker++;
-        let idx = 2;
-        while (isRoad(li + idx, co + i) && getRoadDir(li + idx, co + i) !== "h") {
-            $cell[li + idx][co + i].occupied.marker = marker;
-            if ($cell[li + idx - 1][co + i].occupied.marker > 1)
-                $cell[li + idx - 1][co + i].occupied.isRoadVertex = false;
-            $cell[li + idx][co + i].occupied.isRoadVertex = true;
-            $cell[li + idx - 1][co + i].occupied.updateMarker();
-            $cell[li + idx][co + i].occupied.updateMarker();
-            idx++;
-            marker++;
+        if (getRoadDir(v.li, v.co) === "n") {
+            getRoad(v.li, v.co).isRoadVertex = false;
+            getRoad(v.li, v.co).marker = 0;
+            updateRoadDisplay(v.li, v.co);
         }
     }
 }

@@ -81,7 +81,8 @@ class Building {
 
     showMarker() {
         if (this.marker === 0) return false;
-        if (this.isRoad && (!this.marker || !this.isRoadVertex)) return false;
+        // if (this.isRoad && !this.marker) return false;
+        if (this.isRoad && !this.isRoadVertex) return false;
         if (this.barrierType) return false;
         if (this.isProtection) return false;
         if (this.isMiracle) return false;
@@ -95,6 +96,11 @@ class Building {
 
     updateBorderColor() {
         if (this.isRoad) $$(this.id).style.borderColor = this.getRoadBorderColor();
+    }
+
+    setMarker(marker) {
+        this.marker = marker;
+        this.updateMarker();
     }
 
     updateMarker() {
