@@ -43,6 +43,15 @@ class TopNav {
     }
 }
 
+function onClickHamButton(checked) {
+    if (!checked) {
+        console.log("popup");
+    } else {
+        console.log("disappear");
+    }
+    $$("ham-button").classList.toggle("active");
+}
+
 function onClickWoodNum(woodNum) {
     $$$("#wood-num + ul li", true).forEach((node) => (node.style.display = "none"));
     if (+woodNum === $topNav.getWoodNum()) return;
@@ -69,11 +78,18 @@ function onClickCivil(civil) {
     $config.protection = $config.civilBuilding[civil]["防"];
     $config.protectionFull = $config.civilBuilding[civil]["防护"];
     $topNav.setCivil();
-    $sideNavVue.onChangeCivil();
-    $sideNavVue.onSelectOperation("取消操作", ["取消操作"]);
+    $vm.onChangeCivil();
+    $vm.onSelectOperation("取消操作", ["取消操作"]);
     $$("preview").style.display = "none";
     $selectionBlock.hide();
     $deletionBlock.hide();
+    for (let i = 1; i <= $length; i++) {
+        for (let j = 1; j <= $length; j++) {
+            if ($cell[i][j].occupied && !$cell[i][j].occupied.isFixed) {
+                deleteBuilding(i, j);
+            }
+        }
+    }
 }
 
 function onClickNoWood(isNoWood) {

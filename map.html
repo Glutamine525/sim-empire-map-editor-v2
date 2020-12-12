@@ -34,6 +34,7 @@
         <script src="./js/keyboard-event.js"></script>
         <script src="./js/other-event.js"></script>
         <script src="./js/top-nav.js"></script>
+        <script src="./js/side-nav.js"></script>
         <script src="./js/content.js"></script>
         <script src="./js/building.js"></script>
         <script src="./js/building-range.js"></script>
@@ -48,11 +49,12 @@
                 <div id="top-nav-controller">
                     <div id="top-nav-height-helper">
                         <svg
-                            class="flip-button flip-button-rotate"
+                            id="ham-button"
+                            class="ham-button ham-button-rotate"
                             viewBox="0 0 100 100"
                             width="80"
                             style="margin-left: 10px"
-                            onclick="this.classList.toggle('active')"
+                            onclick="onClickHamButton(this.className.baseVal.indexOf('active')>-1)"
                         >
                             <path
                                 class="line top"
@@ -88,6 +90,30 @@
                                 </li>
                             </ul>
                         </div>
+                        <!-- <div>
+                            <div>地图类型:</div>
+                            <ul class="top-menu">
+                                <li class="top-menu-item">
+                                    <a
+                                        id="wood-num"
+                                        style="color: var(--color-text-primary); font-weight: bold"
+                                        onmouseover="$$$('#wood-num + ul li', true).forEach((node) => (node.style.display = 'block'))"
+                                        >0</a
+                                    >
+                                    <ul class="top-sub-menu">
+                                        <li class="top-menu-item-active">
+                                            <a value="5" onclick="onClickWoodNum(this.getAttribute('value'))">5</a>
+                                        </li>
+                                        <li class="top-menu-item-active">
+                                            <a value="4" onclick="onClickWoodNum(this.getAttribute('value'))">4</a>
+                                        </li>
+                                        <li class="top-menu-item-active">
+                                            <a value="3" onclick="onClickWoodNum(this.getAttribute('value'))">3</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div> -->
                         <div>
                             <div>文明:</div>
                             <ul class="top-menu">
@@ -179,7 +205,7 @@
                         <strong id="top-nav-holding">无</strong>
                     </div>
                 </div>
-                <el-tooltip popper-class="hint-popper" placement="bottom-start">
+                <el-tooltip style="border-radius: 50%" popper-class="hint-popper" placement="bottom-start">
                     <div slot="content">
                         快捷键:
                         <br />
@@ -369,7 +395,7 @@
         <script>
             var $config = new Config();
         </script>
-        <script src="./js/side-nav.js"></script>
+        <script src="./js/vm.js"></script>
         <script src="./js/main.js"></script>
     </body>
 </html>

@@ -28,7 +28,7 @@ const BuildingAztaka = {
             size: 3,
             range_size: 0,
             color: "#000000",
-            background_color: "#32CD32",
+            background_color: "#32ff7e",
             border_color: "#000000",
         },
         {
@@ -37,7 +37,7 @@ const BuildingAztaka = {
             size: 2,
             range_size: 0,
             color: "#000000",
-            background_color: "#32CD32",
+            background_color: "#32ff7e",
             border_color: "#000000",
         },
         {
@@ -46,7 +46,7 @@ const BuildingAztaka = {
             size: 2,
             range_size: 0,
             color: "#000000",
-            background_color: "#32CD32",
+            background_color: "#32ff7e",
             border_color: "#000000",
         },
         {
@@ -55,7 +55,7 @@ const BuildingAztaka = {
             size: 2,
             range_size: 0,
             color: "#000000",
-            background_color: "#32CD32",
+            background_color: "#32ff7e",
             border_color: "#000000",
         },
         {
@@ -64,7 +64,7 @@ const BuildingAztaka = {
             size: 2,
             range_size: 0,
             color: "#000000",
-            background_color: "#32CD32",
+            background_color: "#32ff7e",
             border_color: "#000000",
         },
         {
@@ -73,7 +73,7 @@ const BuildingAztaka = {
             size: 4,
             range_size: 0,
             color: "#000000",
-            background_color: "#32CD32",
+            background_color: "#32ff7e",
             border_color: "#000000",
         },
         {
@@ -82,7 +82,7 @@ const BuildingAztaka = {
             size: 2,
             range_size: 0,
             color: "#000000",
-            background_color: "#32CD32",
+            background_color: "#32ff7e",
             border_color: "#000000",
         },
         {
@@ -91,7 +91,7 @@ const BuildingAztaka = {
             size: 3,
             range_size: 0,
             color: "#000000",
-            background_color: "#32CD32",
+            background_color: "#32ff7e",
             border_color: "#000000",
         },
         {
@@ -100,7 +100,7 @@ const BuildingAztaka = {
             size: 3,
             range_size: 0,
             color: "#000000",
-            background_color: "#32CD32",
+            background_color: "#32ff7e",
             border_color: "#000000",
         },
         {
@@ -109,7 +109,7 @@ const BuildingAztaka = {
             size: 3,
             range_size: 0,
             color: "#000000",
-            background_color: "#32CD32",
+            background_color: "#32ff7e",
             border_color: "#000000",
         },
     ],
@@ -331,7 +331,7 @@ const BuildingAztaka = {
             size: 1,
             range_size: 4,
             color: "#000000",
-            background_color: "#FF0000",
+            background_color: "#ff3838",
             border_color: "#000000",
         },
         {
@@ -577,7 +577,7 @@ const BuildingAztaka = {
             size: 3,
             range_size: 0,
             color: "#000000",
-            background_color: "#FF3E96",
+            background_color: "#fd79a8",
             border_color: "#000000",
         },
         {
