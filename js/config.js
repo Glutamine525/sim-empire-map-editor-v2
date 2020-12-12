@@ -38,5 +38,6 @@ class Config {
             阿兹特克: BuildingAztaka,
         };
         this.protection = this.civilBuilding["中国"]["防"];
+        this.protectionFull = this.civilBuilding["中国"]["防护"];
     }
 }

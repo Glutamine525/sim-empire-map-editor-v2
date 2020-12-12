@@ -163,7 +163,7 @@
                         <div>
                             <div>旋转地图:</div>
                             <div class="toggle toggle--ordinary">
-                                <input type="checkbox" id="toggle-rotation" class="toggle--checkbox" />
+                                <input disabled="true" type="checkbox" id="toggle-rotation" class="toggle--checkbox" />
                                 <label class="toggle--btn" for="toggle-rotation"></label>
                             </div>
                         </div>
@@ -179,15 +179,43 @@
                         <strong id="top-nav-holding">无</strong>
                     </div>
                 </div>
-                <!-- <div id="top-nav-hint" class="fas fa-exclamation-circle"></div> -->
-                <div style="width: 30px; height: 30px; margin: auto 0">
-                    <div id="minion" class="face">
-                        <div class="eyes">
-                            <div class="eye"></div>
-                            <div class="eye"></div>
+                <el-tooltip popper-class="hint-popper" placement="bottom-start">
+                    <div slot="content">
+                        快捷键:
+                        <br />
+                        1. 空格: 取消操作
+                        <br />
+                        2. A: 道路
+                        <br />
+                        3. S: 选中建筑
+                        <br />
+                        4. D: 删除建筑
+                        <br />
+                        5. ZXC(V): 三(四)防建筑
+                        <br />
+                        6. QWER: 2x2 3x3 4x4 5x5 通用建筑
+                        <br />
+                        --------------------------------------------
+                        <br />
+                        其它操作:
+                        <br />
+                        1. 按住Ctrl键可以在选中操作时拖动地图
+                        <br />
+                        2. 使用相同大小的建筑可以覆盖通用建筑
+                        <br />
+                        --------------------------------------------
+                        <br />
+                        作者联系邮箱: glutamine525@gmail.com
+                    </div>
+                    <div style="width: 30px; height: 30px; margin: auto 0">
+                        <div id="minion" class="face">
+                            <div class="eyes">
+                                <div class="eye"></div>
+                                <div class="eye"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </el-tooltip>
                 <div id="top-nav-info">
                     <div>
                         模拟帝国地图编辑器

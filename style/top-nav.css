@@ -45,13 +45,13 @@
     /* white-space: nowrap; */
 }
 
-#top-nav-hint {
-    margin: auto 0;
-    width: 26px;
-    height: 26px;
-    font-size: 26px;
-    text-align: center;
-    color: var(--color-primary);
+.hint-popper {
+    background: var(--color-background-base) !important;
+    border: 1px solid #303133 !important;
+    color: var(--color-text-regular) !important;
+    box-shadow: 3px 3px 12px var(--color-border-base);
+    /* text-shadow: 0 0 3px var(--color-text-secondary); */
+    border-radius: 10px;
 }
 
 #top-nav-info {

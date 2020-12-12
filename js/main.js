@@ -80,8 +80,8 @@ if ("backdrop-filter" in document.documentElement.style) {
     $$$("#side-nav .el-menu--collapse").style.margin = "auto 0";
 }
 
-let centerTop = (3480 + 72 + 32 + 200 - window.innerHeight) / 2;
-let centerLeft = (3480 + 96 + 32 + 200 - window.innerWidth) / 2;
+let centerTop = (3480 + 72 + 32 - window.innerHeight) / 2;
+let centerLeft = (3480 + 96 + 32 - window.innerWidth) / 2;
 
 $$("app").style.display = "block";
 window.scrollTo({

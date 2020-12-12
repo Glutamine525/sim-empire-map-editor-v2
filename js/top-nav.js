@@ -67,8 +67,13 @@ function onClickCivil(civil) {
     if (civil === $topNav.getCivil()) return;
     $config.civil = civil;
     $config.protection = $config.civilBuilding[civil]["防"];
+    $config.protectionFull = $config.civilBuilding[civil]["防护"];
     $topNav.setCivil();
     $sideNavVue.onChangeCivil();
+    $sideNavVue.onSelectOperation("取消操作", ["取消操作"]);
+    $$("preview").style.display = "none";
+    $selectionBlock.hide();
+    $deletionBlock.hide();
 }
 
 function onClickNoWood(isNoWood) {
