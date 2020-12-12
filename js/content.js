@@ -425,6 +425,13 @@ function updateRoadMarker(li, co) {
     }
 }
 
+function setPreviewMarker(marker) {
+    $$("preview-marker").style.display = "block";
+    $$("preview-marker").innerHTML = marker;
+    if (marker === $config.protection.length) $$("preview-marker").style.color = "green";
+    if (marker < $config.protection.length) $$("preview-marker").style.color = "red";
+}
+
 function setupPreview(li, co) {
     let preview = $$("preview");
     if ($config.newHold) {
@@ -467,11 +474,15 @@ function setupPreview(li, co) {
             }
         }
     }
-    if (protectionRecord.length) {
-        $$("preview-marker").style.display = "block";
-        $$("preview-marker").innerHTML = protectionRecord.length;
-    } else {
+    if (
+        $config.holding.isRoad ||
+        $config.holding.isProtection ||
+        $config.holding.isMiracle ||
+        $config.holding.isDecoration
+    ) {
         $$("preview-marker").style.display = "none";
+    } else {
+        setPreviewMarker(protectionRecord.length);
     }
     preview.style.top = `${(li - 1 - $config.holding.offsetLi) * $cellSize}px`;
     preview.style.left = `${(co - 1 - $config.holding.offsetCo) * $cellSize}px`;

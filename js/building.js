@@ -61,6 +61,7 @@ class Building {
         }
         node.append(text, marker);
         $$("building").appendChild(node);
+        this.updateMarker();
     }
 
     getBorderStyle() {
@@ -91,7 +92,7 @@ class Building {
     }
 
     showMarker() {
-        if (this.marker === 0) return false;
+        // if (this.marker === 0) return false;
         if (this.isRoad && !this.isRoadVertex) return false;
         if (this.barrierType) return false;
         if (this.isProtection) return false;
@@ -117,6 +118,10 @@ class Building {
         if (this.showMarker()) {
             $$(this.id).lastChild.style.display = "block";
             $$(this.id).lastChild.innerHTML = this.marker;
+            if (!this.isRoad) {
+                if (this.marker === $config.protection.length) $$(this.id).lastChild.style.color = "green";
+                if (this.marker < $config.protection.length) $$(this.id).lastChild.style.color = "red";
+            }
         } else $$(this.id).lastChild.style.display = "none";
     }
 

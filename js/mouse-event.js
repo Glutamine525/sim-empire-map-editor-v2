@@ -140,6 +140,8 @@ function onMouseMove(event) {
     let li = Math.ceil((event.pageY - 72) / 30);
     let co = Math.ceil((event.pageX - 96) / 30);
     if (
+        !$config.holding.isDecoration &&
+        !$config.holding.isMiracle &&
         !$config.holding.isProtection &&
         !$config.holding.isGeneral &&
         $cell[li][co].occupied &&
@@ -149,12 +151,7 @@ function onMouseMove(event) {
     ) {
         preview.style.top = `${($cell[li][co].occupied.line - 1) * $cellSize}px`;
         preview.style.left = `${($cell[li][co].occupied.column - 1) * $cellSize}px`;
-        if ($cell[li][co].occupied.marker) {
-            $$("preview-marker").style.display = "block";
-            $$("preview-marker").innerHTML = $cell[li][co].occupied.marker;
-        } else {
-            $$("preview-marker").style.display = "none";
-        }
+        setPreviewMarker($cell[li][co].occupied.marker);
         preview.style.display = "flex";
     } else if (
         $config.operation === "placing-building" &&
