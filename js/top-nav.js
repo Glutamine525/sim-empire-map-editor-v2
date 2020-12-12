@@ -43,12 +43,13 @@ class TopNav {
     }
 }
 
-onClickWoodNum = (woodNum) => {
+function onClickWoodNum(woodNum) {
     $$$("#wood-num + ul li", true).forEach((node) => (node.style.display = "none"));
     if (+woodNum === $topNav.getWoodNum()) return;
     $config.woodNum = woodNum;
     $topNav.setWoodNum();
     clearBuilding();
+    $miniMap.clear();
     initCell();
     drawFixedBuilding("water");
     drawFixedBuilding("mountain");
@@ -59,18 +60,40 @@ onClickWoodNum = (woodNum) => {
     drawFixedBuilding("clay");
     drawFixedBuilding("wharf");
     if (!$config.isNoWood) onClickNoWood(false);
-};
+}
 
-onClickCivil = (civil) => {
+function onClickCivil(civil) {
     $$$("#civil + ul li", true).forEach((node) => (node.style.display = "none"));
     if (civil === $topNav.getCivil()) return;
     $config.civil = civil;
     $config.protection = $config.civilBuilding[civil]["防"];
     $topNav.setCivil();
     $sideNavVue.onChangeCivil();
-};
+}
 
-onClickDisplayMode = (isLightMode) => {
+function onClickNoWood(isNoWood) {
+    $config.isNoWood = isNoWood;
+    if (isNoWood) {
+        let building = $$("building");
+        BuildingFixed["tree"][$config.woodNum - 3].map((v) => {
+            let u = v.split("-").map((w) => +w);
+            let id = `${v}-1`;
+            delete $cell[u[0]][u[1]].occupied;
+            building.removeChild($$(id));
+            $miniMap.setPixel(u[0], u[1], getColor("--color-background-lighter"), 1, 1);
+        });
+    } else {
+        BuildingFixed["tree"][$config.woodNum - 3].map((v) => {
+            let u = v.split("-").map((w) => +w);
+            if ($cell[u[0]][u[1]].occupied) {
+                deleteBuilding(u[0], u[1], true);
+            }
+        });
+        drawFixedBuilding("tree");
+    }
+}
+
+function onClickDisplayMode(isLightMode) {
     $config.isLightMode = isLightMode;
     if (isLightMode) {
         Object.keys(LightMode).forEach((v) => {
@@ -82,28 +105,25 @@ onClickDisplayMode = (isLightMode) => {
         });
     }
     drawCell(getColor("--color-border-lighter"), getColor("--color-background-lighter"));
-};
+    $miniMap.onChangeDisplayMode();
+}
 
-onClickNoWood = (isNoWood) => {
-    $config.isNoWood = isNoWood;
-    if (isNoWood) {
-        let building = $$("building");
-        BuildingFixed["tree"][$config.woodNum - 3].map((v) => {
-            let unit = v.split("-").map((w) => +w);
-            let id = `${v}-1`;
-            delete $cell[unit[0]][unit[1]].occupied;
-            building.removeChild($$(id));
-        });
+function onClickMiniMap(show) {
+    $config.showMiniMap = show;
+    if (show) {
+        $$("mini-map").style.display = "block";
+        $$("mini-map-focus").style.display = "block";
+        $$("mini-map-container").style.width = "182px";
+        $$("mini-map-container").style.height = "182px";
+        $$("mini-map-container").style.border = "1px solid var(--color-border-darker)";
     } else {
-        BuildingFixed["tree"][$config.woodNum - 3].map((v) => {
-            let unit = v.split("-").map((w) => +w);
-            if ($cell[unit[0]][unit[1]].occupied) {
-                deleteBuilding(unit[0], unit[1], true);
-            }
-        });
-        drawFixedBuilding("tree");
+        $$("mini-map").style.display = "none";
+        $$("mini-map-focus").style.display = "none";
+        $$("mini-map-container").style.width = "0";
+        $$("mini-map-container").style.height = "0";
+        $$("mini-map-container").style.border = "none";
     }
-};
+}
 
 function minionEyeballs(event) {
     let eyes = document.querySelectorAll("#minion .eye");

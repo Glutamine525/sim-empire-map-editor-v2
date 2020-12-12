@@ -51,7 +51,9 @@ function onMouseDown(event) {
 function onMouseUp(event) {
     // console.log("up", event);
     $config.isMouseDown = false;
-    $config.dragMap.isDragging = false;
+    if ($config.dragMap.isDragging) {
+        $config.dragMap.isDragging = false;
+    }
     if (
         $config.operation === "selecting-building" &&
         event.path.length > 3 &&
@@ -83,7 +85,11 @@ function onMouseUp(event) {
 function onMouseClick(event) {
     let li = Math.ceil((event.pageY - 72) / 30);
     let co = Math.ceil((event.pageX - 96) / 30);
+    if (li < 0 || co < 0 || li > 116 || co > 116) return;
     if (
+        $config.operation === "placing-building" &&
+        !$config.holding.isDecoration &&
+        !$config.holding.isMiracle &&
         !$config.holding.isProtection &&
         !$config.holding.isGeneral &&
         $cell[li][co].occupied &&
@@ -124,7 +130,7 @@ function onMouseClick(event) {
 
 function onMouseMove(event) {
     minionEyeballs(event);
-    if ($config.isMouseDown) {
+    if ($config.isMouseDown && $config.dragMap.isDragging) {
         if (
             ($config.operation === "null" || $config.isCtrlDown) &&
             (event.path[0].id === "building" || event.path[1].id === "building" || event.path[2].id === "building")
@@ -139,7 +145,9 @@ function onMouseMove(event) {
     }
     let li = Math.ceil((event.pageY - 72) / 30);
     let co = Math.ceil((event.pageX - 96) / 30);
+    if (li < 0 || co < 0 || li > 116 || co > 116) return;
     if (
+        $config.operation === "placing-building" &&
         !$config.holding.isDecoration &&
         !$config.holding.isMiracle &&
         !$config.holding.isProtection &&

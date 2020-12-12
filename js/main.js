@@ -5,6 +5,7 @@ var $topNav = new TopNav(40);
 var $sideNav = new SideNav(64);
 var $cell = {};
 var $range = new BuildingRange({});
+var $miniMap = new MiniMap();
 var $selectionBlock = new SelectionBlock();
 var $deletionBlock = new DeletionBlock();
 
@@ -22,6 +23,8 @@ const topNavResizeObserver = new ResizeObserver((entries) => {
 });
 topNavResizeObserver.observe($$("top-nav-height-helper"));
 
+initCell();
+$miniMap.init();
 onClickDisplayMode(true);
 drawBoundary("black");
 drawCell(getColor("--color-border-lighter"), getColor("--color-background-lighter"));
@@ -32,6 +35,8 @@ document.onmousedown = onMouseDown;
 document.onmouseup = onMouseUp;
 document.onkeydown = onKeyDown;
 document.onkeyup = onKeyUp;
+document.onscroll = onScroll;
+window.onresize = onResize;
 
 if ("backdrop-filter" in document.documentElement.style) {
     // if (false) {
@@ -75,8 +80,8 @@ if ("backdrop-filter" in document.documentElement.style) {
     $$$("#side-nav .el-menu--collapse").style.margin = "auto 0";
 }
 
-let centerTop = (3480 + 72 + 32 - window.innerHeight) / 2;
-let centerLeft = (3480 + 96 + 32 - window.innerWidth) / 2;
+let centerTop = (3480 + 72 + 32 + 200 - window.innerHeight) / 2;
+let centerLeft = (3480 + 96 + 32 + 200 - window.innerWidth) / 2;
 
 $$("app").style.display = "block";
 window.scrollTo({
@@ -85,6 +90,5 @@ window.scrollTo({
     behavior: "smooth",
 });
 
-// $$("loading").style.display = "none";
 $$("ghost-container").style.display = "none";
 $$("loading-background").style.display = "none";

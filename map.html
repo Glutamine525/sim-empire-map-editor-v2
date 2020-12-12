@@ -32,10 +32,12 @@
         <script src="./js/config.js"></script>
         <script src="./js/mouse-event.js"></script>
         <script src="./js/keyboard-event.js"></script>
+        <script src="./js/other-event.js"></script>
         <script src="./js/top-nav.js"></script>
         <script src="./js/content.js"></script>
         <script src="./js/building.js"></script>
         <script src="./js/building-range.js"></script>
+        <script src="./js/mini-map.js"></script>
         <script src="./js/block.js"></script>
         <script src="./js/selection-block.js"></script>
         <script src="./js/deletion-block.js"></script>
@@ -148,7 +150,13 @@
                         <div>
                             <div>小地图:</div>
                             <div class="toggle toggle--ordinary">
-                                <input type="checkbox" id="toggle-mini-map" class="toggle--checkbox" checked="true" />
+                                <input
+                                    type="checkbox"
+                                    id="toggle-mini-map"
+                                    class="toggle--checkbox"
+                                    checked="true"
+                                    onclick="onClickMiniMap(this.checked)"
+                                />
                                 <label class="toggle--btn" for="toggle-mini-map"></label>
                             </div>
                         </div>
@@ -162,10 +170,10 @@
                     </div>
                 </div>
                 <div id="top-nav-operation">
-                    <div>
+                    <!-- <div>
                         选中:
                         <strong id="top-nav-selected">无</strong>
-                    </div>
+                    </div> -->
                     <div>
                         操作:
                         <strong id="top-nav-holding">无</strong>
@@ -289,7 +297,18 @@
                                 class="iconbtn far fa-trash-alt"
                             ></div>
                         </div>
-                        <div id="mini-map"></div>
+                        <div
+                            id="mini-map-container"
+                            onclick="onMiniMapMouseClick(event)"
+                            onmousemove="onMiniMapMouseMove(event)"
+                        >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <canvas id="mini-map" width="232" height="232"></canvas>
+                            <div id="mini-map-focus"></div>
+                        </div>
                     </div>
                 </div>
             </div>

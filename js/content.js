@@ -20,14 +20,13 @@ function drawCell(borderColor, backgroundColor) {
 }
 
 function drawBoundary(boundaryColor) {
-    let length = this.$length;
     let canvas = document.getElementById("cell");
     let ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, length * 30, length * 30);
+    ctx.clearRect(0, 0, $length * 30, $length * 30);
     ctx.fillStyle = boundaryColor;
-    for (let li = 1; li <= length; li++) {
-        for (let co = 1; co <= length; co++) {
-            let boundary = isBoundary(length, li, co);
+    for (let li = 1; li <= $length; li++) {
+        for (let co = 1; co <= $length; co++) {
+            let boundary = isBoundary(li, co);
             switch (boundary) {
                 case "top-left":
                     ctx.moveTo((co - 1) * 30 - 10, li * 30);
@@ -116,10 +115,8 @@ function createBuilding(config) {
     building.marker = protectionRecord.length;
     updateBorder(building, false);
     building.init();
-    if (building.isRoad) {
-        // building.marker = 1;
-        updateRoadMarker(line, column);
-    }
+    $miniMap.setPixel(line, column, building.background, width, height);
+    if (building.isRoad) updateRoadMarker(line, column);
     if (building.isProtection) {
         let buildingRecord = [];
         for (let i = line - range; i < line + height + range; i++) {
@@ -167,7 +164,8 @@ function deleteBuilding(li, co, force) {
         }
     }
     if (building.isRoad) updateRoadMarker(line, column);
-    $$("building").removeChild($$(building.id));
+    $miniMap.setPixel(line, column, getColor("--color-background-lighter"), width, height);
+    $$("building").removeChild($$(id));
 }
 
 function drawFixedBuilding(type, woodNum) {

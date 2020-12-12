@@ -29,8 +29,8 @@ function initCell() {
     }
 }
 
-function isBoundary(length, li, co) {
-    let halfLength = length / 2;
+function isBoundary(li, co) {
+    let halfLength = $length / 2;
     let result = false;
     if (li + co === halfLength + 2) result = "top-left";
     if (li + co === halfLength * 3) result = "bottom-right";
