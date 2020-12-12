@@ -83,7 +83,29 @@ function onMouseUp(event) {
 function onMouseClick(event) {
     let li = Math.ceil((event.pageY - 72) / 30);
     let co = Math.ceil((event.pageX - 96) / 30);
-    if (!$config.isCtrlDown && $config.operation === "placing-building" && $$("preview").style.display === "flex") {
+    if (
+        !$config.holding.isProtection &&
+        !$config.holding.isGeneral &&
+        $cell[li][co].occupied &&
+        $cell[li][co].occupied.isGeneral &&
+        $cell[li][co].occupied.width === $config.holding.width &&
+        $cell[li][co].occupied.height === $config.holding.height
+    ) {
+        let targetLi = $cell[li][co].occupied.line;
+        let targetCo = $cell[li][co].occupied.column;
+        deleteBuilding(targetLi, targetCo);
+        $$("preview").style.display = "none";
+        createBuilding(
+            Object.assign({}, $config.holding, {
+                line: targetLi,
+                column: targetCo,
+            })
+        );
+    } else if (
+        !$config.isCtrlDown &&
+        $config.operation === "placing-building" &&
+        $$("preview").style.display === "flex"
+    ) {
         let { offsetLi, offsetCo, width, height } = $config.holding;
         for (let i = li - offsetLi; i < li - offsetLi + height; i++) {
             for (let j = co - offsetCo; j < co - offsetCo + width; j++) {
@@ -101,6 +123,7 @@ function onMouseClick(event) {
 }
 
 function onMouseMove(event) {
+    minionEyeballs(event);
     if ($config.isMouseDown) {
         if (
             ($config.operation === "null" || $config.isCtrlDown) &&
@@ -117,6 +140,23 @@ function onMouseMove(event) {
     let li = Math.ceil((event.pageY - 72) / 30);
     let co = Math.ceil((event.pageX - 96) / 30);
     if (
+        !$config.holding.isProtection &&
+        !$config.holding.isGeneral &&
+        $cell[li][co].occupied &&
+        $cell[li][co].occupied.isGeneral &&
+        $cell[li][co].occupied.width === $config.holding.width &&
+        $cell[li][co].occupied.height === $config.holding.height
+    ) {
+        preview.style.top = `${($cell[li][co].occupied.line - 1) * $cellSize}px`;
+        preview.style.left = `${($cell[li][co].occupied.column - 1) * $cellSize}px`;
+        if ($cell[li][co].occupied.marker) {
+            $$("preview-marker").style.display = "block";
+            $$("preview-marker").innerHTML = $cell[li][co].occupied.marker;
+        } else {
+            $$("preview-marker").style.display = "none";
+        }
+        preview.style.display = "flex";
+    } else if (
         $config.operation === "placing-building" &&
         (event.path[0].id === "building" || event.path[0].id === "preview" || event.path[1].id === "preview")
     ) {
@@ -127,7 +167,7 @@ function onMouseMove(event) {
     if ($config.isMouseDown) {
         if (
             $config.operation === "selecting-building" &&
-            event.path.length > 2 &&
+            event.path.length > 3 &&
             (event.path[0].id === "building" ||
                 event.path[0].id === "selection-block" ||
                 event.path[0].className.indexOf("building") > -1 ||
@@ -142,7 +182,7 @@ function onMouseMove(event) {
         }
         if (
             $config.operation === "deleting-building" &&
-            event.path.length > 2 &&
+            event.path.length > 3 &&
             (event.path[0].id === "building" ||
                 event.path[0].id === "deletion-block" ||
                 event.path[0].className.indexOf("building") > -1 ||

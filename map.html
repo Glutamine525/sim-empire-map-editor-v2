@@ -5,11 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>模拟帝国地图编辑器V2</title>
         <link rel="icon" href="./img/logo.png" />
+        <link rel="stylesheet" href="./library/fontawesome.all.css" />
         <link rel="stylesheet" href="./library/element-ui.v2.14.1.css" />
         <script src="./library/jquery.v3.5.1.min.js"></script>
         <link rel="stylesheet" href="./style/color.css" />
-        <link rel="stylesheet" href="./style/loading.css" />
-        <link rel="stylesheet" href="./style/flip-button.css" />
+        <link rel="stylesheet" href="./style/loading-background.css" />
+        <link rel="stylesheet" href="./style/minion.css" />
+        <link rel="stylesheet" href="./style/ghost.css" />
+        <link rel="stylesheet" href="./style/button.css" />
         <link rel="stylesheet" href="./style/switcher.css" />
         <link rel="stylesheet" href="./style/top-menu.css" />
         <link rel="stylesheet" href="./style/main.css" />
@@ -168,6 +171,15 @@
                         <strong id="top-nav-holding">无</strong>
                     </div>
                 </div>
+                <!-- <div id="top-nav-hint" class="fas fa-exclamation-circle"></div> -->
+                <div style="width: 30px; height: 30px; margin: auto 0">
+                    <div id="minion" class="face">
+                        <div class="eyes">
+                            <div class="eye"></div>
+                            <div class="eye"></div>
+                        </div>
+                    </div>
+                </div>
                 <div id="top-nav-info">
                     <div>
                         模拟帝国地图编辑器
@@ -249,60 +261,60 @@
                         <div id="selection-block"></div>
                         <div id="deletion-block"></div>
                         <div id="selection-operation">
-                            <el-button
+                            <div
                                 id="selection-operation-left"
-                                type="primary"
-                                icon="el-icon-back"
                                 onclick="onClickBlockMove('left', 3)"
-                                circle
-                            ></el-button>
-                            <el-button
+                                class="iconbtn fas fa-arrow-left"
+                            ></div>
+                            <div
                                 id="selection-operation-right"
-                                type="primary"
-                                icon="el-icon-right"
                                 onclick="onClickBlockMove('right', 1)"
-                                circle
-                            ></el-button>
-                            <el-button
+                                class="iconbtn fas fa-arrow-right"
+                            ></div>
+                            <div
                                 id="selection-operation-bottom"
-                                type="primary"
-                                icon="el-icon-bottom"
                                 onclick="onClickBlockMove('bottom', 2)"
-                                circle
-                            ></el-button>
-                            <el-button
+                                class="iconbtn fas fa-arrow-down"
+                            ></div>
+                            <div
                                 id="selection-operation-top"
-                                type="primary"
-                                icon="el-icon-top"
                                 onclick="onClickBlockMove('top', 0)"
-                                circle
-                            ></el-button>
+                                class="iconbtn fas fa-arrow-up"
+                            ></div>
                         </div>
                         <div id="deletion-operation">
-                            <el-button
+                            <div
                                 id="deletion-operation-button"
-                                type="danger"
-                                icon="el-icon-delete"
                                 onclick="onClickBlockDelete()"
-                                circle
-                            ></el-button>
+                                class="iconbtn far fa-trash-alt"
+                            ></div>
                         </div>
                         <div id="mini-map"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="loading" style="display: block">
-            <div class="load">
-                <div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
+        <div id="ghost-container">
+            <div class="ghost">
+                <div class="face">
+                    <div class="eyes">
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="mouth"></div>
                 </div>
-                <p id="loading-text">载入中...</p>
+                <div class="hands">
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="feet">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
+            <div id="ghost-text">Loading...</div>
         </div>
         <div id="loading-background"></div>
         <script src="./library/vue.v2.6.12.js"></script>

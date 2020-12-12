@@ -85,5 +85,6 @@ window.scrollTo({
     behavior: "smooth",
 });
 
-$$("loading").style.display = "none";
+// $$("loading").style.display = "none";
+$$("ghost-container").style.display = "none";
 $$("loading-background").style.display = "none";

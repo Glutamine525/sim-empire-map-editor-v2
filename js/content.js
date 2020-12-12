@@ -473,7 +473,7 @@ function setupPreview(li, co) {
     } else {
         $$("preview-marker").style.display = "none";
     }
-    preview.style.display = "flex";
     preview.style.top = `${(li - 1 - $config.holding.offsetLi) * $cellSize}px`;
     preview.style.left = `${(co - 1 - $config.holding.offsetCo) * $cellSize}px`;
+    preview.style.display = "flex";
 }

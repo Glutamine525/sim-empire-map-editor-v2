@@ -1,0 +1,64 @@
+#minion.face {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: #ffcd00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(0.1);
+    transform-origin: top left;
+    overflow: hidden;
+}
+
+#minion.face::before {
+    content: "";
+    position: absolute;
+    top: 200px;
+    left: 70px;
+    width: 160px;
+    height: 30px;
+    background: #b57700;
+    border-radius: 30px;
+    transition: 0.5s;
+}
+
+#minion.face:hover::before {
+    content: "";
+    top: 180px;
+    left: 70px;
+    width: 160px;
+    height: 70px;
+    border-radius: 0;
+    border-bottom-left-radius: 70px;
+    border-bottom-right-radius: 70px;
+}
+
+#minion .eyes {
+    position: relative;
+    top: -40px;
+    display: flex;
+}
+
+#minion .eyes .eye {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: block;
+    background-color: #fff;
+    margin: 0 15px;
+    border-radius: 50%;
+}
+
+#minion .eyes .eye::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 25px;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: #333;
+    border-radius: 50%;
+}
