@@ -48,7 +48,7 @@ function onClickHamButton(checked) {
         // popup
         $config.nowScrollX = $$$("html").scrollLeft;
         $config.nowScrollY = $$$("html").scrollTop;
-        $config.isPaneShowed = true;
+        $config.isPanelShowed = true;
         $$("editor-container").style.left = "0";
         $$("main-page").style.filter = "blur(5px)";
         $$("main-page").style.overflow = "hidden";
@@ -56,7 +56,7 @@ function onClickHamButton(checked) {
         $$("editor").style.height = `calc(100% - ${60 + $config.topNavHeight}px)`;
     } else {
         // disappear
-        $config.isPaneShowed = false;
+        $config.isPanelShowed = false;
         $$("editor-container").style.left = "-100%";
         $$("main-page").style.removeProperty("filter");
         $$("main-page").style.removeProperty("overflow");

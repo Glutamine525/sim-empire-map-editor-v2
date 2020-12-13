@@ -20,7 +20,7 @@ class Config {
         this.topNavHeight = 40;
         this.sideNavWidth = 64;
 
-        this.isPaneShowed = false;
+        this.isPanelShowed = false;
         this.woodNum = 5;
         this.civil = "中国";
         this.isNoWood = false;

@@ -21,7 +21,7 @@ var $vm = new Vue({
                 奇迹: [],
                 通用: [],
             },
-            editorTab: "first",
+            editorPanelTab: "first",
             previewBox: {
                 row: 1,
                 cell: 1,
