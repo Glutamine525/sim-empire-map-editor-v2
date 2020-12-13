@@ -20,6 +20,8 @@ const topNavResizeObserver = new ResizeObserver((entries) => {
     if ($config.isFtosted) height += 8;
     $sideNav.setMaginTop(height);
     $config.topNavHeight = height;
+    $$("editor").style.top = `${20 + $config.topNavHeight}px`;
+    $$("editor").style.height = `calc(100% - ${60 + $config.topNavHeight}px)`;
 });
 topNavResizeObserver.observe($$("top-nav-height-helper"));
 

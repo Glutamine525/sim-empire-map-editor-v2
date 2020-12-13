@@ -1,4 +1,5 @@
 function onKeyDown(event) {
+    if ($config.isPaneShowed) return;
     if (event.keyCode === 17) {
         $config.isCtrlDown = true;
     }
@@ -12,6 +13,7 @@ function onKeyUp(event) {
         $config.isCtrlDown = false;
         return;
     }
+    if ($config.isPaneShowed) return;
     if (event.keyCode === 32) {
         $vm.onSelectOperation("取消操作", ["取消操作"]);
     } else if (event.keyCode === 81) {

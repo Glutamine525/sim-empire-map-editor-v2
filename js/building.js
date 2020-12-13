@@ -22,7 +22,7 @@ class Building {
         this.barrierType = config.barrierType || "";
         this.isRoad = config.isRoad || false;
         this.isGeneral = config.isGeneral || false;
-        this.special = config.special || "";
+        this.specialCode = config.specialCode || "";
         this.marker = config.marker || 0;
         //road sub-border color
         this.isRoadVertex = false;

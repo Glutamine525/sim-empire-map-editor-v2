@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="./style/side-nav.css" />
         <link rel="stylesheet" href="./style/top-nav.css" />
         <link rel="stylesheet" href="./style/content.css" />
+        <link rel="stylesheet" href="./style/special-building-editor.css" />
         <script src="./js/constant/label-text.js"></script>
         <script src="./js/constant/building-fixed.js"></script>
         <script src="./js/constant/building-china.js"></script>
@@ -90,30 +91,6 @@
                                 </li>
                             </ul>
                         </div>
-                        <!-- <div>
-                            <div>地图类型:</div>
-                            <ul class="top-menu">
-                                <li class="top-menu-item">
-                                    <a
-                                        id="wood-num"
-                                        style="color: var(--color-text-primary); font-weight: bold"
-                                        onmouseover="$$$('#wood-num + ul li', true).forEach((node) => (node.style.display = 'block'))"
-                                        >0</a
-                                    >
-                                    <ul class="top-sub-menu">
-                                        <li class="top-menu-item-active">
-                                            <a value="5" onclick="onClickWoodNum(this.getAttribute('value'))">5</a>
-                                        </li>
-                                        <li class="top-menu-item-active">
-                                            <a value="4" onclick="onClickWoodNum(this.getAttribute('value'))">4</a>
-                                        </li>
-                                        <li class="top-menu-item-active">
-                                            <a value="3" onclick="onClickWoodNum(this.getAttribute('value'))">3</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div> -->
                         <div>
                             <div>文明:</div>
                             <ul class="top-menu">
@@ -283,6 +260,21 @@
                                     </el-menu-item>
                                 </el-menu-item-group>
                             </el-submenu>
+                            <el-submenu index="特殊建筑" :show-timeout="100" :hide-timeout="100" popper-class="popper">
+                                <template slot="title">
+                                    <img :src="'./img/特殊建筑.png'" />
+                                    <span slot="title">特殊建筑</span>
+                                </template>
+                                <el-menu-item-group title="特殊建筑">
+                                    <el-menu-item
+                                        v-for="item in specialBuildingList"
+                                        :key="item.name"
+                                        :index="item.name"
+                                    >
+                                        {{ item.name }}
+                                    </el-menu-item>
+                                </el-menu-item-group>
+                            </el-submenu>
                             <el-menu-item v-for="item1 in operationCatagory2" :key="item1" :index="item1">
                                 <img :src="'./img/' + item1 + '.png'" />
                                 <span slot="title">{{ item1 }}</span>
@@ -364,6 +356,145 @@
                             <div id="mini-map-focus"></div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div id="editor-container">
+                <div id="editor">
+                    <el-tabs id="editor-tab" v-model="editorTab">
+                        <el-tab-pane id="special-building" label="特殊建筑" name="first">
+                            <div id="special-building-preview">
+                                <div class="preview-box">
+                                    <div
+                                        style="
+                                            display: flex;
+                                            flex-direction: column;
+                                            justify-content: center;
+                                            align-items: center;
+                                        "
+                                    >
+                                        <div v-for="i in previewBox.row" :key="'previewBox-'+i" class="preview-box-row">
+                                            <div
+                                                v-for="j in previewBox.cell"
+                                                :key="'previewBox-'+i+'-'+j"
+                                                class="preview"
+                                                :style="{ 
+                                            width: `${specialBuilding.width * 30}px`, 
+                                            height: `${specialBuilding.height * 30}px`,
+                                            color: specialBuilding.color,
+                                            background: specialBuilding.background,
+                                            borderColor: specialBuilding.borderColor,
+                                            borderWidth: `${specialBuilding.borderWidth}px`,
+                                        }"
+                                                style="background: linear-gradient(45deg, blue, blue) !important"
+                                            >
+                                                <div class="text" v-html="specialBuilding.text"></div>
+                                                <div class="marker" :style="{ color: previewMarkerColor }">0</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="preview-operation">
+                                    <div>
+                                        <el-button size="small" type="info" round @click="onClickPreviewSingle">
+                                            单个
+                                        </el-button>
+                                        <el-button size="small" type="info" round @click="onClickPreviewRow">
+                                            横向
+                                        </el-button>
+                                        <el-button size="small" type="info" round @click="onClickPreviewColumn">
+                                            纵向
+                                        </el-button>
+                                        <el-button size="small" type="info" round @click="onClickPreviewOverspread">
+                                            平铺
+                                        </el-button>
+                                    </div>
+                                    <div style="margin-top: 16px">
+                                        <el-button size="small" type="danger" round @click="previewMarkerColor='red'"
+                                            >防护未满</el-button
+                                        >
+                                        <el-button size="small" type="success" round @click="previewMarkerColor='green'"
+                                            >防护已满</el-button
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="special-building-setting">
+                                <div class="setting-row">
+                                    <div class="setting-cell">
+                                        <label>建筑名称: </label>
+                                        <el-input v-model="specialBuilding.name" style="width: 180px"></el-input>
+                                    </div>
+                                </div>
+                                <div class="setting-row">
+                                    <div class="setting-cell">
+                                        <label>建筑宽度: </label>
+                                        <el-input-number v-model="specialBuilding.width" :min="1"></el-input-number>
+                                    </div>
+                                    <div class="setting-cell">
+                                        <label>建筑高度: </label>
+                                        <el-input-number v-model="specialBuilding.height" :min="1"></el-input-number>
+                                    </div>
+                                </div>
+                                <div class="setting-row">
+                                    <div class="setting-cell">
+                                        <label>文字颜色: </label>
+                                        <el-color-picker v-model="specialBuilding.color"></el-color-picker>
+                                    </div>
+                                    <div class="setting-cell">
+                                        <el-tooltip
+                                            popper-class="hint-popper"
+                                            effect="dark"
+                                            content="输入<br />即可换行"
+                                            placement="bottom"
+                                        >
+                                            <label>显示文字: </label>
+                                        </el-tooltip>
+                                        <el-input v-model="specialBuilding.text" style="width: 180px"></el-input>
+                                    </div>
+                                </div>
+                                <div class="setting-row">
+                                    <div class="setting-cell">
+                                        <label>边框颜色: </label>
+                                        <el-color-picker v-model="specialBuilding.borderColor"></el-color-picker>
+                                    </div>
+                                    <div class="setting-cell">
+                                        <label>边框宽度: </label>
+                                        <el-input-number
+                                            v-model="specialBuilding.borderWidth"
+                                            :min="1"
+                                            :max="10"
+                                        ></el-input-number>
+                                    </div>
+                                </div>
+                                <div class="setting-row">
+                                    <div class="setting-cell">
+                                        <label>背景颜色: </label>
+                                        <el-color-picker v-model="specialBuilding.background"></el-color-picker>
+                                    </div>
+                                    <div class="setting-cell">
+                                        <label>建筑范围: </label>
+                                        <el-input-number v-model="specialBuilding.range" :min="0"></el-input-number>
+                                    </div>
+                                </div>
+                                <div class="setting-row">
+                                    <div class="setting-cell">
+                                        <label>美化建筑: </label>
+                                        <el-switch v-model="specialBuilding.isDecoration"></el-switch>
+                                    </div>
+                                    <div class="setting-cell">
+                                        <label>奇迹建筑: </label>
+                                        <el-switch v-model="specialBuilding.isMiracle"></el-switch>
+                                    </div>
+                                </div>
+                                <div class="setting-row" style="margin: 80px 0 0 0; justify-content: center">
+                                    <el-button type="primary" round @click="onClickInsertSpecialBuilding">
+                                        添加
+                                    </el-button>
+                                </div>
+                            </div>
+                        </el-tab-pane>
+                        <el-tab-pane label="生成文明" name="second">TODO</el-tab-pane>
+                    </el-tabs>
                 </div>
             </div>
         </div>

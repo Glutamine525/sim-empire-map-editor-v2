@@ -45,9 +45,26 @@ class TopNav {
 
 function onClickHamButton(checked) {
     if (!checked) {
-        console.log("popup");
+        // popup
+        $config.nowScrollX = $$$("html").scrollLeft;
+        $config.nowScrollY = $$$("html").scrollTop;
+        $config.isPaneShowed = true;
+        $$("editor-container").style.left = "0";
+        $$("main-page").style.filter = "blur(5px)";
+        $$("main-page").style.overflow = "hidden";
+        $$("editor").style.top = `${20 + $config.topNavHeight}px`;
+        $$("editor").style.height = `calc(100% - ${60 + $config.topNavHeight}px)`;
     } else {
-        console.log("disappear");
+        // disappear
+        $config.isPaneShowed = false;
+        $$("editor-container").style.left = "-100%";
+        $$("main-page").style.removeProperty("filter");
+        $$("main-page").style.removeProperty("overflow");
+        window.scrollTo({
+            left: $config.nowScrollX,
+            top: $config.nowScrollY,
+            behavior: "smooth",
+        });
     }
     $$("ham-button").classList.toggle("active");
 }

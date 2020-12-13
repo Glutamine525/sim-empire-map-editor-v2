@@ -12,12 +12,15 @@ class Config {
         };
         this.startX = -1;
         this.startY = -1;
+        this.nowScrollX = -1;
+        this.nowScrollY = -1;
 
         this.isCtrlDown = false;
 
         this.topNavHeight = 40;
         this.sideNavWidth = 64;
 
+        this.isPaneShowed = false;
         this.woodNum = 5;
         this.civil = "中国";
         this.isNoWood = false;
