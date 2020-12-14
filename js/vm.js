@@ -33,6 +33,7 @@ var $vm = new Vue({
                 width: 3,
                 height: 3,
                 color: "#000000",
+                fontSize: 16,
                 text: "高级<br />住宅",
                 borderColor: "#000000",
                 borderWidth: 1,
@@ -101,11 +102,13 @@ var $vm = new Vue({
                     $config.operation = "selecting-building";
                     $config.holding = {};
                     $topNav.setOperation("选中建筑");
+                    $$("range-container").innerHTML = "";
                     break;
                 case "删除建筑":
                     $config.operation = "deleting-building";
                     $config.holding = {};
                     $topNav.setOperation("删除建筑");
+                    $$("range-container").innerHTML = "";
                     break;
                 default:
                     if (indexPath.length < 2) return;
@@ -117,6 +120,7 @@ var $vm = new Vue({
                     newHolding.height = v.height;
                     newHolding.range = v.range;
                     newHolding.color = v.color;
+                    newHolding.fontSize = v.fontSize;
                     newHolding.background = v.background;
                     newHolding.borderColor = v.borderColor;
                     newHolding.borderWidth = v.borderWidth;
@@ -175,10 +179,19 @@ var $vm = new Vue({
             this.previewBox.cell = 3;
         },
         onClickInsertSpecialBuilding() {
+            if (this.specialBuilding.isDecoration && this.specialBuilding.isMiracle) {
+                this.$message({
+                    message: `该建筑 ${this.specialBuilding.name} 不允许同时是美化和奇迹建筑！`,
+                    type: "error",
+                    duration: 5000,
+                    offset: $config.topNavHeight + 10,
+                });
+                return;
+            }
             let v = this.specialBuildingList.find((v) => v.name === this.specialBuilding.name);
             if (v) {
                 this.$message({
-                    message: "该建筑名称和已添加的特殊建筑重复，请更换建筑名称！",
+                    message: `该建筑名称 ${this.specialBuilding.name} 和已添加的特殊建筑重复，请更换建筑名称！`,
                     type: "error",
                     duration: 5000,
                     offset: $config.topNavHeight + 10,
@@ -188,21 +201,29 @@ var $vm = new Vue({
             if (this.specialBuildingList.length >= 10) {
                 this.specialBuildingList.shift();
                 this.$message({
-                    message:
-                        "该建筑已经添加至「侧边导航」的特殊建筑中。但特殊建筑最多只能添加10个，已将最早添加的特殊建筑移除。",
+                    message: `该建筑 ${this.specialBuilding.name} 已经添加至侧边导航的「特殊建筑」中。但特殊建筑最多只能添加10个，已将最早添加的特殊建筑移除。`,
                     type: "warning",
                     duration: 5000,
                     offset: $config.topNavHeight + 10,
                 });
             } else {
                 this.$message({
-                    message: "该建筑已经添加至「侧边导航」的特殊建筑中。",
+                    message: `该建筑 ${this.specialBuilding.name} 已经添加至侧边导航的「特殊建筑」中。`,
                     type: "success",
                     duration: 5000,
                     offset: $config.topNavHeight + 10,
                 });
             }
             this.specialBuildingList.push(Object.assign({}, this.specialBuilding));
+        },
+        deleteSpecialBuilding(index) {
+            this.$message({
+                message: `该建筑 ${this.specialBuildingList[index].name} 已经从「特殊建筑」中删除。`,
+                type: "success",
+                duration: 5000,
+                offset: $config.topNavHeight + 10,
+            });
+            this.specialBuildingList.splice(index, 1);
         },
     },
     created() {},

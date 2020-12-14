@@ -102,7 +102,15 @@ function onClickBlockMove(dir, index) {
         }
         if (!flag) break;
     }
-    if (!flag) return;
+    if (!flag) {
+        $vm.$message({
+            message: "该方向上有障碍物，无法移动。",
+            type: "error",
+            duration: 2000,
+            offset: $config.topNavHeight + 10,
+        });
+        return;
+    }
     let buildingRecord = [];
     for (let v of $selectionBlock.cache) {
         let u = parseID(v);

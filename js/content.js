@@ -438,6 +438,7 @@ function setupPreview(li, co) {
         preview.style.width = `${$config.holding.width * $cellSize}px`;
         preview.style.height = `${$config.holding.height * $cellSize}px`;
         preview.style.color = $config.holding.color;
+        preview.style.fontSize = `${$config.holding.fontSize}px`;
         preview.style.background = $config.holding.background;
         preview.style.borderColor = $config.holding.borderColor;
         preview.style.borderWidth = `${$config.holding.borderWidth}px`;
@@ -481,6 +482,9 @@ function setupPreview(li, co) {
         $$("preview-marker").style.display = "none";
     } else {
         setPreviewMarker(protectionRecord.length);
+    }
+    if (!$config.holding.isRoad) {
+        preview.className = preview.className.replace(" road", "");
     }
     preview.style.top = `${(li - 1 - $config.holding.offsetLi) * $cellSize}px`;
     preview.style.left = `${(co - 1 - $config.holding.offsetCo) * $cellSize}px`;

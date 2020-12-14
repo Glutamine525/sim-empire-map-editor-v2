@@ -206,6 +206,8 @@
                         <br />
                         2. 使用相同大小的建筑可以覆盖通用建筑
                         <br />
+                        3. 如果无法放置建筑，尝试按一次Ctrl
+                        <br />
                         --------------------------------------------
                         <br />
                         作者联系邮箱: glutamine525@gmail.com
@@ -311,6 +313,7 @@
                             <div id="preview-text" class="text"></div>
                             <div id="preview-marker" class="marker"></div>
                         </div>
+                        <div id="road-helper"></div>
                         <div id="range-container"></div>
                         <div id="selection-block"></div>
                         <div id="deletion-block"></div>
@@ -384,11 +387,20 @@
                                             background: specialBuilding.background,
                                             borderColor: specialBuilding.borderColor,
                                             borderWidth: `${specialBuilding.borderWidth}px`,
+                                            fontSize: `${specialBuilding.fontSize}px`
                                         }"
                                                 style="background: linear-gradient(45deg, blue, blue) !important"
                                             >
                                                 <div class="text" v-html="specialBuilding.text"></div>
-                                                <div class="marker" :style="{ color: previewMarkerColor }">0</div>
+                                                <div
+                                                    class="marker"
+                                                    :style="{ 
+                                                        color: previewMarkerColor, 
+                                                        display: specialBuilding.isDecoration || specialBuilding.isMiracle ? 'none' : 'block'
+                                                    }"
+                                                >
+                                                    0
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -419,10 +431,80 @@
                                 </div>
                             </div>
                             <div id="special-building-setting">
+                                <div
+                                    class="setting-row"
+                                    style="margin: 0 0 10px 0; justify-content: center; height: auto; flex-wrap: wrap"
+                                >
+                                    已添加
+                                    <span style="color: var(--color-text-primary); font-weight: bold; margin: 0 4px">
+                                        {{ specialBuildingList.length }}
+                                    </span>
+                                    个特殊建筑，最多添加10个。
+                                </div>
+                                <div
+                                    class="setting-row"
+                                    style="margin: 0 0 20px 0; justify-content: center; height: auto; flex-wrap: wrap"
+                                >
+                                    <el-tooltip
+                                        v-for="(item, index) in specialBuildingList"
+                                        :key="'special-'+item.name"
+                                        popper-class="hint-popper"
+                                        effect="dark"
+                                        placement="bottom"
+                                    >
+                                        <div slot="content">
+                                            建筑名称: {{ item.name }}
+                                            <br />
+                                            显示文字: {{ item.text }}
+                                            <br />
+                                            宽度: {{ item.width }}， 高度: {{ item.height }}
+                                            <br />
+                                            文字颜色: <span :style="{ color: item.color }">{{ item.color }}</span>，
+                                            字体大小: {{ item.fontSize }}px
+                                            <br />
+                                            边框颜色:
+                                            <span :style="{ color: item.borderColor }">{{ item.borderColor }}</span>，
+                                            边框宽度: {{ item.borderWidth }}px
+                                            <br />
+                                            背景颜色:
+                                            <span :style="{ color: item.background }">{{ item.background }}</span>，
+                                            建筑范围: {{ item.range }}格
+                                            <br />
+                                            美化建筑:
+                                            <span :style="{ color: item.isDecoration ? 'green' : 'red' }">
+                                                {{ item.isDecoration ? '√' : '×' }}
+                                            </span>
+                                            ， 奇迹建筑:
+                                            <span :style="{ color: item.isMiracle ? 'green' : 'red' }">
+                                                {{ item.isMiracle? '√' : '×' }}
+                                            </span>
+                                        </div>
+                                        <el-tag
+                                            size="medium"
+                                            closable
+                                            style="margin: 10px"
+                                            effect="dark"
+                                            @close="deleteSpecialBuilding(index)"
+                                        >
+                                            {{ item.name }}
+                                        </el-tag>
+                                    </el-tooltip>
+                                </div>
                                 <div class="setting-row">
                                     <div class="setting-cell">
                                         <label>建筑名称: </label>
                                         <el-input v-model="specialBuilding.name" style="width: 180px"></el-input>
+                                    </div>
+                                    <div class="setting-cell">
+                                        <el-tooltip
+                                            popper-class="hint-popper"
+                                            effect="dark"
+                                            content="输入<br />即可换行"
+                                            placement="bottom"
+                                        >
+                                            <label>显示文字: </label>
+                                        </el-tooltip>
+                                        <el-input v-model="specialBuilding.text" style="width: 180px"></el-input>
                                     </div>
                                 </div>
                                 <div class="setting-row">
@@ -441,15 +523,12 @@
                                         <el-color-picker v-model="specialBuilding.color"></el-color-picker>
                                     </div>
                                     <div class="setting-cell">
-                                        <el-tooltip
-                                            popper-class="hint-popper"
-                                            effect="dark"
-                                            content="输入<br />即可换行"
-                                            placement="bottom"
-                                        >
-                                            <label>显示文字: </label>
-                                        </el-tooltip>
-                                        <el-input v-model="specialBuilding.text" style="width: 180px"></el-input>
+                                        <label>字体大小: </label>
+                                        <el-input-number
+                                            v-model="specialBuilding.fontSize"
+                                            :min="12"
+                                            :max="48"
+                                        ></el-input-number>
                                     </div>
                                 </div>
                                 <div class="setting-row">

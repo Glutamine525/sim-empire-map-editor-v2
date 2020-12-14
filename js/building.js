@@ -11,6 +11,7 @@ class Building {
         this.borderWidth = config.borderWidth;
         this.range = config.range || 0;
         this.id = getBuildingID(config);
+        this.fontSize = config.fontSize || 16;
         this.borderTop = config.borderTop || true;
         this.borderRight = config.borderRight || true;
         this.borderBottom = config.borderBottom || true;
@@ -44,6 +45,7 @@ class Building {
         node.style.background = this.background;
         node.style.borderColor = this.borderColor;
         node.style.borderWidth = `${this.borderWidth}px`;
+        node.style.fontSize = `${this.fontSize}px`;
         node.style.borderStyle = this.getBorderStyle();
         node.id = this.id;
         node.className = "building";

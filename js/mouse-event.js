@@ -3,6 +3,8 @@ function onMouseDown(event) {
     $config.isMouseDown = true;
     $config.startX = event.pageX - 96;
     $config.startY = event.pageY - 72;
+    $config.startLi = Math.ceil((event.pageY - 72) / 30);
+    $config.startCo = Math.ceil((event.pageX - 96) / 30);
     if (
         event.path.length > 3 &&
         event.path[1].id !== "selection-operation" &&
@@ -53,6 +55,43 @@ function onMouseUp(event) {
     $config.isMouseDown = false;
     if ($config.dragMap.isDragging) {
         $config.dragMap.isDragging = false;
+    }
+    if ($config.holding.isRoad) {
+        let li = Math.ceil((event.pageY - 72) / 30);
+        let co = Math.ceil((event.pageX - 96) / 30);
+        $$("road-helper").style.display = "none";
+        if (li === $config.startLi) {
+            let start = co > $config.startCo ? $config.startCo : co;
+            let end = co > $config.startCo ? co : $config.startCo;
+            for (let v of $config.roadCache) {
+                deleteBuilding(v.li, v.co);
+            }
+            for (let i = start; i <= end; i++) {
+                if ($cell[li][i].occupied) continue;
+                createBuilding(
+                    Object.assign({}, $config.holding, {
+                        line: li,
+                        column: i,
+                    })
+                );
+            }
+        } else if (co === $config.startCo) {
+            let start = li > $config.startLi ? $config.startLi : li;
+            let end = li > $config.startLi ? li : $config.startLi;
+            for (let v of $config.roadCache) {
+                deleteBuilding(v.li, v.co);
+            }
+            for (let i = start; i <= end; i++) {
+                if ($cell[i][co].occupied) continue;
+                createBuilding(
+                    Object.assign({}, $config.holding, {
+                        line: i,
+                        column: co,
+                    })
+                );
+            }
+        }
+        $config.roadCache = [];
     }
     if (
         $config.operation === "selecting-building" &&
@@ -125,6 +164,28 @@ function onMouseClick(event) {
                 column: co - $config.holding.offsetCo,
             })
         );
+        if ($config.holding.isRoad) {
+            $config.roadCache.push({ li: li - $config.holding.offsetLi, co: co - $config.holding.offsetCo });
+            if (li === $config.startLi) {
+                let width = Math.abs(co - $config.startCo) + 1;
+                let left = co > $config.startCo ? $config.startCo : co;
+                $$("road-helper").style.display = "block";
+                $$("road-helper").style.width = `${width * 30}px`;
+                $$("road-helper").style.height = "30px";
+                $$("road-helper").style.left = `${(left - 1) * 30}px`;
+                $$("road-helper").style.top = `${(li - 1) * 30}px`;
+            } else if (co === $config.startCo) {
+                let height = Math.abs(li - $config.startLi) + 1;
+                let top = li > $config.startLi ? $config.startLi : li;
+                $$("road-helper").style.display = "block";
+                $$("road-helper").style.width = "30px";
+                $$("road-helper").style.height = `${height * 30}px`;
+                $$("road-helper").style.left = `${(co - 1) * 30}px`;
+                $$("road-helper").style.top = `${(top - 1) * 30}px`;
+            } else {
+                $$("road-helper").style.display = "none";
+            }
+        }
     }
 }
 
@@ -163,6 +224,7 @@ function onMouseMove(event) {
         preview.style.display = "flex";
     } else if (
         $config.operation === "placing-building" &&
+        event.path.length > 3 &&
         (event.path[0].id === "building" || event.path[0].id === "preview" || event.path[1].id === "preview")
     ) {
         setupPreview(li, co);

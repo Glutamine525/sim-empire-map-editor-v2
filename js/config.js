@@ -12,6 +12,8 @@ class Config {
         };
         this.startX = -1;
         this.startY = -1;
+        this.startLi = -1;
+        this.startCo = -1;
         this.nowScrollX = -1;
         this.nowScrollY = -1;
 
@@ -32,6 +34,8 @@ class Config {
         this.operation = "null";
         this.holding = {};
         this.newHold = false;
+
+        this.roadCache = [];
 
         this.civilBuilding = {
             中国: BuildingChina,
