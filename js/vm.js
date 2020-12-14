@@ -110,6 +110,16 @@ var $vm = new Vue({
                     $topNav.setOperation("删除建筑");
                     $$("range-container").innerHTML = "";
                     break;
+                case "导入数据":
+                    exportData();
+                    break;
+                case "导出数据":
+                    importData();
+                    break;
+                case "截图":
+                    $$("range-container").innerHTML = "";
+                    screenshot();
+                    break;
                 default:
                     if (indexPath.length < 2) return;
                     if (indexPath[0] !== "特殊建筑") return;

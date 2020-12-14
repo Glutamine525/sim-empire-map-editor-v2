@@ -56,7 +56,14 @@ function onMouseUp(event) {
     if ($config.dragMap.isDragging) {
         $config.dragMap.isDragging = false;
     }
-    if ($config.holding.isRoad) {
+    if (
+        $config.holding.isRoad &&
+        event.path.length > 3 &&
+        (event.path[0].id === "building" ||
+            event.path[0].id === "road-helper" ||
+            event.path[0].id === "preview" ||
+            event.path[1].id === "preview")
+    ) {
         let li = Math.ceil((event.pageY - 72) / 30);
         let co = Math.ceil((event.pageX - 96) / 30);
         $$("road-helper").style.display = "none";
@@ -67,7 +74,7 @@ function onMouseUp(event) {
                 deleteBuilding(v.li, v.co);
             }
             for (let i = start; i <= end; i++) {
-                if ($cell[li][i].occupied) continue;
+                if (!$cell[li][i].isInRange || $cell[li][i].occupied) continue;
                 createBuilding(
                     Object.assign({}, $config.holding, {
                         line: li,
@@ -82,7 +89,7 @@ function onMouseUp(event) {
                 deleteBuilding(v.li, v.co);
             }
             for (let i = start; i <= end; i++) {
-                if ($cell[i][co].occupied) continue;
+                if (!$cell[i][co].isInRange || $cell[i][co].occupied) continue;
                 createBuilding(
                     Object.assign({}, $config.holding, {
                         line: i,
@@ -149,7 +156,9 @@ function onMouseClick(event) {
     } else if (
         !$config.isCtrlDown &&
         $config.operation === "placing-building" &&
-        $$("preview").style.display === "flex"
+        $$("preview").style.display === "flex" &&
+        event.path.length > 3 &&
+        (event.path[0].id === "building" || event.path[0].id === "preview" || event.path[1].id === "preview")
     ) {
         let { offsetLi, offsetCo, width, height } = $config.holding;
         for (let i = li - offsetLi; i < li - offsetLi + height; i++) {

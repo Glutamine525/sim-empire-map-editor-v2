@@ -61,6 +61,7 @@ class Building {
             node.onmouseover = this.onMouseEnter;
             node.onmouseleave = this.onMouseLeave;
         }
+        if (!this.isFixed) node.ondblclick = this.onMouseDoubleClick;
         node.append(text, marker);
         $$("building").appendChild(node);
         this.updateMarker();
@@ -129,13 +130,18 @@ class Building {
 
     onMouseEnter() {
         if ($config.operation === "deleting-building") return;
-        let unit = parseID(this.id);
-        let building = $cell[unit[0]][unit[1]].occupied;
+        let u = parseID(this.id);
+        let building = $cell[u[0]][u[1]].occupied;
         $range.show(building);
     }
 
     onMouseLeave() {
         if ($config.operation === "deleting-building") return;
         $range.hide(this.id);
+    }
+
+    onMouseDoubleClick() {
+        let u = parseID(this.id);
+        deleteBuilding(u[0], u[1]);
     }
 }

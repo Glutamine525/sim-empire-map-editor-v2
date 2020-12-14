@@ -1,3 +1,27 @@
+function drawCellBoundary() {
+    let sheet = $$("cell");
+    for (let i = 1; i <= $length; i++) {
+        let row = document.createElement("div");
+        row.style.whiteSpace = "nowrap";
+        row.style.display = "flex";
+        for (let j = 1; j <= $length; j++) {
+            let cell = document.createElement("div");
+            cell.style.display = "inline-block";
+            let boundary = isBoundary(i, j);
+            if (boundary) {
+                cell.className = "boundary ";
+                cell.className += boundary;
+            } else if (isInRange(i, j)) {
+                cell.className = "in-range";
+            } else {
+                cell.className = "out-of-range";
+            }
+            row.appendChild(cell);
+        }
+        sheet.appendChild(row);
+    }
+}
+
 function drawCell(borderColor, backgroundColor) {
     let length = $length;
     let canvas = document.getElementById("cell");

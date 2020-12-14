@@ -97,6 +97,8 @@ function onClickCivil(civil) {
     $topNav.setCivil();
     $vm.onChangeCivil();
     $vm.onSelectOperation("取消操作", ["取消操作"]);
+    $config.roadCache = [];
+    $$("road-helper").style.display = "none";
     $$("preview").style.display = "none";
     $selectionBlock.hide();
     $deletionBlock.hide();

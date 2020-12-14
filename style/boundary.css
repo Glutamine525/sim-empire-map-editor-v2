@@ -1,0 +1,167 @@
+.top-left::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    border-left: 20px solid var(--color-background-darker);
+    border-bottom: 20px solid transparent;
+}
+
+.top-left::after {
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    content: "";
+    border-top: 10px solid transparent;
+    border-right: 10px solid var(--color-black);
+}
+
+.bottom-right::before {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    content: "";
+    border-top: 20px solid transparent;
+    border-right: 20px solid var(--color-background-darker);
+}
+
+.bottom-right::after {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    content: "";
+    border-right: 10px solid transparent;
+    border-top: 10px solid var(--color-black);
+    z-index: 1;
+}
+
+.top-right::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    content: "";
+    border-right: 20px solid var(--color-background-darker);
+    border-bottom: 20px solid transparent;
+}
+
+.top-right::after {
+    position: absolute;
+    top: 20px;
+    right: -10px;
+    content: "";
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid var(--color-black);
+    z-index: 1;
+}
+
+.bottom-left::before {
+    position: absolute;
+    top: 10px;
+    left: 0px;
+    content: "";
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid var(--color-background-darker);
+}
+
+.bottom-left::after {
+    position: absolute;
+    top: 0;
+    left: -10px;
+    content: "";
+    border-right: 10px solid var(--color-black);
+    border-bottom: 10px solid transparent;
+}
+
+.angle-top {
+    position: relative;
+    top: 20px;
+    height: 10px !important;
+}
+
+.angle-top::before {
+    position: absolute;
+    top: 0;
+    left: 30px;
+    content: "";
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid var(--color-black);
+    z-index: 1;
+}
+
+.angle-top::after {
+    position: absolute;
+    content: "";
+    top: -30px;
+    border: 15px solid;
+    border-color: transparent transparent var(--color-black) transparent;
+}
+
+.angle-right {
+    position: absolute;
+    left: 0;
+    width: 10px !important;
+}
+
+.angle-right::before {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    content: "";
+    border-left: 10px solid var(--color-black);
+    border-bottom: 10px solid transparent;
+    z-index: 1;
+}
+
+.angle-right::after {
+    position: absolute;
+    content: "";
+    left: 10px;
+    border: 15px solid;
+    border-color: transparent transparent transparent var(--color-black);
+}
+
+.angle-bottom {
+    position: relative;
+    top: 0;
+    height: 10px !important;
+}
+
+.angle-bottom::before {
+    position: absolute;
+    top: 0;
+    left: -10px;
+    content: "";
+    border-right: 10px solid var(--color-black);
+    border-bottom: 10px solid transparent;
+}
+
+.angle-bottom::after {
+    position: absolute;
+    content: "";
+    top: 10px;
+    border: 15px solid;
+    border-color: var(--color-black) transparent transparent transparent;
+}
+
+.angle-left {
+    margin-left: 20px;
+    position: absolute;
+    width: 10px !important;
+}
+
+.angle-left::before {
+    position: absolute;
+    top: -10px;
+    left: 0;
+    content: "";
+    border-right: 10px solid var(--color-black);
+    border-top: 10px solid transparent;
+}
+
+.angle-left::after {
+    position: absolute;
+    content: "";
+    right: 10px;
+    border: 15px solid;
+    border-color: transparent var(--color-black) transparent transparent;
+}

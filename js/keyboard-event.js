@@ -43,6 +43,8 @@ function onKeyUp(event) {
     } else {
         return;
     }
+    $config.roadCache = [];
+    $$("road-helper").style.display = "none";
     $$("preview").style.display = "none";
     $selectionBlock.hide();
     $deletionBlock.hide();

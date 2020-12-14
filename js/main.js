@@ -26,6 +26,7 @@ const topNavResizeObserver = new ResizeObserver((entries) => {
 topNavResizeObserver.observe($$("top-nav-height-helper"));
 
 initCell();
+// drawCellBoundary();
 $miniMap.init();
 onClickDisplayMode(true);
 drawBoundary("black");
@@ -93,4 +94,4 @@ window.scrollTo({
 });
 
 $$("ghost-container").style.display = "none";
-$$("loading-background").style.display = "none";
+$$("loading-background-container").style.display = "none";

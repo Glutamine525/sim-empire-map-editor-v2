@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,10 +8,12 @@
         <link rel="stylesheet" href="./library/fontawesome.all.css" />
         <link rel="stylesheet" href="./library/element-ui.v2.14.1.css" />
         <script src="./library/jquery.v3.5.1.min.js"></script>
+        <script src="./library/html2canvas.js"></script>
         <link rel="stylesheet" href="./style/color.css" />
         <link rel="stylesheet" href="./style/loading-background.css" />
         <link rel="stylesheet" href="./style/minion.css" />
         <link rel="stylesheet" href="./style/ghost.css" />
+        <link rel="stylesheet" href="./style/boundary.css" />
         <link rel="stylesheet" href="./style/button.css" />
         <link rel="stylesheet" href="./style/switcher.css" />
         <link rel="stylesheet" href="./style/top-menu.css" />
@@ -43,6 +45,7 @@
         <script src="./js/block.js"></script>
         <script src="./js/selection-block.js"></script>
         <script src="./js/deletion-block.js"></script>
+        <script src="./js/import-and-export.js"></script>
     </head>
     <body>
         <div id="app" style="display: none">
@@ -202,11 +205,15 @@
                         <br />
                         其它操作:
                         <br />
-                        1. 按住Ctrl键可以在选中操作时拖动地图
+                        1. 双击建筑可以删除建筑
                         <br />
-                        2. 使用相同大小的建筑可以覆盖通用建筑
+                        2. 按住Ctrl键可以在选中操作时拖动地图
                         <br />
-                        3. 如果无法放置建筑，尝试按一次Ctrl
+                        3. 使用相同大小的建筑可以覆盖通用建筑
+                        <br />
+                        4. 特殊建筑的数据也会被导入导出
+                        <br />
+                        5. 如果无法放置建筑，尝试按一次Ctrl
                         <br />
                         --------------------------------------------
                         <br />
@@ -304,11 +311,14 @@
                 </div>
                 <div id="content">
                     <div id="map">
+                        <!-- <div id="cell-container"> -->
                         <canvas id="cell" width="3480" height="3480"></canvas>
+                        <!-- </div> -->
+                        <!-- <div id="cell"></div> -->
                         <div id="building"></div>
                         <div id="sign"></div>
                     </div>
-                    <div style="position: absolute; margin: 72px 32px 32px 96px; top: 0; left: 0">
+                    <div id="map-function" style="position: absolute; margin: 72px 32px 32px 96px; top: 0; left: 0">
                         <div id="preview" class="building">
                             <div id="preview-text" class="text"></div>
                             <div id="preview-marker" class="marker"></div>
@@ -599,7 +609,10 @@
             </div>
             <div id="ghost-text">Loading...</div>
         </div>
-        <div id="loading-background"></div>
+        <div id="loading-background-container">
+            <div id="loading-background"></div>
+        </div>
+        <a href="" id="download" download="" style="display: none"></a>
         <script src="./library/vue.v2.6.12.js"></script>
         <script src="./library/element-ui.v2.14.1.js"></script>
         <script>
