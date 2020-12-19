@@ -1,5 +1,5 @@
 function drawCellBoundary() {
-    let sheet = $$("cell");
+    let sheet = $$("cell-helper");
     for (let i = 1; i <= $length; i++) {
         let row = document.createElement("div");
         row.style.whiteSpace = "nowrap";

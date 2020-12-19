@@ -8,12 +8,12 @@
         <link rel="stylesheet" href="./library/fontawesome.all.css" />
         <link rel="stylesheet" href="./library/element-ui.v2.14.1.css" />
         <script src="./library/jquery.v3.5.1.min.js"></script>
-        <script src="./library/html2canvas.js"></script>
+        <script src="./library/html2canvas.min.js"></script>
         <link rel="stylesheet" href="./style/color.css" />
+        <link rel="stylesheet" href="./style/boundary.css" />
         <link rel="stylesheet" href="./style/loading-background.css" />
         <link rel="stylesheet" href="./style/minion.css" />
         <link rel="stylesheet" href="./style/ghost.css" />
-        <link rel="stylesheet" href="./style/boundary.css" />
         <link rel="stylesheet" href="./style/button.css" />
         <link rel="stylesheet" href="./style/switcher.css" />
         <link rel="stylesheet" href="./style/top-menu.css" />
@@ -311,14 +311,12 @@
                 </div>
                 <div id="content">
                     <div id="map">
-                        <!-- <div id="cell-container"> -->
                         <canvas id="cell" width="3480" height="3480"></canvas>
-                        <!-- </div> -->
-                        <!-- <div id="cell"></div> -->
+                        <div id="cell-helper"></div>
                         <div id="building"></div>
                         <div id="sign"></div>
                     </div>
-                    <div id="map-function" style="position: absolute; margin: 72px 32px 32px 96px; top: 0; left: 0">
+                    <div style="position: absolute; margin: 72px 32px 32px 96px; top: 0; left: 0">
                         <div id="preview" class="building">
                             <div id="preview-text" class="text"></div>
                             <div id="preview-marker" class="marker"></div>

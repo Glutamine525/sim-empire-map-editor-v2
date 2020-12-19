@@ -26,7 +26,7 @@ const topNavResizeObserver = new ResizeObserver((entries) => {
 topNavResizeObserver.observe($$("top-nav-height-helper"));
 
 initCell();
-// drawCellBoundary();
+drawCellBoundary();
 $miniMap.init();
 onClickDisplayMode(true);
 drawBoundary("black");
@@ -62,14 +62,14 @@ if ("backdrop-filter" in document.documentElement.style) {
     sideMenu.style.width = "56px";
     sideMenu.style.margin = "0 0 3px 4px";
     sideMenu.style.border = "1px solid var(--color-border-darker)";
-    sideMenu.style.borderRadius = "28px";
+    sideMenu.style.borderRadius = "23px";
     sideMenu.style.backdropFilter = "blur(15px)";
     sideMenu.style.boxShadow = "0 0 5px var(--color-border-base)";
     $$$("#side-nav .el-submenu__title", true).forEach((v) => {
-        v.style.borderRadius = "28px";
+        v.style.borderRadius = "23px";
     });
     $$$("#side-nav .el-menu--collapse > .el-menu-item", true).forEach((v) => {
-        v.style.borderRadius = "28px";
+        v.style.borderRadius = "23px";
     });
     $topNav.setHeight($config.height);
     $config.topNavHeight += 8;

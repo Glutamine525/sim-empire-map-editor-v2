@@ -54,14 +54,14 @@
 
 #side-nav .el-menu-item,
 #side-nav .el-submenu__title {
-    height: 51px !important;
-    line-height: 51px !important;
+    height: 46px !important;
+    line-height: 46px !important;
 }
 
 #side-nav .el-menu-item img,
 #side-nav .el-submenu__title img {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     margin: auto;
 }
 

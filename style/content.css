@@ -16,12 +16,16 @@
     /* padding: 5px; */
 }
 
-#cell .row {
+#cell-helper {
+    display: none;
+}
+
+#cell-helper .row {
     display: flex;
     white-space: nowrap;
 }
 
-#cell .in-range {
+#cell-helper .in-range {
     width: 30px;
     height: 30px;
     position: relative;
@@ -30,7 +34,7 @@
     background: var(--color-background-lighter);
 }
 
-#cell .boundary {
+#cell-helper .boundary {
     width: 30px;
     height: 30px;
     position: relative;
@@ -39,7 +43,7 @@
     background: black;
 }
 
-#cell .out-of-range {
+#cell-helper .out-of-range {
     width: 30px;
     height: 30px;
     position: relative;
