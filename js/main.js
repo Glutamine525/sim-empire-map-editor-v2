@@ -59,8 +59,9 @@ if ("backdrop-filter" in document.documentElement.style) {
     $$$("#side-nav > .side-nav-container").style.width = "86px";
     $$$("#side-nav > .side-nav-container").style.margin = "auto 0";
     let sideMenu = $$$("#side-nav > .side-nav-container > .el-menu");
-    sideMenu.style.width = "56px";
-    sideMenu.style.margin = "0 0 3px 4px";
+    // sideMenu.style.width = "56px";
+    sideMenu.style.width = "46px";
+    sideMenu.style.margin = "4px 0 4px 4px";
     sideMenu.style.border = "1px solid var(--color-border-darker)";
     sideMenu.style.borderRadius = "23px";
     sideMenu.style.backdropFilter = "blur(15px)";

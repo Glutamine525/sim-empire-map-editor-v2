@@ -119,7 +119,7 @@ function onClickNoWood(isNoWood) {
             let u = v.split("-").map((w) => +w);
             let id = `${v}-1`;
             delete $cell[u[0]][u[1]].occupied;
-            building.removeChild($$(id));
+            if ($$(id)) building.removeChild($$(id));
             $miniMap.setPixel(u[0], u[1], getColor("--color-background-lighter"), 1, 1);
         });
     } else {

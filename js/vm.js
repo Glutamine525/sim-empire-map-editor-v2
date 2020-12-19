@@ -111,10 +111,10 @@ var $vm = new Vue({
                     $$("range-container").innerHTML = "";
                     break;
                 case "导入数据":
-                    exportData();
+                    importData();
                     break;
                 case "导出数据":
-                    importData();
+                    exportData();
                     break;
                 case "截图":
                     $$("range-container").innerHTML = "";
