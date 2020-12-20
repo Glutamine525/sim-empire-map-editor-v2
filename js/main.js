@@ -96,3 +96,29 @@ window.scrollTo({
 
 $$("ghost-container").style.display = "none";
 $$("loading-background-container").style.display = "none";
+
+// for (let i = 1; i <= $length; i++) {
+//     for (let j = 1; j <= $length; j++) {
+//         if ($cell[i][j].isInRange && !$cell[i][j].occupied) {
+//             createBuilding({
+//                 line: i,
+//                 column: j,
+//                 background: "#FFA500",
+//                 borderColor: "#000000",
+//                 borderWidth: 1,
+//                 color: "#000000",
+//                 height: 1,
+//                 isDecoration: false,
+//                 isGeneral: false,
+//                 isMiracle: false,
+//                 isPreview: true,
+//                 isProtection: false,
+//                 offsetCo: 0,
+//                 offsetLi: 0,
+//                 range: 0,
+//                 text: "宅",
+//                 width: 1,
+//             });
+//         }
+//     }
+// }

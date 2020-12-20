@@ -10,6 +10,7 @@ class Config {
             nowY: -1,
             isDragging: false,
         };
+        this.lastHover = {};
         this.startX = -1;
         this.startY = -1;
         this.startLi = -1;

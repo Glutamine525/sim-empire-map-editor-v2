@@ -146,6 +146,8 @@ function createBuilding(config) {
         for (let i = line - range; i < line + height + range; i++) {
             for (let j = column - range; j < column + width + range; j++) {
                 if (!isInBuildingRange(i, j, line, column, width, height, range)) continue;
+                if (i < 1 || j < 1) continue;
+                if (i > $length || j > $length) continue;
                 if ($cell[i][j][text]) {
                     $cell[i][j][text].push(id);
                 } else {
@@ -173,6 +175,8 @@ function deleteBuilding(li, co, force) {
         for (let i = line - range; i < line + height + range; i++) {
             for (let j = column - range; j < column + width + range; j++) {
                 if (!isInBuildingRange(i, j, line, column, width, height, range)) continue;
+                if (i < 1 || j < 1) continue;
+                if (i > $length || j > $length) continue;
                 $cell[i][j][text].splice($cell[i][j][text].indexOf(id), 1);
                 let b = $cell[i][j].occupied;
                 if (!b) continue;

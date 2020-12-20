@@ -23,7 +23,6 @@ class Building {
         this.barrierType = config.barrierType || "";
         this.isRoad = config.isRoad || false;
         this.isGeneral = config.isGeneral || false;
-        this.specialCode = config.specialCode || "";
         this.marker = config.marker || 0;
         //road sub-border color
         this.isRoadVertex = false;
@@ -142,6 +141,9 @@ class Building {
 
     onMouseDoubleClick() {
         let u = parseID(this.id);
+        if ($cell[u[0]][u[1]].occupied.range) {
+            $$("range-container").removeChild($$(`range-${this.id}`));
+        }
         deleteBuilding(u[0], u[1]);
     }
 }

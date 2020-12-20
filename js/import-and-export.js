@@ -18,7 +18,8 @@ function importData() {
     file.onchange = () => {
         let fr = new FileReader();
         fr.onload = (event) => {
-            let data = JSON.parse(byteToString(event.target.result.split(" ").map((v) => +v)));
+            // let data = JSON.parse(byteToString(event.target.result.split(" ").map((v) => +v)));
+            let data = JSON.parse(base64ToString(event.target.result));
             let dataMD5 = data.md5;
             delete data.md5;
             if (dataMD5 !== md5(JSON.stringify(data))) {
@@ -138,7 +139,8 @@ function exportData() {
     data.roads = roads;
     data.specialBuildings = $vm.specialBuildingList;
     data.md5 = md5(JSON.stringify(data));
-    download(new Blob([stringToByte(JSON.stringify(data)).join(" ")]), `${getDataFileName()}.txt`);
+    // download(new Blob([stringToByte(JSON.stringify(data)).join(" ")]), `${getDataFileName()}.txt`);
+    download(new Blob([stringToBase64(JSON.stringify(data))]), `${getDataFileName()}.txt`);
 }
 
 function screenshot() {
@@ -246,5 +248,17 @@ function byteToString(arr) {
             str += String.fromCharCode(_arr[i]);
         }
     }
+    return str;
+}
+
+function stringToBase64(str) {
+    let encode = encodeURI(str);
+    let base64 = btoa(encode);
+    return base64;
+}
+
+function base64ToString(base64) {
+    let decode = atob(base64);
+    let str = decodeURI(decode);
     return str;
 }

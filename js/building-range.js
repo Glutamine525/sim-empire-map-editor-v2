@@ -14,7 +14,12 @@ class BuildingRange {
                 let co = j - config.range;
                 let cell = document.createElement("div");
                 cell.className = "range-cell";
-                if (!$cell[li + line][co + column].isInRange || !isInBuildingRange(li, co, 0, 0, width, height, range))
+                if (
+                    !$cell[li + line] ||
+                    !$cell[li + line][co + column] ||
+                    !$cell[li + line][co + column].isInRange ||
+                    !isInBuildingRange(li, co, 0, 0, width, height, range)
+                )
                     cell.className += " range-hide";
                 row.appendChild(cell);
             }

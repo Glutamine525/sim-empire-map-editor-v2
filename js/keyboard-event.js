@@ -14,6 +14,44 @@ function onKeyUp(event) {
         return;
     }
     if ($config.isPanelShowed) return;
+    let ctrlKey = event.ctrlKey || event.metaKey;
+    if (ctrlKey && event.keyCode === 67) {
+        if (!Object.keys($config.lastHover).length) {
+            $vm.$message({
+                message: "没有可以复制的建筑！",
+                type: "error",
+                duration: 3000,
+                offset: $config.topNavHeight + 10,
+            });
+            return;
+        }
+        let newHolding = {};
+        newHolding.text = $config.lastHover.text;
+        newHolding.width = $config.lastHover.width;
+        newHolding.height = $config.lastHover.height;
+        newHolding.range = $config.lastHover.range;
+        newHolding.color = $config.lastHover.color;
+        newHolding.background = $config.lastHover.background;
+        newHolding.borderColor = $config.lastHover.borderColor;
+        newHolding.borderWidth = $config.lastHover.borderWidth;
+        newHolding.fontSize = $config.lastHover.fontSize;
+        newHolding.isPreview = true;
+        newHolding.isProtection = $config.civilBuilding[$config.civil]["防"].indexOf($config.lastHover.text) > -1;
+        newHolding.isDecoration = $config.lastHover.isDecoration;
+        newHolding.isGeneral = $config.lastHover.isGeneral;
+        newHolding.isMiracle = $config.lastHover.isMiracle;
+        $config.operation = "placing-building";
+        $config.holding = newHolding;
+        $config.newHold = true;
+        $topNav.setOperation("复制建筑");
+        $vm.$message({
+            message: "已复制该建筑。",
+            type: "success",
+            duration: 3000,
+            offset: $config.topNavHeight + 10,
+        });
+        return;
+    }
     if (event.keyCode === 32) {
         $vm.onSelectOperation("取消操作", ["取消操作"]);
     } else if (event.keyCode === 81) {
