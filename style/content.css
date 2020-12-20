@@ -324,3 +324,23 @@
     position: absolute;
     z-index: 15;
 }
+
+#sign {
+    color: var(--color-text-regular);
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    text-align: right;
+    font-size: 30px;
+    text-shadow: 0 0 5px var(--color-border-base);
+}
+
+#sign .highlight {
+    font-weight: bold;
+    color: var(--color-text-primary);
+}
+
+#sign .link {
+    user-select: text;
+    cursor: pointer;
+}

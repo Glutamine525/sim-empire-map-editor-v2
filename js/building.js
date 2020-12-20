@@ -11,6 +11,8 @@ class Building {
         this.borderWidth = config.borderWidth;
         this.range = config.range || 0;
         this.id = getBuildingID(config);
+        this.name = config.name || "";
+        this.catagory = config.catagory || "";
         this.fontSize = config.fontSize || 16;
         this.borderTop = config.borderTop || true;
         this.borderRight = config.borderRight || true;

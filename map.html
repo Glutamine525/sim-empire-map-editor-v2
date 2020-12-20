@@ -212,11 +212,13 @@
                         <br />
                         3. 使用相同大小的建筑可以覆盖通用建筑
                         <br />
-                        4. 特殊建筑的数据也会被导入导出
+                        4. 如果无法放置建筑，尝试按一次Ctrl
                         <br />
-                        5. 如果无法放置建筑，尝试按一次Ctrl
+                        5. 鼠标悬停在建筑上，按Ctrl+C可以复制建筑
                         <br />
-                        6. 鼠标悬停在建筑上，按Ctrl+C可以复制建筑
+                        6. 特殊建筑的数据会被导入导出
+                        <br />
+                        7. 用户自定义的水印会被导入导出
                         <br />
                         -------------------------------------------------
                         <br />
@@ -233,8 +235,8 @@
                 </el-tooltip>
                 <div id="top-nav-info">
                     <div>
-                        模拟帝国地图编辑器
-                        <strong id="top-nav-version">V2.0</strong>
+                        模拟帝国地图编辑器:
+                        <strong id="top-nav-version"></strong>
                     </div>
                     <div>
                         作者:
@@ -317,7 +319,36 @@
                         <canvas id="cell" width="3480" height="3480"></canvas>
                         <div id="cell-helper"></div>
                         <div id="building"></div>
-                        <div id="sign"></div>
+                        <div id="sign">
+                            <div style="font-size: 100px">
+                                <span id="sign-civil" class="highlight" style="color: var(--color-primary)"></span>
+                                <span> </span>
+                                <span id="sign-wood-num" class="highlight" style="color: var(--color-danger)"></span>
+                                <span> 地图布局</span>
+                            </div>
+                            <div>
+                                <span>From the Map Editor </span>
+                                <span id="sign-version" class="highlight"></span>
+                                <span> Implemented by </span>
+                                <span class="highlight">Glutamine525</span>
+                            </div>
+                            <div>
+                                <span>Github: </span>
+                                <a
+                                    class="highlight link"
+                                    onclick="onClickLink('https://github.com/Glutamine525/sim-empire-map-editor-v2')"
+                                >
+                                    https://github.com/Glutamine525/sim-empire-map-editor-v2
+                                </a>
+                            </div>
+                            <div>
+                                <span>Email: </span>
+                                <span class="highlight link" onclick="onClickLink('glutamine525@gmail.com')">
+                                    glutamine525@gmail.com
+                                </span>
+                            </div>
+                        </div>
+                        <div id="user-sign"></div>
                     </div>
                     <div style="position: absolute; margin: 72px 32px 32px 96px; top: 0; left: 0">
                         <div id="preview" class="building">
@@ -583,8 +614,20 @@
                                 </div>
                             </div>
                         </el-tab-pane>
-                        <el-tab-pane label="添加水印" name="second">TODO</el-tab-pane>
-                        <el-tab-pane label="生成文明" name="third">TODO</el-tab-pane>
+                        <el-tab-pane id="user-sign-editor" label="添加水印" name="second">
+                            <div id="user-sign-preview">
+                                <div class="preview-box">
+                                    <canvas
+                                        id="user-sign-map-preview"
+                                        width="232"
+                                        height="232"
+                                        style="width: 100%; height: 100%"
+                                    ></canvas>
+                                </div>
+                            </div>
+                            <div></div>
+                        </el-tab-pane>
+                        <el-tab-pane label="生成文明" name="third"> TODO </el-tab-pane>
                     </el-tabs>
                 </div>
             </div>

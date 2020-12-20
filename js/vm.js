@@ -117,14 +117,15 @@ var $vm = new Vue({
                     exportData();
                     break;
                 case "截图":
-                    $$("range-container").innerHTML = "";
-                    screenshot();
+                    screenshot(2);
                     break;
                 default:
                     if (indexPath.length < 2) return;
                     if (indexPath[0] !== "特殊建筑") return;
                     let v = this.specialBuildingList.find((v) => v.name === index);
                     if (!v) return;
+                    newHolding.name = v.name;
+                    newHolding.catagory = "特殊建筑";
                     newHolding.text = v.text;
                     newHolding.width = v.width;
                     newHolding.height = v.height;
@@ -149,6 +150,8 @@ var $vm = new Vue({
         onSelectBuilding(index, indexPath) {
             let newHolding = {};
             let selectedBuilding = this.getBuildingInfo($config.civil, indexPath[0], index);
+            newHolding.name = selectedBuilding.name;
+            newHolding.catagory = indexPath[0];
             newHolding.text = selectedBuilding.text;
             newHolding.width = selectedBuilding.size;
             newHolding.height = selectedBuilding.size;

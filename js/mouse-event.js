@@ -277,10 +277,13 @@ function onMouseMove(event) {
     }
     if (
         event.path.length > 3 &&
-        (event.path[0].classList.contains("hoverable") || event.path[1].classList.contains("hoverable"))
+        (event.path[0].classList.contains("building") || event.path[1].classList.contains("building"))
     ) {
         let building = $cell[li][co].occupied;
-        if (!building || building.isFixed) return;
+        if (!building || building.isFixed || building.isRoad) {
+            $config.lastHover = {};
+            return;
+        }
         $config.lastHover = building;
     }
 }

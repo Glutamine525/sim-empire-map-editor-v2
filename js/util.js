@@ -80,3 +80,44 @@ function clearBuilding() {
 function parseID(id) {
     return id.split("-").map((v) => +v);
 }
+
+function copyText(text) {
+    let textarea = document.createElement("textarea");
+    let currentFocus = document.activeElement;
+    let toolBoxwrap = document.getElementById("sign");
+    toolBoxwrap.appendChild(textarea);
+    textarea.value = text;
+    textarea.focus();
+    if (textarea.setSelectionRange) {
+        textarea.setSelectionRange(0, textarea.value.length);
+    } else {
+        textarea.select();
+    }
+    let flag;
+    try {
+        flag = document.execCommand("copy");
+    } catch (eo) {
+        flag = false;
+    }
+    toolBoxwrap.removeChild(textarea);
+    currentFocus.focus();
+    return flag;
+}
+
+function onClickLink(link) {
+    if (copyText(link)) {
+        $vm.$message({
+            message: "已复制该链接。",
+            type: "success",
+            duration: 2000,
+            offset: $config.topNavHeight + 10,
+        });
+    } else {
+        $vm.$message({
+            message: "复制链接失败。",
+            type: "error",
+            duration: 2000,
+            offset: $config.topNavHeight + 10,
+        });
+    }
+}

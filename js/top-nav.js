@@ -54,12 +54,21 @@ function onClickHamButton(checked) {
         $$("main-page").style.overflow = "hidden";
         $$("editor").style.top = `${20 + $config.topNavHeight}px`;
         $$("editor").style.height = `calc(100% - ${60 + $config.topNavHeight}px)`;
+        let img = new Image();
+        img.src = $$("mini-map").toDataURL("image/png");
+        img.onload = () => {
+            $$("user-sign-map-preview").getContext("2d").drawImage(img, 0, 0);
+        };
+        // $$$("#user-sign-preview .preview-box").appendChild($$("map"));
+        // $$("map").style.transform = "scale(0.18)";
     } else {
         // disappear
         $config.isPanelShowed = false;
         $$("editor-container").style.left = "-100%";
         $$("main-page").style.removeProperty("filter");
         $$("main-page").style.removeProperty("overflow");
+        // $$("map").style.transform = "scale(1)";
+        // $$$("#content").appendChild($$("map"));
         window.scrollTo({
             left: $config.nowScrollX,
             top: $config.nowScrollY,
@@ -86,6 +95,13 @@ function onClickWoodNum(woodNum) {
     drawFixedBuilding("clay");
     drawFixedBuilding("wharf");
     if (!$config.isNoWood) onClickNoWood(false);
+    $vm.onSelectOperation("取消操作", ["取消操作"]);
+    $config.roadCache = [];
+    $$("road-helper").style.display = "none";
+    $$("preview").style.display = "none";
+    $selectionBlock.hide();
+    $deletionBlock.hide();
+    $$("sign-wood-num").innerHTML = `${woodNum}木`;
 }
 
 function onClickCivil(civil) {
@@ -102,6 +118,7 @@ function onClickCivil(civil) {
     $$("preview").style.display = "none";
     $selectionBlock.hide();
     $deletionBlock.hide();
+    $$("sign-civil").innerHTML = civil;
     for (let i = 1; i <= $length; i++) {
         for (let j = 1; j <= $length; j++) {
             if ($cell[i][j].occupied && !$cell[i][j].occupied.isFixed) {

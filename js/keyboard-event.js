@@ -26,6 +26,8 @@ function onKeyUp(event) {
             return;
         }
         let newHolding = {};
+        newHolding.name = $config.lastHover.name;
+        newHolding.catagory = $config.lastHover.catagory;
         newHolding.text = $config.lastHover.text;
         newHolding.width = $config.lastHover.width;
         newHolding.height = $config.lastHover.height;
@@ -43,7 +45,7 @@ function onKeyUp(event) {
         $config.operation = "placing-building";
         $config.holding = newHolding;
         $config.newHold = true;
-        $topNav.setOperation("复制建筑");
+        $topNav.setOperation(newHolding.catagory + "-" + newHolding.name);
         $vm.$message({
             message: "已复制该建筑。",
             type: "success",
