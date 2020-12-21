@@ -96,11 +96,38 @@ Day/Night and Gender toggle buttons
         #d3d3d3 7px -7px 0 5px;
     transition: opacity 100ms ease-in;
 }
+@-webkit-keyframes starry_star {
+    50% {
+        background-color: rgba(255, 255, 255, 0.1);
+        box-shadow: #fff 30px -3px 0 0, #fff 12px 10px 0 -1px, rgba(255, 255, 255, 0.1) 38px 18px 0 1px,
+            #fff 32px 34px 0 0, rgba(255, 255, 255, 0.1) 20px 24px 0 -1.5px, #fff 5px 38px 0 1px;
+    }
+}
 @keyframes starry_star {
     50% {
         background-color: rgba(255, 255, 255, 0.1);
         box-shadow: #fff 30px -3px 0 0, #fff 12px 10px 0 -1px, rgba(255, 255, 255, 0.1) 38px 18px 0 1px,
             #fff 32px 34px 0 0, rgba(255, 255, 255, 0.1) 20px 24px 0 -1.5px, #fff 5px 38px 0 1px;
+    }
+}
+@-webkit-keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 100;
+        transform: scale(1.1);
+    }
+    55% {
+        transform: scale(1.1);
+    }
+    75% {
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 100;
+        transform: scale(1);
     }
 }
 @keyframes bounceIn {
@@ -135,6 +162,7 @@ Day/Night and Gender toggle buttons
     background-color: #fff;
     box-shadow: rgba(255, 255, 255, 0.1) 30px -3px 0 0, rgba(255, 255, 255, 0.1) 12px 10px 0 -1px, #fff 38px 18px 0 1px,
         rgba(255, 255, 255, 0.1) 32px 34px 0 0, #fff 20px 24px 0 -1.5px, rgba(255, 255, 255, 0.1) 5px 38px 0 1px;
+    -webkit-animation: starry_star 5s ease-in-out infinite;
     animation: starry_star 5s ease-in-out infinite;
 }
 .toggle--daynight .toggle--feature:before {
@@ -160,10 +188,15 @@ Day/Night and Gender toggle buttons
 }
 .toggle--daynight .toggle--checkbox:checked + .toggle--btn:after {
     opacity: 100;
+    -webkit-animation-name: bounceIn;
     animation-name: bounceIn;
+    -webkit-animation-duration: 0.6s;
     animation-duration: 0.6s;
+    -webkit-animation-delay: 0.1s;
     animation-delay: 0.1s;
+    -webkit-animation-fill-mode: backwards;
     animation-fill-mode: backwards;
+    -webkit-animation-timing-function: ease-in-out;
     animation-timing-function: ease-in-out;
 }
 .toggle--daynight .toggle--checkbox:checked + .toggle--btn > .toggle--feature {
@@ -171,6 +204,7 @@ Day/Night and Gender toggle buttons
     box-shadow: rgba(255, 255, 255, 0.1) 30px -3px 0 -4px, rgba(255, 255, 255, 0.1) 12px 10px 0 -5px,
         #fff 38px 18px 0 -3px, rgba(255, 255, 255, 0.1) 32px 34px 0 -4px, #fff 20px 24px 0 -5.5px,
         rgba(255, 255, 255, 0.1) 5px 38px 0 -3px;
+    -webkit-animation: none;
     animation: none;
 }
 .toggle--daynight .toggle--checkbox:checked + .toggle--btn > .toggle--feature:before {

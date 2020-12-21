@@ -124,6 +124,20 @@
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAIAAAC0Ujn1AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAEXRFWHRTb2Z0d2FyZQBTbmlwYXN0ZV0Xzt0AAAE6SURBVEiJ7VVLEsIwCAWuUZe297+A9+g0LvUYLS4YkeHTVN24MJsyvPBCII/iPM8AME73tgxiwHNZzwcortulLQMiMrPFZF3biZnFjqgwVrEkH4136zzeKl51prwAQNd20k1ip3mJEe9kt3lqPXOc7sxsN2kFJXcX35ZBYm25LYrrdvEuxPN4i52Ruuv9XB1iVz21Pb/q20GUoFhV3xBxB7WGp9aT087A8y2lqHNSxKrOiEfQ+GZsrNjk0nSXcg9GUfdmYuxLjZYuzcXy6trX6qsgO51JeaGnVbJ5RdilnzorrZKembJr3yJ7V6uJGvV2rg77UzRqNVdj1bdv1Si1O6K3iFqtJmo8orcKtbFkZ7TO7q7eInuMJZ3ROn9la1dvDo2x/3+jp/7/G3/03/iWVint20G9RV4b+wB4s+9T4iL+igAAAABJRU5ErkJggg==) !important;
 }
 
+@-webkit-keyframes radiate {
+    0% {
+        transform: scale(0);
+    }
+    50%,
+    75% {
+        transform: scale(1.5);
+    }
+    78%,
+    100% {
+        opacity: 0;
+    }
+}
+
 @keyframes radiate {
     0% {
         transform: scale(0);
@@ -147,7 +161,9 @@
     opacity: 0.7;
     z-index: 6;
     border-radius: 50%;
+    -webkit-animation: radiate 2s infinite cubic-bezier(0, 0, 0.49, 1.02);
     animation: radiate 2s infinite cubic-bezier(0, 0, 0.49, 1.02);
+    -webkit-animation-delay: 300ms;
     animation-delay: 300ms;
 }
 
@@ -280,10 +296,12 @@
 }
 
 #mini-map-container span:nth-child(2)::before {
+    -webkit-animation-delay: -2s;
     animation-delay: -2s;
 }
 
 #mini-map-container span:nth-child(4)::before {
+    -webkit-animation-delay: -2s;
     animation-delay: -2s;
 }
 
@@ -293,7 +311,27 @@
     width: 100%;
     height: 3px;
     background: var(--color-primary);
+    -webkit-animation: spin-border 4s linear infinite;
     animation: spin-border 4s linear infinite;
+}
+
+@-webkit-keyframes spin-border {
+    0% {
+        transform: scaleX(0);
+        transform-origin: left;
+    }
+    50% {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+    50.1% {
+        transform: scaleX(1);
+        transform-origin: right;
+    }
+    100% {
+        transform: scaleX(0);
+        transform-origin: right;
+    }
 }
 
 @keyframes spin-border {
@@ -348,6 +386,9 @@
 }
 
 #author-sign .link {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
     user-select: text;
     cursor: pointer;
 }

@@ -15,8 +15,15 @@
     background-color: #f2f2f2;
     border-radius: 70px 70px 0 0;
     position: relative;
+    -webkit-animation: floating 2s infinite ease-in-out;
     animation: floating 2s infinite ease-in-out;
     transform: translateY(-120px);
+}
+
+@-webkit-keyframes floating {
+    50% {
+        transform: translateY(-60px);
+    }
 }
 
 @keyframes floating {
