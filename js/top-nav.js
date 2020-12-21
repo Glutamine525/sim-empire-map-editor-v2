@@ -66,6 +66,7 @@ function onClickHamButton(checked) {
         $$("sign").style.height = "3480px";
         $$("sign").style.pointerEvents = "none";
         $$("sign").style.position = "absolute";
+        $$("user-sign").style.display = "block";
     } else {
         // disappear
         $config.isPanelShowed = false;
@@ -79,6 +80,7 @@ function onClickHamButton(checked) {
         $$("sign").style.removeProperty("transform");
         $$("sign").style.removeProperty("pointer-events");
         $$("sign").style.position = "relative";
+        $$("user-sign").style.display = "none";
         $$("map").appendChild($$("sign"));
         window.scrollTo({
             left: $config.nowScrollX,
@@ -174,6 +176,11 @@ function onClickDisplayMode(isLightMode) {
     }
     drawCell(getColor("--color-border-lighter"), getColor("--color-background-lighter"));
     $miniMap.onChangeDisplayMode();
+    let img = new Image();
+    img.src = $$("mini-map").toDataURL("image/png");
+    img.onload = () => {
+        $$("user-sign-map-preview").getContext("2d").drawImage(img, 0, 0);
+    };
 }
 
 function onClickMiniMap(show) {

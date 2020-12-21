@@ -42,6 +42,32 @@ var $vm = new Vue({
                 isDecoration: false,
                 isMiracle: false,
             },
+            userSign: [
+                {
+                    name: "创作者",
+                    top: 0,
+                    left: 0,
+                    textAlign: "left",
+                    lines: [
+                        {
+                            fontSize: 30,
+                            elements: [
+                                {
+                                    isHighlight: false,
+                                    color: null,
+                                    text: "",
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+            radioLabelUserSign: "创作者",
+            radioLabelUserSignLine: "第1行",
+            radioLabelUserSignElement: "第1个",
+            radioIndexUserSign: 0,
+            radioIndexUserSignLine: 0,
+            radioIndexUserSignElement: 0,
         };
     },
     computed: {
@@ -237,6 +263,216 @@ var $vm = new Vue({
                 offset: $config.topNavHeight + 10,
             });
             this.specialBuildingList.splice(index, 1);
+        },
+        onChangeRadioUserSign() {
+            this.radioIndexUserSign = this.userSign.findIndex((v) => v.name === this.radioLabelUserSign);
+            this.radioLabelUserSignLine = "第1行";
+            this.radioLabelUserSignElement = "第1个";
+            this.radioIndexUserSignLine = 0;
+            this.radioIndexUserSignElement = 0;
+        },
+        onChangeRadioUserSignLine() {
+            this.radioIndexUserSignLine =
+                +this.radioLabelUserSignLine.substring(1, this.radioLabelUserSignLine.length - 1) - 1;
+            this.radioLabelUserSignElement = "第1个";
+            this.radioIndexUserSignElement = 0;
+        },
+        insertUserSign() {
+            this.$prompt("请输入水印名称", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                inputValidator: (value) => this.userSign.findIndex((v) => v.name === value) === -1,
+                inputErrorMessage: "水印名称重复",
+            })
+                .then(({ value }) => {
+                    if (this.userSign.length >= 10) {
+                        this.$message({
+                            type: "error",
+                            message: "最多添加10个水印！",
+                            duration: 3000,
+                            offset: $config.topNavHeight + 10,
+                        });
+                        return;
+                    }
+                    this.userSign.push({
+                        name: value,
+                        top: 0,
+                        left: 0,
+                        textAlign: "left",
+                        lines: [
+                            {
+                                fontSize: 30,
+                                elements: [
+                                    {
+                                        isHighlight: false,
+                                        color: null,
+                                        text: "",
+                                    },
+                                ],
+                            },
+                        ],
+                    });
+                    this.$message({
+                        type: "success",
+                        message: `已创建新水印: ${value}`,
+                        duration: 3000,
+                        offset: $config.topNavHeight + 10,
+                    });
+                })
+                .catch(() => {});
+        },
+        insertUserSignLine() {
+            if (this.userSign[this.radioIndexUserSign].lines.length >= 10) {
+                this.$message({
+                    type: "error",
+                    message: "每个水印最多添加10行！",
+                    duration: 3000,
+                    offset: $config.topNavHeight + 10,
+                });
+                return;
+            }
+            this.userSign[this.radioIndexUserSign].lines.push({
+                fontSize: 30,
+                elements: [
+                    {
+                        isHighlight: false,
+                        color: null,
+                        text: "",
+                    },
+                ],
+            });
+        },
+        insertUserSignElement() {
+            if (this.userSign[this.radioIndexUserSign].lines[this.radioIndexUserSignLine].elements.length >= 10) {
+                this.$message({
+                    type: "error",
+                    message: "每行最多添加10个元素！",
+                    duration: 3000,
+                    offset: $config.topNavHeight + 10,
+                });
+                return;
+            }
+            this.userSign[this.radioIndexUserSign].lines[this.radioIndexUserSignLine].elements.push({
+                isHighlight: false,
+                color: null,
+                text: "",
+            });
+        },
+        updateUserSign() {
+            this.$prompt("请输入水印名称", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                inputValidator: (value) => this.userSign.findIndex((v) => v.name === value) === -1,
+                inputErrorMessage: "水印名称重复",
+            })
+                .then(({ value }) => {
+                    let newSign = Object.assign({}, this.userSign[this.radioIndexUserSign]);
+                    newSign.name = value;
+                    this.userSign.splice(this.radioIndexUserSign, 1, newSign);
+                    this.radioLabelUserSign = value;
+                    this.$message({
+                        type: "success",
+                        message: `已修改该水印名称为: ${value}`,
+                        duration: 3000,
+                        offset: $config.topNavHeight + 10,
+                    });
+                })
+                .catch(() => {});
+        },
+        deleteUserSign() {
+            this.$confirm("是否确认删除该水印？", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+                .then(() => {
+                    if (this.userSign.length === 1) {
+                        this.$message({
+                            type: "error",
+                            message: "只剩下最后一个水印，无法删除！",
+                            duration: 3000,
+                            offset: $config.topNavHeight + 10,
+                        });
+                        return;
+                    }
+                    this.userSign.splice(this.radioIndexUserSign, 1);
+                    this.radioLabelUserSign = this.userSign[0].name;
+                    this.radioLabelUserSignLine = "第1行";
+                    this.radioLabelUserSignElement = "第1个";
+                    this.radioIndexUserSign = 0;
+                    this.radioIndexUserSignLine = 0;
+                    this.radioIndexUserSignElement = 0;
+                    this.$message({
+                        type: "success",
+                        message: "删除成功!",
+                        duration: 3000,
+                        offset: $config.topNavHeight + 10,
+                    });
+                })
+                .catch(() => {});
+        },
+        deleteUserSignLine() {
+            this.$confirm("是否确认删除该行？", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+                .then(() => {
+                    if (this.userSign[this.radioIndexUserSign].lines.length === 1) {
+                        this.$message({
+                            type: "error",
+                            message: "只剩下最后一行，无法删除！",
+                            duration: 3000,
+                            offset: $config.topNavHeight + 10,
+                        });
+                        return;
+                    }
+                    this.userSign[this.radioIndexUserSign].lines.splice(this.radioIndexUserSignLine, 1);
+                    this.radioLabelUserSignLine = "第1行";
+                    this.radioLabelUserSignElement = "第1个";
+                    this.radioIndexUserSignLine = 0;
+                    this.radioIndexUserSignElement = 0;
+                    this.$message({
+                        type: "success",
+                        message: "删除成功!",
+                        duration: 3000,
+                        offset: $config.topNavHeight + 10,
+                    });
+                })
+                .catch(() => {});
+        },
+        deleteUserSignElement() {
+            this.$confirm("是否确认删除该元素？", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+                .then(() => {
+                    if (
+                        this.userSign[this.radioIndexUserSign].lines[this.radioIndexUserSignLine].elements.length === 1
+                    ) {
+                        this.$message({
+                            type: "error",
+                            message: "只剩下最后一个元素，无法删除！",
+                            duration: 3000,
+                            offset: $config.topNavHeight + 10,
+                        });
+                        return;
+                    }
+                    this.userSign[this.radioIndexUserSign].lines[this.radioIndexUserSignLine].elements.splice(
+                        this.radioIndexUserSignElement,
+                        1
+                    );
+                    this.radioLabelUserSignElement = "第1个";
+                    this.radioIndexUserSignElement = 0;
+                    this.$message({
+                        type: "success",
+                        message: "删除成功!",
+                        duration: 3000,
+                        offset: $config.topNavHeight + 10,
+                    });
+                })
+                .catch(() => {});
         },
     },
     created() {},

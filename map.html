@@ -167,13 +167,13 @@
                                 <label class="toggle--btn" for="toggle-mini-map"></label>
                             </div>
                         </div>
-                        <div>
+                        <!-- <div>
                             <div>旋转地图:</div>
                             <div class="toggle toggle--ordinary">
                                 <input disabled="true" type="checkbox" id="toggle-rotation" class="toggle--checkbox" />
                                 <label class="toggle--btn" for="toggle-rotation"></label>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div id="top-nav-operation">
@@ -353,7 +353,30 @@
                                     </span>
                                 </div>
                             </div>
-                            <div id="user-sign"></div>
+                            <div id="user-sign" style="display: none">
+                                <div
+                                    v-for="(sign, i) in userSign"
+                                    :key="'sign-'+i"
+                                    :style="{ 
+                                        textAlign: sign.textAlign,
+                                        top: sign.top+'px',
+                                        left: sign.left+'px',
+                                    }"
+                                >
+                                    <div
+                                        v-for="(line, j) in userSign[i].lines"
+                                        :style="{ fontSize: line.fontSize+'px' }"
+                                    >
+                                        <span
+                                            v-for="(element, k) in userSign[i].lines[j].elements"
+                                            :class="{ highlight: element.isHighlight }"
+                                            :style="{ color: element.color }"
+                                        >
+                                            {{ element.text }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div style="position: absolute; margin: 72px 32px 32px 96px; top: 0; left: 0">
@@ -630,8 +653,216 @@
                                         style="width: 100%; height: 100%"
                                     ></canvas>
                                 </div>
+                                <div class="preview-operation">
+                                    <div>
+                                        <el-button
+                                            type="info"
+                                            size="small"
+                                            round
+                                            onclick="$$('toggle-display-mode').checked=true, onClickDisplayMode(true)"
+                                        >
+                                            亮色
+                                        </el-button>
+                                        <el-button
+                                            type="info"
+                                            size="small"
+                                            round
+                                            onclick="$$('toggle-display-mode').checked=false, onClickDisplayMode(false)"
+                                        >
+                                            暗色
+                                        </el-button>
+                                        <el-button type="warning" size="small" round onclick="screenshot(2, true)">
+                                            截图
+                                        </el-button>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="user-sign-setting"></div>
+                            <div id="user-sign-setting">
+                                <div class="setting-row">
+                                    <span style="margin-right: 10px">水印:</span>
+                                    <el-button
+                                        size="mini"
+                                        type="primary"
+                                        round
+                                        style="margin-right: 10px"
+                                        @click="insertUserSign"
+                                    >
+                                        添加
+                                    </el-button>
+                                    <el-radio-group
+                                        v-model="radioLabelUserSign"
+                                        size="mini"
+                                        @change="onChangeRadioUserSign"
+                                    >
+                                        <el-radio-button
+                                            v-for="item in userSign"
+                                            :key="'radio-sign-'+item.name"
+                                            :label="item.name"
+                                        ></el-radio-button>
+                                    </el-radio-group>
+                                </div>
+                                <div class="setting-row" style="margin-top: 0">
+                                    <span style="margin-right: 10px">&emsp;行:</span>
+                                    <el-button
+                                        size="mini"
+                                        type="primary"
+                                        round
+                                        style="margin-right: 10px"
+                                        @click="insertUserSignLine"
+                                    >
+                                        添加
+                                    </el-button>
+                                    <el-radio-group
+                                        v-model="radioLabelUserSignLine"
+                                        size="mini"
+                                        @change="onChangeRadioUserSignLine"
+                                    >
+                                        <el-radio-button
+                                            v-for="(item, index) in userSign[radioIndexUserSign].lines"
+                                            :key="'radio-sign-line-'+index"
+                                            :label="'第'+(index+1)+'行'"
+                                        ></el-radio-button>
+                                    </el-radio-group>
+                                </div>
+                                <div class="setting-row" style="margin-top: 0">
+                                    <span style="margin-right: 10px">元素:</span>
+                                    <el-button
+                                        size="mini"
+                                        type="primary"
+                                        round
+                                        style="margin-right: 10px"
+                                        @click="insertUserSignElement"
+                                    >
+                                        添加
+                                    </el-button>
+                                    <el-radio-group
+                                        v-model="radioLabelUserSignElement"
+                                        size="mini"
+                                        @change="radioIndexUserSignElement = +radioLabelUserSignElement.substring(1,radioLabelUserSignElement.length-1) - 1"
+                                    >
+                                        <el-radio-button
+                                            v-for="(item, index) in userSign[radioIndexUserSign].lines[radioIndexUserSignLine].elements"
+                                            :key="'radio-sign-element-'+index"
+                                            :label="'第'+(index+1)+'个'"
+                                        ></el-radio-button>
+                                    </el-radio-group>
+                                </div>
+                                <div class="setting-row splitter"></div>
+                                <div class="setting-row">
+                                    <div class="setting-cell">
+                                        <label>水印名称: </label>
+                                        {{ userSign[radioIndexUserSign].name }}
+                                        <el-button
+                                            size="mini"
+                                            type="warning"
+                                            round
+                                            style="margin-left: 10px"
+                                            @click="updateUserSign"
+                                        >
+                                            修改
+                                        </el-button>
+                                        <el-button
+                                            size="mini"
+                                            type="danger"
+                                            round
+                                            style="margin-left: 10px"
+                                            @click="deleteUserSign"
+                                        >
+                                            删除
+                                        </el-button>
+                                    </div>
+                                    <div class="setting-cell">
+                                        <label>对齐样式: </label>
+                                        <el-radio-group v-model="userSign[radioIndexUserSign].textAlign" size="small">
+                                            <el-radio-button label="left">左对齐</el-radio-button>
+                                            <el-radio-button label="right">右对齐</el-radio-button>
+                                        </el-radio-group>
+                                    </div>
+                                </div>
+                                <div class="setting-row">
+                                    <div class="setting-cell">
+                                        <label>上侧边距: </label>
+                                        <el-input-number
+                                            v-model="userSign[radioIndexUserSign].top"
+                                            size="small"
+                                            :min="-1"
+                                            :max="3480"
+                                        ></el-input-number>
+                                    </div>
+                                    <div class="setting-cell">
+                                        <label>左侧边距: </label>
+                                        <el-input-number
+                                            v-model="userSign[radioIndexUserSign].left"
+                                            size="small"
+                                            :min="-1"
+                                            :max="3480"
+                                        ></el-input-number>
+                                    </div>
+                                </div>
+                                <div class="setting-row splitter"></div>
+                                <div class="setting-row">
+                                    <div class="setting-cell">
+                                        <label>{{ radioLabelUserSignLine }}</label>
+                                        <el-button
+                                            size="mini"
+                                            type="danger"
+                                            round
+                                            style="margin-left: 10px"
+                                            @click="deleteUserSignLine"
+                                        >
+                                            删除
+                                        </el-button>
+                                    </div>
+                                    <div class="setting-cell">
+                                        <label>字体大小: </label>
+                                        <el-input-number
+                                            v-model="userSign[radioIndexUserSign].lines[radioIndexUserSignLine].fontSize"
+                                            size="small"
+                                            :min="30"
+                                            :max="200"
+                                        ></el-input-number>
+                                    </div>
+                                </div>
+                                <div class="setting-row splitter"></div>
+                                <div class="setting-row">
+                                    <div class="setting-cell">
+                                        <label>{{ radioLabelUserSignElement }}</label>
+                                        <el-button
+                                            size="mini"
+                                            type="danger"
+                                            round
+                                            style="margin-left: 10px"
+                                            @click="deleteUserSignElement"
+                                        >
+                                            删除
+                                        </el-button>
+                                    </div>
+                                </div>
+                                <div class="setting-row">
+                                    <div class="setting-cell">
+                                        <label>字体加粗: </label>
+                                        <el-switch
+                                            v-model="userSign[radioIndexUserSign].lines[radioIndexUserSignLine].elements[radioIndexUserSignElement].isHighlight"
+                                        ></el-switch>
+                                    </div>
+                                    <div class="setting-cell">
+                                        <label>字体颜色: </label>
+                                        <el-color-picker
+                                            size="small"
+                                            v-model="userSign[radioIndexUserSign].lines[radioIndexUserSignLine].elements[radioIndexUserSignElement].color"
+                                        ></el-color-picker>
+                                    </div>
+                                </div>
+                                <div class="setting-row">
+                                    <label style="margin-right: 10px">显示文字: </label>
+                                    <el-input
+                                        v-model="userSign[radioIndexUserSign].lines[radioIndexUserSignLine].elements[radioIndexUserSignElement].text"
+                                        style="width: calc(50% + 130px)"
+                                        size="small"
+                                    ></el-input>
+                                </div>
+                                <!-- <div class="setting-row splitter"></div> -->
+                            </div>
                         </el-tab-pane>
                         <el-tab-pane label="生成文明" name="third"> TODO </el-tab-pane>
                     </el-tabs>

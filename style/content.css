@@ -328,6 +328,7 @@
 #sign {
     position: relative;
     transform-origin: top left;
+    z-index: 20;
 }
 
 #author-sign {
@@ -340,7 +341,8 @@
     text-shadow: 0 0 5px var(--color-border-base);
 }
 
-#author-sign .highlight {
+#author-sign .highlight,
+#user-sign .highlight {
     font-weight: bold;
     color: var(--color-text-primary);
 }
@@ -348,4 +350,15 @@
 #author-sign .link {
     user-select: text;
     cursor: pointer;
+}
+
+#user-sign > div {
+    color: var(--color-text-regular);
+    position: absolute;
+    font-size: 30px;
+    text-shadow: 0 0 5px var(--color-border-base);
+}
+
+#user-sign span {
+    display: inline-block;
 }

@@ -47,6 +47,7 @@ function importData() {
             $$("toggle-display-mode").checked = data.isLightMode;
             $$("toggle-mini-map").checked = data.showMiniMap;
             $vm.specialBuildingList = data.specialBuildings;
+            $vm.userSign = data.userSign;
             for (let v of data.roads) {
                 createBuilding({
                     line: v.line,
@@ -142,12 +143,13 @@ function exportData() {
     data.buildings = buildings;
     data.roads = roads;
     data.specialBuildings = $vm.specialBuildingList;
+    data.userSign = $vm.userSign;
     data.md5 = md5(JSON.stringify(data));
     // download(new Blob([stringToByte(JSON.stringify(data)).join(" ")]), `${getDataFileName()}.txt`);
     download(new Blob([stringToBase64(JSON.stringify(data))]), `${getDataFileName()}.txt`);
 }
 
-function screenshot(scale) {
+function screenshot(scale, withSign) {
     toggleWaiting(true);
     console.time("sreenshot");
     setTimeout(function () {
@@ -161,6 +163,12 @@ function screenshot(scale) {
         $$("preview").style.display = "none";
         $selectionBlock.hide();
         $deletionBlock.hide();
+        let signScale = "";
+        if (withSign) {
+            signScale = $$("sign").style.transform;
+            $$("sign").style.removeProperty("transform");
+            $$("map").appendChild($$("sign"));
+        }
         let config = {
             useCORS: true,
             width: $length * $cellSize,
@@ -181,6 +189,10 @@ function screenshot(scale) {
                 $$("cell-helper").style.display = "none";
                 toggleWaiting(false);
                 console.timeEnd("download");
+                if (withSign) {
+                    $$("sign").style.transform = signScale;
+                    $$$("#user-sign-preview .preview-box").appendChild($$("sign"));
+                }
             });
         });
     }, 100);
