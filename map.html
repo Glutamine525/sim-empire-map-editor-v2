@@ -320,35 +320,41 @@
                         <div id="cell-helper"></div>
                         <div id="building"></div>
                         <div id="sign">
-                            <div style="font-size: 100px">
-                                <span id="sign-civil" class="highlight" style="color: var(--color-primary)"></span>
-                                <span> </span>
-                                <span id="sign-wood-num" class="highlight" style="color: var(--color-danger)"></span>
-                                <span> 地图布局</span>
+                            <div id="author-sign">
+                                <div style="font-size: 100px">
+                                    <span id="sign-civil" class="highlight" style="color: var(--color-primary)"></span>
+                                    <span> </span>
+                                    <span
+                                        id="sign-wood-num"
+                                        class="highlight"
+                                        style="color: var(--color-danger)"
+                                    ></span>
+                                    <span> 地图布局</span>
+                                </div>
+                                <div>
+                                    <span>From the Map Editor </span>
+                                    <span id="sign-version" class="highlight"></span>
+                                    <span> Implemented by </span>
+                                    <span class="highlight">Glutamine525</span>
+                                </div>
+                                <div>
+                                    <span>Github: </span>
+                                    <a
+                                        class="highlight link"
+                                        onclick="onClickLink('https://github.com/Glutamine525/sim-empire-map-editor-v2')"
+                                    >
+                                        https://github.com/Glutamine525/sim-empire-map-editor-v2
+                                    </a>
+                                </div>
+                                <div>
+                                    <span>Email: </span>
+                                    <span class="highlight link" onclick="onClickLink('glutamine525@gmail.com')">
+                                        glutamine525@gmail.com
+                                    </span>
+                                </div>
                             </div>
-                            <div>
-                                <span>From the Map Editor </span>
-                                <span id="sign-version" class="highlight"></span>
-                                <span> Implemented by </span>
-                                <span class="highlight">Glutamine525</span>
-                            </div>
-                            <div>
-                                <span>Github: </span>
-                                <a
-                                    class="highlight link"
-                                    onclick="onClickLink('https://github.com/Glutamine525/sim-empire-map-editor-v2')"
-                                >
-                                    https://github.com/Glutamine525/sim-empire-map-editor-v2
-                                </a>
-                            </div>
-                            <div>
-                                <span>Email: </span>
-                                <span class="highlight link" onclick="onClickLink('glutamine525@gmail.com')">
-                                    glutamine525@gmail.com
-                                </span>
-                            </div>
+                            <div id="user-sign"></div>
                         </div>
-                        <div id="user-sign"></div>
                     </div>
                     <div style="position: absolute; margin: 72px 32px 32px 96px; top: 0; left: 0">
                         <div id="preview" class="building">
@@ -625,7 +631,7 @@
                                     ></canvas>
                                 </div>
                             </div>
-                            <div></div>
+                            <div id="user-sign-setting"></div>
                         </el-tab-pane>
                         <el-tab-pane label="生成文明" name="third"> TODO </el-tab-pane>
                     </el-tabs>

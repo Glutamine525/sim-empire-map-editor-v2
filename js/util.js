@@ -84,7 +84,7 @@ function parseID(id) {
 function copyText(text) {
     let textarea = document.createElement("textarea");
     let currentFocus = document.activeElement;
-    let toolBoxwrap = document.getElementById("sign");
+    let toolBoxwrap = $$("author-sign");
     toolBoxwrap.appendChild(textarea);
     textarea.value = text;
     textarea.focus();

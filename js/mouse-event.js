@@ -57,6 +57,7 @@ function onMouseUp(event) {
         $config.dragMap.isDragging = false;
     }
     if (
+        !$config.isCtrlDown &&
         $config.holding.isRoad &&
         event.path.length > 3 &&
         (event.path[0].id === "building" ||

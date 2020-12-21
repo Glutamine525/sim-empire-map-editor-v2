@@ -25,6 +25,17 @@ const topNavResizeObserver = new ResizeObserver((entries) => {
 });
 topNavResizeObserver.observe($$("top-nav-height-helper"));
 
+const userSignPreviewResizeObserver = new ResizeObserver((entries) => {
+    let height = 0;
+    for (let entry of entries) {
+        height = entry.contentRect.height;
+    }
+    if ($$("ham-button").className.baseVal.indexOf("active") > -1) {
+        $$("sign").style.transform = `scale(${height / 3480})`;
+    }
+});
+userSignPreviewResizeObserver.observe($$("user-sign-map-preview"));
+
 initCell();
 drawCellBoundary();
 $miniMap.init();

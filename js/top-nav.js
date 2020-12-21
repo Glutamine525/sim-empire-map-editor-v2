@@ -59,16 +59,27 @@ function onClickHamButton(checked) {
         img.onload = () => {
             $$("user-sign-map-preview").getContext("2d").drawImage(img, 0, 0);
         };
-        // $$$("#user-sign-preview .preview-box").appendChild($$("map"));
-        // $$("map").style.transform = "scale(0.18)";
+        $$$("#user-sign-preview .preview-box").appendChild($$("sign"));
+        $$("sign").style.top = 0;
+        $$("sign").style.left = 0;
+        $$("sign").style.width = "3480px";
+        $$("sign").style.height = "3480px";
+        $$("sign").style.pointerEvents = "none";
+        $$("sign").style.position = "absolute";
     } else {
         // disappear
         $config.isPanelShowed = false;
         $$("editor-container").style.left = "-100%";
         $$("main-page").style.removeProperty("filter");
         $$("main-page").style.removeProperty("overflow");
-        // $$("map").style.transform = "scale(1)";
-        // $$$("#content").appendChild($$("map"));
+        $$("sign").style.removeProperty("top");
+        $$("sign").style.removeProperty("left");
+        $$("sign").style.removeProperty("width");
+        $$("sign").style.removeProperty("height");
+        $$("sign").style.removeProperty("transform");
+        $$("sign").style.removeProperty("pointer-events");
+        $$("sign").style.position = "relative";
+        $$("map").appendChild($$("sign"));
         window.scrollTo({
             left: $config.nowScrollX,
             top: $config.nowScrollY,

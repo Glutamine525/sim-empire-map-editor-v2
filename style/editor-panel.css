@@ -90,6 +90,7 @@
 
 #user-sign-preview .preview-box {
     margin-bottom: auto;
+    position: relative;
 }
 
 #special-building-preview .preview-box::before,
@@ -143,14 +144,14 @@
     color: red;
 }
 
-#special-building-setting {
+#special-building-setting,
+#user-sign-setting {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     border-left: 1px solid var(--color-border-base);
     width: 60%;
-    /* background: turquoise; */
 }
 
 #special-building-setting label {
