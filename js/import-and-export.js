@@ -48,6 +48,12 @@ function importData() {
             $$("toggle-mini-map").checked = data.showMiniMap;
             $vm.specialBuildingList = data.specialBuildings;
             $vm.userSign = data.userSign;
+            $vm.radioLabelUserSign = $vm.userSign[0].name;
+            $vm.radioLabelUserSignLine = "第1行";
+            $vm.radioLabelUserSignElement = "第1个";
+            $vm.radioIndexUserSign = 0;
+            $vm.radioIndexUserSignLine = 0;
+            $vm.radioIndexUserSignElement = 0;
             for (let v of data.roads) {
                 createBuilding({
                     line: v.line,
@@ -145,57 +151,66 @@ function exportData() {
     data.specialBuildings = $vm.specialBuildingList;
     data.userSign = $vm.userSign;
     data.md5 = md5(JSON.stringify(data));
-    // download(new Blob([stringToByte(JSON.stringify(data)).join(" ")]), `${getDataFileName()}.txt`);
     download(new Blob([stringToBase64(JSON.stringify(data))]), `${getDataFileName()}.txt`);
 }
 
 function screenshot(scale, withSign) {
-    toggleWaiting(true);
-    console.time("sreenshot");
-    setTimeout(function () {
-        $config.operation = "null";
-        $config.holding = {};
-        $topNav.setOperation("无");
-        $config.roadCache = [];
-        $$("cell").style.display = "none";
-        $$("cell-helper").style.display = "block";
-        $$("road-helper").style.display = "none";
-        $$("preview").style.display = "none";
-        $selectionBlock.hide();
-        $deletionBlock.hide();
-        let signScale = "";
-        if (withSign) {
-            signScale = $$("sign").style.transform;
-            $$("sign").style.removeProperty("transform");
-            $$("map").appendChild($$("sign"));
+    $vm.$confirm(
+        "截图大概需要20秒，请保持页面聚焦状态，不要切换至其它页面或窗口！截图完成后注意检查所有的建筑是否完整，若发现有建筑消失，请尝试再次截图。",
+        "提示",
+        {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning",
         }
-        let config = {
-            useCORS: true,
-            width: $length * $cellSize,
-            height: $length * $cellSize,
-            scale: scale,
-            scrollX: -window.scrollX,
-            scrollY: -window.scrollY,
-            windowWidth: document.documentElement.offsetWidth,
-            windowHeight: document.documentElement.offsetHeight,
-            backgroundColor: getColor("--color-background-darker"),
-        };
-        html2canvas($$("map"), config).then((canvas) => {
-            console.timeEnd("sreenshot");
-            canvas.toBlob((blob) => {
-                console.time("download");
-                download(blob, `${getFileName()}.png`);
-                $$("cell").style.display = "block";
-                $$("cell-helper").style.display = "none";
-                toggleWaiting(false);
-                console.timeEnd("download");
-                if (withSign) {
-                    $$("sign").style.transform = signScale;
-                    $$$("#user-sign-preview .preview-box").appendChild($$("sign"));
-                }
+    ).then(() => {
+        toggleWaiting(true);
+        console.time("sreenshot");
+        setTimeout(function () {
+            $config.operation = "null";
+            $config.holding = {};
+            $topNav.setOperation("无");
+            $config.roadCache = [];
+            $$("cell").style.display = "none";
+            $$("cell-helper").style.display = "block";
+            $$("road-helper").style.display = "none";
+            $$("preview").style.display = "none";
+            $selectionBlock.hide();
+            $deletionBlock.hide();
+            let signScale = "";
+            if (withSign) {
+                signScale = $$("sign").style.transform;
+                $$("sign").style.removeProperty("transform");
+                $$("map").appendChild($$("sign"));
+            }
+            let config = {
+                useCORS: true,
+                width: $length * $cellSize,
+                height: $length * $cellSize,
+                scale: scale,
+                scrollX: -window.scrollX,
+                scrollY: -window.scrollY,
+                windowWidth: document.documentElement.offsetWidth,
+                windowHeight: document.documentElement.offsetHeight,
+                backgroundColor: getColor("--color-background-darker"),
+            };
+            html2canvas($$("map"), config).then((canvas) => {
+                canvas.toBlob((blob) => {
+                    console.timeEnd("sreenshot");
+                    console.time("download");
+                    download(blob, `${getFileName()}.png`);
+                    $$("cell").style.display = "block";
+                    $$("cell-helper").style.display = "none";
+                    toggleWaiting(false);
+                    console.timeEnd("download");
+                    if (withSign) {
+                        $$("sign").style.transform = signScale;
+                        $$$("#user-sign-preview .preview-box").appendChild($$("sign"));
+                    }
+                });
             });
-        });
-    }, 100);
+        }, 100);
+    });
 }
 
 function download(blob, fileName) {

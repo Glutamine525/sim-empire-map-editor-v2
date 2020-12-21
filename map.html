@@ -785,8 +785,10 @@
                                         <el-input-number
                                             v-model="userSign[radioIndexUserSign].top"
                                             size="small"
-                                            :min="-1"
+                                            :min="0"
                                             :max="3480"
+                                            :step="30"
+                                            @blur="onChangeSignTop"
                                         ></el-input-number>
                                     </div>
                                     <div class="setting-cell">
@@ -794,8 +796,10 @@
                                         <el-input-number
                                             v-model="userSign[radioIndexUserSign].left"
                                             size="small"
-                                            :min="-1"
+                                            :min="0"
                                             :max="3480"
+                                            :step="30"
+                                            @blur="onChangeSignLeft"
                                         ></el-input-number>
                                     </div>
                                 </div>
@@ -820,13 +824,15 @@
                                             size="small"
                                             :min="30"
                                             :max="200"
+                                            :step="10"
+                                            @blur="onChangeSignFontSize"
                                         ></el-input-number>
                                     </div>
                                 </div>
                                 <div class="setting-row splitter"></div>
                                 <div class="setting-row">
                                     <div class="setting-cell">
-                                        <label>{{ radioLabelUserSignElement }}</label>
+                                        <label>{{ radioLabelUserSignElement }}元素</label>
                                         <el-button
                                             size="mini"
                                             type="danger"

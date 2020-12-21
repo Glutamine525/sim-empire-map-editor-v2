@@ -63,7 +63,8 @@ class Building {
             node.onmouseleave = this.onMouseLeave;
         }
         if (!this.isFixed) node.ondblclick = this.onMouseDoubleClick;
-        node.append(text, marker);
+        if (this.text) node.append(text);
+        if (!this.isMiracle && !this.isDecoration && !this.isProtection && !this.barrierType) node.append(marker);
         $$("building").appendChild(node);
         this.updateMarker();
     }
@@ -126,7 +127,10 @@ class Building {
                 if (this.marker === $config.protection.length) $$(this.id).lastChild.style.color = "green";
                 if (this.marker < $config.protection.length) $$(this.id).lastChild.style.color = "red";
             }
-        } else $$(this.id).lastChild.style.display = "none";
+            // } else if (!this.isMiracle && !this.isDecoration && !this.isProtection && !this.barrierType) {
+        } else if (this.isRoad) {
+            $$(this.id).lastChild.style.display = "none";
+        }
     }
 
     onMouseEnter() {

@@ -264,6 +264,33 @@ var $vm = new Vue({
             });
             this.specialBuildingList.splice(index, 1);
         },
+        onChangeSignTop() {
+            let reminder = this.userSign[this.radioIndexUserSign].top % 30;
+            if (reminder) {
+                this.userSign[this.radioIndexUserSign].top -= reminder;
+            }
+            if (reminder >= 15) {
+                this.userSign[this.radioIndexUserSign].top += 30;
+            }
+        },
+        onChangeSignLeft() {
+            let reminder = this.userSign[this.radioIndexUserSign].left % 30;
+            if (reminder) {
+                this.userSign[this.radioIndexUserSign].left -= reminder;
+            }
+            if (reminder >= 15) {
+                this.userSign[this.radioIndexUserSign].left += 30;
+            }
+        },
+        onChangeSignFontSize() {
+            let reminder = this.userSign[this.radioIndexUserSign].lines[this.radioIndexUserSignLine].fontSize % 10;
+            if (reminder) {
+                this.userSign[this.radioIndexUserSign].lines[this.radioIndexUserSignLine].fontSize -= reminder;
+            }
+            if (reminder >= 5) {
+                this.userSign[this.radioIndexUserSign].lines[this.radioIndexUserSignLine].fontSize += 10;
+            }
+        },
         onChangeRadioUserSign() {
             this.radioIndexUserSign = this.userSign.findIndex((v) => v.name === this.radioLabelUserSign);
             this.radioLabelUserSignLine = "第1行";

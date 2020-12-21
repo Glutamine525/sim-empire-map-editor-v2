@@ -46,14 +46,6 @@ onClickWoodNum(5);
 $$("top-nav-version").innerHTML = $config.version;
 $$("sign-version").innerHTML = $config.version;
 $$("sign-civil").innerHTML = "中国";
-document.onclick = onMouseClick;
-document.onmousemove = onMouseMove;
-document.onmousedown = onMouseDown;
-document.onmouseup = onMouseUp;
-document.onkeydown = onKeyDown;
-document.onkeyup = onKeyUp;
-document.onscroll = onScroll;
-window.onresize = onResize;
 
 if ("backdrop-filter" in document.documentElement.style) {
     // if (false) {
@@ -111,28 +103,11 @@ window.scrollTo({
 $$("ghost-container").style.display = "none";
 $$("loading-background-container").style.display = "none";
 
-// for (let i = 1; i <= $length; i++) {
-//     for (let j = 1; j <= $length; j++) {
-//         if ($cell[i][j].isInRange && !$cell[i][j].occupied) {
-//             createBuilding({
-//                 line: i,
-//                 column: j,
-//                 background: "#FFA500",
-//                 borderColor: "#000000",
-//                 borderWidth: 1,
-//                 color: "#000000",
-//                 height: 1,
-//                 isDecoration: false,
-//                 isGeneral: false,
-//                 isMiracle: false,
-//                 isPreview: true,
-//                 isProtection: false,
-//                 offsetCo: 0,
-//                 offsetLi: 0,
-//                 range: 0,
-//                 text: "宅",
-//                 width: 1,
-//             });
-//         }
-//     }
-// }
+document.onclick = onMouseClick;
+document.onmousemove = onMouseMove;
+document.onmousedown = onMouseDown;
+document.onmouseup = onMouseUp;
+document.onkeydown = onKeyDown;
+document.onkeyup = onKeyUp;
+document.onscroll = onScroll;
+window.onresize = onResize;
