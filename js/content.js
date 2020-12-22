@@ -2,11 +2,12 @@ function drawCellBoundary() {
     let sheet = $$("cell-helper");
     for (let i = 1; i <= $length; i++) {
         let row = document.createElement("div");
-        row.style.whiteSpace = "nowrap";
-        row.style.display = "flex";
+        row.className = "row";
+        // row.style.whiteSpace = "nowrap";
+        // row.style.display = "flex";
         for (let j = 1; j <= $length; j++) {
             let cell = document.createElement("div");
-            cell.style.display = "inline-block";
+            // cell.style.display = "inline-block";
             let boundary = isBoundary(i, j);
             if (boundary) {
                 cell.className = "boundary ";
@@ -517,4 +518,6 @@ function setupPreview(li, co) {
     preview.style.top = `${(li - 1 - $config.holding.offsetLi) * $cellSize}px`;
     preview.style.left = `${(co - 1 - $config.holding.offsetCo) * $cellSize}px`;
     preview.style.display = "flex";
+    preview.style.display = "-webkit-box";
+    preview.style.display = "-ms-flexbox";
 }

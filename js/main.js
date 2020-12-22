@@ -32,6 +32,8 @@ const userSignPreviewResizeObserver = new ResizeObserver((entries) => {
     }
     if ($$("ham-button").className.baseVal.indexOf("active") > -1) {
         $$("sign").style.transform = `scale(${height / 3480})`;
+        $$("sign").style.msTransform = `scale(${height / 3480})`;
+        $$("sign").style.webkitTransform = `scale(${height / 3480})`;
     }
 });
 userSignPreviewResizeObserver.observe($$("user-sign-map-preview"));
@@ -53,25 +55,33 @@ if ("backdrop-filter" in document.documentElement.style) {
     let topNav = $$("top-nav");
     topNav.style.background = "transparent";
     topNav.style.backdropFilter = "blur(15px)";
+    topNav.style.webkitBackdropFilter = "blur(15px)";
     topNav.style.margin = "4px";
     topNav.style.borderRadius = "20px";
     topNav.style.border = "1px solid var(--color-border-darker)";
     topNav.style.width = "calc(100% - 10px)";
     topNav.style.boxShadow = "0 0 5px var(--color-border-base)";
+    topNav.style.webkitBoxShadow = "0 0 5px var(--color-border-base)";
     $$("side-nav").style.background = "transparent";
     $$("side-nav").style.width = "66px";
     $$("side-nav").style.display = "flex";
+    $$("side-nav").style.display = "-webkit-box";
+    $$("side-nav").style.display = "-ms-flexbox";
     $$("side-nav").style.flexDirection = "column";
+    $$("side-nav").style.webkitBoxOrient = "vertical";
+    $$("side-nav").style.webkitBoxDirection = "normal";
+    $$("side-nav").style.msFlexDirection = "column";
     $$$("#side-nav > .side-nav-container").style.width = "86px";
     $$$("#side-nav > .side-nav-container").style.margin = "auto 0";
     let sideMenu = $$$("#side-nav > .side-nav-container > .el-menu");
-    // sideMenu.style.width = "56px";
     sideMenu.style.width = "46px";
     sideMenu.style.margin = "4px 0 4px 4px";
     sideMenu.style.border = "1px solid var(--color-border-darker)";
     sideMenu.style.borderRadius = "23px";
     sideMenu.style.backdropFilter = "blur(15px)";
+    sideMenu.style.webkitBackdropFilter = "blur(15px)";
     sideMenu.style.boxShadow = "0 0 5px var(--color-border-base)";
+    sideMenu.style.webkitBoxShadow = "0 0 5px var(--color-border-base)";
     $$$("#side-nav .el-submenu__title", true).forEach((v) => {
         v.style.borderRadius = "23px";
     });
@@ -85,8 +95,11 @@ if ("backdrop-filter" in document.documentElement.style) {
     $$("top-nav").style.background = "var(--color-background-darker)";
     $$("side-nav").style.background = "var(--color-background-darker)";
     $$("side-nav").style.boxShadow = "3px 3px 5px var(--color-border-base)";
+    $$("side-nav").style.webkitBoxShadow = "3px 3px 5px var(--color-border-base)";
     $$$("#side-nav > .side-nav-container").style.height = "100%";
     $$$("#side-nav .side-nav-container").style.display = "flex";
+    $$$("#side-nav .side-nav-container").style.display = "-webkit-box";
+    $$$("#side-nav .side-nav-container").style.display = "-ms-flexbox";
     $$$("#side-nav .el-menu--collapse").style.margin = "auto 0";
 }
 

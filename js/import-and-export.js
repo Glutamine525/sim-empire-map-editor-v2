@@ -1,12 +1,10 @@
 function toggleWaiting(show) {
     if (show) {
-        // $$("top-nav").style.filter = "blur(10px)";
-        // $$("main-page").style.filter = "blur(10px)";
         $$("ghost-container").style.display = "flex";
+        $$("ghost-container").style.display = "-webkit-box";
+        $$("ghost-container").style.display = "-ms-flexbox";
         $$("loading-background-container").style.display = "block";
     } else {
-        // $$("top-nav").style.filter = "none";
-        // $$("main-page").style.filter = "none";
         $$("ghost-container").style.display = "none";
         $$("loading-background-container").style.display = "none";
     }
@@ -179,8 +177,11 @@ function screenshot(scale, withSign) {
             $deletionBlock.hide();
             let signScale = "";
             if (withSign) {
-                signScale = $$("sign").style.transform;
+                signScale =
+                    $$("sign").style.transform || $$("sign").style.msTransform || $$("sign").style.webkitTransform;
                 $$("sign").style.removeProperty("transform");
+                $$("sign").style.removeProperty("-ms-transform");
+                $$("sign").style.removeProperty("-webkit-transform");
                 $$("map").appendChild($$("sign"));
             }
             let config = {
@@ -205,6 +206,8 @@ function screenshot(scale, withSign) {
                     console.timeEnd("download");
                     if (withSign) {
                         $$("sign").style.transform = signScale;
+                        $$("sign").style.msTransform = signScale;
+                        $$("sign").style.webkitTransform = signScale;
                         $$$("#user-sign-preview .preview-box").appendChild($$("sign"));
                     }
                 });

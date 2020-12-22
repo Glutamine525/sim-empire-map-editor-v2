@@ -50,7 +50,6 @@ function onClickHamButton(checked) {
         $config.nowScrollY = $$$("html").scrollTop;
         $config.isPanelShowed = true;
         $$("editor-container").style.left = "0";
-        $$("main-page").style.filter = "blur(5px)";
         $$("main-page").style.overflow = "hidden";
         $$("editor").style.top = `${20 + $config.topNavHeight}px`;
         $$("editor").style.height = `calc(100% - ${60 + $config.topNavHeight}px)`;
@@ -71,13 +70,14 @@ function onClickHamButton(checked) {
         // disappear
         $config.isPanelShowed = false;
         $$("editor-container").style.left = "-100%";
-        $$("main-page").style.removeProperty("filter");
         $$("main-page").style.removeProperty("overflow");
         $$("sign").style.removeProperty("top");
         $$("sign").style.removeProperty("left");
         $$("sign").style.removeProperty("width");
         $$("sign").style.removeProperty("height");
         $$("sign").style.removeProperty("transform");
+        $$("sign").style.removeProperty("-ms-transform");
+        $$("sign").style.removeProperty("-webkit-transform");
         $$("sign").style.removeProperty("pointer-events");
         $$("sign").style.position = "relative";
         $$("user-sign").style.display = "none";
@@ -208,5 +208,7 @@ function minionEyeballs(event) {
         let radian = Math.atan2(event.clientX - x, event.clientY - y);
         let rot = radian * (180 / Math.PI) * -1 + 270;
         eye.style.transform = "rotate(" + rot + "deg)";
+        eye.style.msTransform = "rotate(" + rot + "deg)";
+        eye.style.webkitTransform = "rotate(" + rot + "deg)";
     });
 }

@@ -159,7 +159,9 @@ function onMouseClick(event) {
     } else if (
         !$config.isCtrlDown &&
         $config.operation === "placing-building" &&
-        $$("preview").style.display === "flex" &&
+        ($$("preview").style.display === "flex" ||
+            $$("preview").style.display === "-webkit-box" ||
+            $$("preview").style.display === "-ms-flexbox") &&
         event.path.length > 3 &&
         (event.path[0].id === "building" || event.path[0].id === "preview" || event.path[1].id === "preview")
     ) {
@@ -234,6 +236,8 @@ function onMouseMove(event) {
         preview.style.left = `${($cell[li][co].occupied.column - 1) * $cellSize}px`;
         setPreviewMarker($cell[li][co].occupied.marker);
         preview.style.display = "flex";
+        preview.style.display = "-webkit-box";
+        preview.style.display = "-ms-flexbox";
     } else if (
         $config.operation === "placing-building" &&
         event.path.length > 3 &&

@@ -30,6 +30,7 @@
 }
 
 #cell-helper .in-range {
+    display: inline-block;
     width: 30px;
     height: 30px;
     position: relative;
@@ -40,6 +41,7 @@
 }
 
 #cell-helper .boundary {
+    display: inline-block;
     width: 30px;
     height: 30px;
     position: relative;
@@ -50,6 +52,7 @@
 }
 
 #cell-helper .out-of-range {
+    display: inline-block;
     width: 30px;
     height: 30px;
     position: relative;
