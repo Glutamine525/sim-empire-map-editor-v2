@@ -236,7 +236,7 @@ function onMouseMove(event) {
     }
     let li = Math.ceil((event.pageY - 72) / 30);
     let co = Math.ceil((event.pageX - 96) / 30);
-    if (li < 0 || co < 0 || li > 116 || co > 116) return;
+    if (li < 1 || co < 1 || li > 116 || co > 116) return;
     if (
         $config.operation === "placing-building" &&
         !$config.holding.isDecoration &&

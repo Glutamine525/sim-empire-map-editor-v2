@@ -324,10 +324,12 @@ function updateRoadDisplay(li, co) {
             if (isDirRoad(li + i, co, "v") || isDirRoad(li + i, co, "n")) {
                 self.isRoadVertex = true;
             }
+            adj.updateBorderStyle();
             adj.updateBorderColor();
             adj.updateMarker();
         }
     }
+    self.updateBorderStyle();
     self.updateBorderColor();
     self.updateMarker();
 }

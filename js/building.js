@@ -70,12 +70,26 @@ class Building {
     }
 
     getBorderStyle() {
-        if (this.isRoad) return "solid";
         let style = "";
-        style += this.borderTop ? "solid " : "none ";
-        style += this.borderRight ? "solid " : "none ";
-        style += this.borderBottom ? "solid " : "none ";
-        style += this.borderLeft ? "solid " : "none ";
+        if (this.isRoad) {
+            if (this.rBorderTop) style += "dashed ";
+            else if (this.borderTop) style += "solid ";
+            else style += "none ";
+            if (this.rBorderRight) style += "dashed ";
+            else if (this.borderRight) style += "solid ";
+            else style += "none ";
+            if (this.rBorderBottom) style += "dashed ";
+            else if (this.borderBottom) style += "solid ";
+            else style += "none ";
+            if (this.rBorderLeft) style += "dashed ";
+            else if (this.borderLeft) style += "solid ";
+            else style += "none ";
+        } else {
+            style += this.borderTop ? "solid " : "none ";
+            style += this.borderRight ? "solid " : "none ";
+            style += this.borderBottom ? "solid " : "none ";
+            style += this.borderLeft ? "solid " : "none ";
+        }
         return style;
     }
 

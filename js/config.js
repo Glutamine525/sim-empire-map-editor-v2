@@ -1,6 +1,6 @@
 class Config {
     constructor() {
-        this.version = "V2.0";
+        this.version = "V2.1";
         this.core = "default";
 
         this.isMouseDown = false;
