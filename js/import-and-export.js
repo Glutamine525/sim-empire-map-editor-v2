@@ -15,7 +15,6 @@ function importData() {
     file.onchange = () => {
         let fr = new FileReader();
         fr.onload = (event) => {
-            // let data = JSON.parse(byteToString(event.target.result.split(" ").map((v) => +v)));
             let data = JSON.parse(base64ToString(event.target.result));
             let dataMD5 = data.md5;
             delete data.md5;
@@ -151,81 +150,123 @@ function exportData() {
     download(new Blob([stringToBase64(JSON.stringify(data))]), `${getDataFileName()}.txt`);
 }
 
-function screenshot(scale, withSign) {
-    $vm.$confirm(
-        "截图大概需要20秒，请保持页面聚焦状态，不要切换至其它页面或窗口！截图完成后注意检查所有的建筑是否完整，若发现有建筑消失，请尝试再次截图。",
-        "提示",
-        {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning",
-        }
-    ).then(() => {
-        toggleWaiting(true);
-        setTimeout(function () {
-            console.time("sreenshot");
-            $config.operation = "null";
-            $config.holding = {};
-            $topNav.setOperation("无");
-            $config.roadCache = [];
-            $$("cell").style.display = "none";
-            $$("cell-helper").style.display = "block";
-            $$("road-helper").style.display = "none";
-            $$("preview").style.display = "none";
-            $selectionBlock.hide();
-            $deletionBlock.hide();
-            let signScale = "";
-            if (withSign) {
-                signScale =
-                    $$("sign").style.transform || $$("sign").style.msTransform || $$("sign").style.webkitTransform;
-                $$("sign").style.removeProperty("transform");
-                $$("sign").style.removeProperty("-ms-transform");
-                $$("sign").style.removeProperty("-webkit-transform");
-                $$("map").appendChild($$("sign"));
-            }
-            let config = {
-                useCORS: true,
-                width: $length * $cellSize,
-                height: $length * $cellSize,
-                scale: scale,
-                scrollX: -window.scrollX,
-                scrollY: -window.scrollY,
-                windowWidth: document.documentElement.offsetWidth,
-                windowHeight: document.documentElement.offsetHeight,
-                backgroundColor: getColor("--color-background-darker"),
-            };
-            html2canvas($$("map"), config).then((canvas) => {
-                canvas.toBlob((blob) => {
-                    console.timeEnd("sreenshot");
-                    console.time("download");
-                    download(blob, `${getFileName()}.png`);
-                    $$("cell").style.display = "block";
-                    $$("cell-helper").style.display = "none";
-                    toggleWaiting(false);
-                    console.timeEnd("download");
-                    if (withSign) {
-                        $$("sign").style.transform = signScale;
-                        $$("sign").style.msTransform = signScale;
-                        $$("sign").style.webkitTransform = signScale;
-                        $$$("#user-sign-preview .preview-box").appendChild($$("sign"));
-                    }
-                });
-            });
-        }, 100);
-    });
-}
+// function screenshot(scale, withSign) {
+//     $vm.$confirm(
+//         "截图大概需要20秒，请保持页面聚焦状态，不要切换至其它页面或窗口！截图完成后注意检查所有的建筑是否完整，若发现有建筑消失，请尝试再次截图。",
+//         "提示",
+//         {
+//             confirmButtonText: "确定",
+//             cancelButtonText: "取消",
+//             type: "warning",
+//         }
+//     ).then(() => {
+//         toggleWaiting(true);
+//         setTimeout(function () {
+//             console.time("sreenshot");
+//             $config.operation = "null";
+//             $config.holding = {};
+//             $topNav.setOperation("无");
+//             $config.roadCache = [];
+//             $$("cell").style.display = "none";
+//             $$("cell-helper").style.display = "block";
+//             $$("road-helper").style.display = "none";
+//             $$("preview").style.display = "none";
+//             $selectionBlock.hide();
+//             $deletionBlock.hide();
+//             let signScale = "";
+//             if (withSign) {
+//                 signScale =
+//                     $$("sign").style.transform || $$("sign").style.msTransform || $$("sign").style.webkitTransform;
+//                 $$("sign").style.removeProperty("transform");
+//                 $$("sign").style.removeProperty("-ms-transform");
+//                 $$("sign").style.removeProperty("-webkit-transform");
+//                 $$("map").appendChild($$("sign"));
+//             }
+//             let config = {
+//                 useCORS: true,
+//                 width: $length * $cellSize,
+//                 height: $length * $cellSize,
+//                 scale: scale,
+//                 scrollX: -window.scrollX,
+//                 scrollY: -window.scrollY,
+//                 windowWidth: document.documentElement.offsetWidth,
+//                 windowHeight: document.documentElement.offsetHeight,
+//                 backgroundColor: getColor("--color-background-darker"),
+//             };
+//             html2canvas($$("map"), config).then((canvas) => {
+//                 canvas.toBlob((blob) => {
+//                     console.timeEnd("sreenshot");
+//                     console.time("download");
+//                     download(blob, `${getFileName()}.png`);
+//                     $$("cell").style.display = "block";
+//                     $$("cell-helper").style.display = "none";
+//                     toggleWaiting(false);
+//                     console.timeEnd("download");
+//                     if (withSign) {
+//                         $$("sign").style.transform = signScale;
+//                         $$("sign").style.msTransform = signScale;
+//                         $$("sign").style.webkitTransform = signScale;
+//                         $$$("#user-sign-preview .preview-box").appendChild($$("sign"));
+//                     }
+//                 });
+//             });
+//         }, 100);
+//     });
+// }
 
-function screenshot0() {
-    rasterizeHTML.drawDocument($$("map")).then(
-        function success(renderResult) {
-            console.log(renderResult);
-        },
-        function error(e) {}
-    );
+function screenshot(withSign) {
+    toggleWaiting(true);
+    setTimeout(function () {
+        console.time("sreenshot");
+        if (withSign) {
+            signScale = $$("sign").style.transform || $$("sign").style.msTransform || $$("sign").style.webkitTransform;
+            $$("sign").style.removeProperty("transform");
+            $$("sign").style.removeProperty("-ms-transform");
+            $$("sign").style.removeProperty("-webkit-transform");
+            $$("map").appendChild($$("sign"));
+        }
+        const html = `
+            <svg width="3480" height="3480" xmlns="http://www.w3.org/2000/svg">
+                <foreignObject width="100%" height="100%">
+                    <div xmlns="http://www.w3.org/1999/xhtml">
+                        ${html2Text($$("map"))}
+                    </div>
+                </foreignObject>
+            </svg>`;
+        const svg = new Blob([html], {
+            type: "image/svg+xml;charset=utf-8",
+        });
+        const url = window.URL.createObjectURL(svg);
+        let img = new Image();
+        img.src = "data:image/svg+xml;base64," + window.btoa(unescape(encodeURIComponent(html)));
+        img.onload = function () {
+            let canvas = document.createElement("canvas");
+            canvas.width = $cellSize * $length * 2;
+            canvas.height = $cellSize * $length * 2;
+            let ctx = canvas.getContext("2d");
+            ctx.fillStyle = getColor("--color-background-darker");
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage($$("cell"), 0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            canvas.toBlob((blob) => {
+                console.timeEnd("sreenshot");
+                console.time("download");
+                download(blob, `${getFileName()}.png`);
+                toggleWaiting(false);
+                console.timeEnd("download");
+                if (withSign) {
+                    $$("sign").style.transform = signScale;
+                    $$("sign").style.msTransform = signScale;
+                    $$("sign").style.webkitTransform = signScale;
+                    $$$("#user-sign-preview .preview-box").appendChild($$("sign"));
+                }
+            });
+        };
+    }, 10);
 }
 
 function download(blob, fileName) {
-    $$("download").setAttribute("href", URL.createObjectURL(blob));
+    $$("download").setAttribute("href", window.URL.createObjectURL(blob));
     $$("download").setAttribute("download", fileName);
     $$("download").click();
 }
@@ -254,4 +295,82 @@ function base64ToString(base64) {
     let decode = atob(base64);
     let str = decodeURI(decode);
     return str;
+}
+
+const tags = ["br", "hr", "img", "input", "param", "meta", "link"];
+
+function separatorToCamelNaming(name) {
+    const nameArr = name.split(/-/g);
+    let newName = "";
+    for (let i = 0, j = nameArr.length; i < j; i++) {
+        const item = nameArr[i];
+        if (i === 0) {
+            newName += item;
+        } else {
+            newName += `${item[0].toLocaleUpperCase()}${item.substr(1)}`;
+        }
+    }
+    return newName;
+}
+
+function style2String(node, styleNames) {
+    const css = window.getComputedStyle(node);
+    const style = [];
+    for (const name of styleNames) {
+        const fName = separatorToCamelNaming(name);
+        let value = css[fName];
+        if (fName === "fontFamily") {
+            value = value.replace(/"/g, "");
+        } else if (fName === "backgroundImage") {
+            value = value.replace(/"/g, "'");
+        }
+        style.push(`${name}: ${value};`);
+    }
+    return style.join(" ");
+}
+
+function html2Text(node) {
+    let txt = "";
+    if (node.nodeName !== "#text") {
+        const nodeName = node.nodeName.toLowerCase();
+        const style = style2String(node, [
+            "box-sizing",
+            "padding",
+            "margin",
+            "z-index",
+            "position",
+            "display",
+            "top",
+            "left",
+            "width",
+            "height",
+            "font-size",
+            "font-family",
+            "font-weight",
+            "color",
+            "content",
+            "text-align",
+            "text-shadow",
+            "background-color",
+            "background-image",
+            "border-radius",
+            "border-top",
+            "border-right",
+            "border-bottom",
+            "border-left",
+            "transform",
+            "transform-origin",
+        ]);
+        txt += `<${nodeName} style="${style}">`;
+        if (!tags.includes(nodeName)) {
+            const childNodes = node.childNodes;
+            for (let i = 0, j = childNodes.length; i < j; i++) {
+                txt += html2Text(childNodes[i]);
+            }
+            txt += `</${nodeName}>`;
+        }
+    } else {
+        txt += node.data;
+    }
+    return txt;
 }

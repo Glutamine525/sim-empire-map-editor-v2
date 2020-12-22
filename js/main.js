@@ -43,7 +43,6 @@ const userSignPreviewResizeObserver = new ResizeObserver((entries) => {
 userSignPreviewResizeObserver.observe($$("user-sign-map-preview"));
 
 initCell();
-drawCellBoundary();
 $miniMap.init();
 onClickDisplayMode(true);
 drawBoundary("black");

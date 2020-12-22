@@ -144,7 +144,7 @@ var $vm = new Vue({
                     break;
                 case "截图":
                     // screenshot(2);
-                    screenshot0();
+                    screenshot();
                     break;
                 default:
                     if (indexPath.length < 2) return;
