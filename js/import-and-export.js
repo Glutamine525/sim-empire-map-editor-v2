@@ -1,8 +1,7 @@
 function toggleWaiting(show) {
     if (show) {
         $$("ghost-container").style.display = "flex";
-        $$("ghost-container").style.display = "-webkit-box";
-        $$("ghost-container").style.display = "-ms-flexbox";
+        if ($config.core === "safari") $$("ghost-container").style.display = "-webkit-box";
         $$("loading-background-container").style.display = "block";
     } else {
         $$("ghost-container").style.display = "none";
@@ -163,8 +162,8 @@ function screenshot(scale, withSign) {
         }
     ).then(() => {
         toggleWaiting(true);
-        console.time("sreenshot");
         setTimeout(function () {
+            console.time("sreenshot");
             $config.operation = "null";
             $config.holding = {};
             $topNav.setOperation("无");
@@ -214,6 +213,15 @@ function screenshot(scale, withSign) {
             });
         }, 100);
     });
+}
+
+function screenshot0() {
+    rasterizeHTML.drawDocument($$("map")).then(
+        function success(renderResult) {
+            console.log(renderResult);
+        },
+        function error(e) {}
+    );
 }
 
 function download(blob, fileName) {

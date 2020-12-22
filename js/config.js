@@ -1,6 +1,7 @@
 class Config {
     constructor() {
         this.version = "V2.0";
+        this.core = "default";
 
         this.isMouseDown = false;
         this.dragMap = {

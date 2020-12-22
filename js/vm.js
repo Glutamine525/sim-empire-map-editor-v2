@@ -143,7 +143,8 @@ var $vm = new Vue({
                     exportData();
                     break;
                 case "截图":
-                    screenshot(2);
+                    // screenshot(2);
+                    screenshot0();
                     break;
                 default:
                     if (indexPath.length < 2) return;

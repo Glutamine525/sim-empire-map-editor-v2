@@ -21,7 +21,6 @@ body {
     -ms-flex-direction: column;
     flex-direction: column;
     position: relative;
-    /* filter: blur(5px); */
 }
 
 #main-page {

@@ -21,7 +21,14 @@ function onMouseDown(event) {
     }
     if (
         $config.operation === "null" &&
-        (event.path[0].id === "building" || event.path[1].id === "building" || event.path[2].id === "building")
+        event.path.length > 3 &&
+        (event.path[0].id === "building" ||
+            event.path[1].id === "building" ||
+            event.path[2].id === "building" ||
+            // event.path[0].id === "range-container" ||
+            // event.path[1].id === "range-container" ||
+            // event.path[2].id === "range-container" ||
+            event.path[3].id === "range-container")
     ) {
         $config.dragMap.startScrollLeft = $$$("html").scrollLeft;
         $config.dragMap.startScrollTop = $$$("html").scrollTop;
@@ -33,12 +40,17 @@ function onMouseDown(event) {
     }
     if (
         $config.isCtrlDown &&
+        event.path.length > 3 &&
         (event.path[0].id === "building" ||
             event.path[1].id === "building" ||
             event.path[2].id === "building" ||
             event.path[0].id === "building" ||
             event.path[0].id === "preview" ||
-            event.path[1].id === "preview")
+            event.path[1].id === "preview" ||
+            // event.path[0].id === "range-container" ||
+            // event.path[1].id === "range-container" ||
+            // event.path[2].id === "range-container" ||
+            event.path[3].id === "range-container")
     ) {
         $config.dragMap.startScrollLeft = $$$("html").scrollLeft;
         $config.dragMap.startScrollTop = $$$("html").scrollTop;
@@ -208,7 +220,11 @@ function onMouseMove(event) {
     if ($config.isMouseDown && $config.dragMap.isDragging) {
         if (
             ($config.operation === "null" || $config.isCtrlDown) &&
-            (event.path[0].id === "building" || event.path[1].id === "building" || event.path[2].id === "building")
+            event.path.length > 3 &&
+            (event.path[0].id === "building" ||
+                event.path[1].id === "building" ||
+                event.path[2].id === "building" ||
+                event.path[3].id === "range-container")
         ) {
             let config = $config.dragMap;
             $config.dragMap.nowX = event.clientX;
@@ -236,8 +252,7 @@ function onMouseMove(event) {
         preview.style.left = `${($cell[li][co].occupied.column - 1) * $cellSize}px`;
         setPreviewMarker($cell[li][co].occupied.marker);
         preview.style.display = "flex";
-        preview.style.display = "-webkit-box";
-        preview.style.display = "-ms-flexbox";
+        if ($config.core === "safari") preview.style.display = "-webkit-box";
     } else if (
         $config.operation === "placing-building" &&
         event.path.length > 3 &&
