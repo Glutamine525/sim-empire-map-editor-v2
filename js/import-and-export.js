@@ -182,7 +182,15 @@ function screenshot(withSign) {
             let ctx = canvas.getContext("2d");
             ctx.fillStyle = getColor("--color-background-darker");
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage($$("cell"), 0, 0, canvas.width, canvas.height);
+            if ($config.isMapRotated) {
+                ctx.translate(canvas.width / 2, canvas.height / 2);
+                ctx.rotate(Math.PI / 4);
+                ctx.drawImage($$("cell"), -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+            } else ctx.drawImage($$("cell"), 0, 0, canvas.width, canvas.height);
+            if ($config.isMapRotated) {
+                ctx.rotate(-Math.PI / 4);
+                ctx.translate(-canvas.width / 2, -canvas.height / 2);
+            }
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
             canvas.toBlob((blob) => {
                 console.timeEnd("sreenshot");

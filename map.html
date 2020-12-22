@@ -166,13 +166,18 @@
                                 <label class="toggle--btn" for="toggle-mini-map"></label>
                             </div>
                         </div>
-                        <!-- <div>
+                        <div>
                             <div>旋转地图:</div>
                             <div class="toggle toggle--ordinary">
-                                <input disabled="true" type="checkbox" id="toggle-rotation" class="toggle--checkbox" />
+                                <input
+                                    type="checkbox"
+                                    id="toggle-rotation"
+                                    class="toggle--checkbox"
+                                    onclick="onClickRotateMap(this.checked)"
+                                />
                                 <label class="toggle--btn" for="toggle-rotation"></label>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
                 <div id="top-nav-operation">
@@ -220,10 +225,14 @@
                         <br />
                         - 编辑者自定义的水印会被导入导出
                         <br />
+                        <div style="width: 100%; border: 1px solid var(--color-border-base); margin: 6px 0"></div>
+                        注意事项:
+                        <br />
                         - 菜单中「添加水印」里的截图才会生成编辑者水印
                         <br />
                         - 版权水印总是会生成
                         <br />
+                        - 旋转地图开启后，无法编辑，只能截图
                         <div style="width: 100%; border: 1px solid var(--color-border-base); margin: 6px 0"></div>
                         作者联系邮箱: glutamine525@gmail.com
                     </div>
@@ -452,7 +461,9 @@
                             <span></span>
                             <span></span>
                             <span></span>
-                            <canvas id="mini-map" width="232" height="232"></canvas>
+                            <div id="mini-map-border">
+                                <canvas id="mini-map" width="232" height="232"></canvas>
+                            </div>
                             <div id="mini-map-focus"></div>
                         </div>
                     </div>

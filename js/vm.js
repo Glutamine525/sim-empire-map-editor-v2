@@ -331,6 +331,7 @@ var $vm = new Vue({
                         top: 0,
                         left: 0,
                         textAlign: "left",
+                        rotateDegree: 0,
                         lines: [
                             {
                                 fontSize: 30,

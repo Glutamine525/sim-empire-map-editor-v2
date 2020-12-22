@@ -253,3 +253,9 @@
     margin: 15px 0 5px 0;
     border-top: 2px solid var(--color-border-base);
 }
+
+#user-sign-map-preview.rotate {
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}

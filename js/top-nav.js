@@ -58,6 +58,8 @@ function onClickHamButton(checked) {
         img.onload = () => {
             $$("user-sign-map-preview").getContext("2d").drawImage(img, 0, 0);
         };
+        if ($config.isMapRotated) $$("user-sign-map-preview").className = "rotate";
+        else $$("user-sign-map-preview").className = "";
         $$$("#user-sign-preview .preview-box").appendChild($$("sign"));
         $$("sign").style.top = 0;
         $$("sign").style.left = 0;
@@ -197,12 +199,29 @@ function onClickMiniMap(show) {
         $$("mini-map-container").style.width = "182px";
         $$("mini-map-container").style.height = "182px";
         $$("mini-map-container").style.border = "1px solid var(--color-border-darker)";
+        $$("mini-map-border").style.border = "1px solid #ffeb3b";
     } else {
         $$("mini-map").style.display = "none";
         $$("mini-map-focus").style.display = "none";
         $$("mini-map-container").style.width = "0";
         $$("mini-map-container").style.height = "0";
         $$("mini-map-container").style.border = "none";
+        $$("mini-map-border").style.border = "none";
+    }
+}
+
+function onClickRotateMap(isMapRotated) {
+    $config.isMapRotated = isMapRotated;
+    if (isMapRotated) {
+        $$("cell").className = "rotate";
+        $$("building").className = "rotate";
+        $$("mini-map").className = "rotate";
+        $$("content").style.pointerEvents = "none";
+    } else {
+        $$("cell").className = "";
+        $$("building").className = "";
+        $$("mini-map").className = "";
+        $$("content").style.pointerEvents = "auto";
     }
 }
 

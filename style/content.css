@@ -13,9 +13,24 @@
     position: relative;
 }
 
+#cell.rotate,
+#building.rotate {
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+#mini-map.rotate {
+    -webkit-transform: rotate(45deg) scale(0.75);
+    -ms-transform: rotate(45deg) scale(0.75);
+    transform: rotate(45deg) scale(0.75);
+    -webkit-transform-origin: center;
+    -ms-transform-origin: center;
+    transform-origin: center;
+}
+
 #cell {
     display: block;
-    /* padding: 5px; */
 }
 
 #cell-helper {
@@ -284,17 +299,34 @@
     -o-transition: all 0.5s;
     transition: all 0.5s;
     opacity: 0.9;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+#mini-map-border {
+    border: 1px solid #ffeb3b;
+    width: 174px;
+    height: 174px;
+    margin: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #mini-map {
-    margin: 3px;
     -webkit-transform: scale(0.75);
     -ms-transform: scale(0.75);
     transform: scale(0.75);
-    -webkit-transform-origin: top left;
+    /* -webkit-transform-origin: top left;
     -ms-transform-origin: top left;
-    transform-origin: top left;
-    border: 1px solid #ffeb3b;
+    transform-origin: top left; */
 }
 
 #mini-map-focus {
