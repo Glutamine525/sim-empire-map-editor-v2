@@ -15,14 +15,24 @@ function importData() {
     file.onchange = () => {
         let fr = new FileReader();
         fr.onload = (event) => {
-            let data = JSON.parse(base64ToString(event.target.result));
+            let base64 = base64ToString(event.target.result);
+            if (!base64) {
+                $vm.$message({
+                    message: "该数据已被损坏 或 不是txt文件，导入失败！",
+                    type: "error",
+                    duration: 5000,
+                    offset: $config.topNavHeight + 10,
+                });
+                return;
+            }
+            let data = JSON.parse(base64);
             let dataMD5 = data.md5;
             delete data.md5;
             if (dataMD5 !== md5(JSON.stringify(data))) {
                 $vm.$message({
                     message: "该数据已被损坏，导入失败！",
                     type: "error",
-                    duration: 3000,
+                    duration: 5000,
                     offset: $config.topNavHeight + 10,
                 });
                 return;
@@ -66,26 +76,7 @@ function importData() {
                 });
             }
             for (let v of data.buildings) {
-                createBuilding({
-                    line: v.line,
-                    column: v.column,
-                    width: v.width,
-                    height: v.height,
-                    text: v.text,
-                    name: v.name,
-                    catagory: v.catagory,
-                    color: v.color,
-                    background: v.background,
-                    borderColor: v.borderColor,
-                    borderWidth: v.borderWidth,
-                    range: v.range,
-                    fontSize: v.fontSize,
-                    isMiracle: v.isMiracle,
-                    isDecoration: v.isDecoration,
-                    isProtection: v.isProtection,
-                    isRoad: v.isRoad,
-                    isGeneral: v.isGeneral,
-                });
+                createBuilding(v);
             }
             $vm.$message({
                 message: "已成功导入数据！",
@@ -97,6 +88,7 @@ function importData() {
         fr.readAsText(file.files[0]);
         let tmp = document.createElement("input");
         tmp.type = "file";
+        tmp.accept = ".txt";
         tmp.id = "load-file";
         tmp.style.display = "none";
         file.replaceWith(tmp);
@@ -150,74 +142,18 @@ function exportData() {
     download(new Blob([stringToBase64(JSON.stringify(data))]), `${getDataFileName()}.txt`);
 }
 
-// function screenshot(scale, withSign) {
-//     $vm.$confirm(
-//         "截图大概需要20秒，请保持页面聚焦状态，不要切换至其它页面或窗口！截图完成后注意检查所有的建筑是否完整，若发现有建筑消失，请尝试再次截图。",
-//         "提示",
-//         {
-//             confirmButtonText: "确定",
-//             cancelButtonText: "取消",
-//             type: "warning",
-//         }
-//     ).then(() => {
-//         toggleWaiting(true);
-//         setTimeout(function () {
-//             console.time("sreenshot");
-//             $config.operation = "null";
-//             $config.holding = {};
-//             $topNav.setOperation("无");
-//             $config.roadCache = [];
-//             $$("cell").style.display = "none";
-//             $$("cell-helper").style.display = "block";
-//             $$("road-helper").style.display = "none";
-//             $$("preview").style.display = "none";
-//             $selectionBlock.hide();
-//             $deletionBlock.hide();
-//             let signScale = "";
-//             if (withSign) {
-//                 signScale =
-//                     $$("sign").style.transform || $$("sign").style.msTransform || $$("sign").style.webkitTransform;
-//                 $$("sign").style.removeProperty("transform");
-//                 $$("sign").style.removeProperty("-ms-transform");
-//                 $$("sign").style.removeProperty("-webkit-transform");
-//                 $$("map").appendChild($$("sign"));
-//             }
-//             let config = {
-//                 useCORS: true,
-//                 width: $length * $cellSize,
-//                 height: $length * $cellSize,
-//                 scale: scale,
-//                 scrollX: -window.scrollX,
-//                 scrollY: -window.scrollY,
-//                 windowWidth: document.documentElement.offsetWidth,
-//                 windowHeight: document.documentElement.offsetHeight,
-//                 backgroundColor: getColor("--color-background-darker"),
-//             };
-//             html2canvas($$("map"), config).then((canvas) => {
-//                 canvas.toBlob((blob) => {
-//                     console.timeEnd("sreenshot");
-//                     console.time("download");
-//                     download(blob, `${getFileName()}.png`);
-//                     $$("cell").style.display = "block";
-//                     $$("cell-helper").style.display = "none";
-//                     toggleWaiting(false);
-//                     console.timeEnd("download");
-//                     if (withSign) {
-//                         $$("sign").style.transform = signScale;
-//                         $$("sign").style.msTransform = signScale;
-//                         $$("sign").style.webkitTransform = signScale;
-//                         $$$("#user-sign-preview .preview-box").appendChild($$("sign"));
-//                     }
-//                 });
-//             });
-//         }, 100);
-//     });
-// }
-
 function screenshot(withSign) {
     toggleWaiting(true);
     setTimeout(function () {
         console.time("sreenshot");
+        $config.holding = {};
+        $topNav.setOperation("无");
+        $config.roadCache = [];
+        $$("road-helper").style.display = "none";
+        $$("preview").style.display = "none";
+        $selectionBlock.hide();
+        $deletionBlock.hide();
+        let signScale = "";
         if (withSign) {
             signScale = $$("sign").style.transform || $$("sign").style.msTransform || $$("sign").style.webkitTransform;
             $$("sign").style.removeProperty("transform");
@@ -292,9 +228,13 @@ function stringToBase64(str) {
 }
 
 function base64ToString(base64) {
-    let decode = atob(base64);
-    let str = decodeURI(decode);
-    return str;
+    try {
+        let decode = atob(base64);
+        let str = decodeURI(decode);
+        return str;
+    } catch (e) {
+        return false;
+    }
 }
 
 const tags = ["br", "hr", "img", "input", "param", "meta", "link"];
