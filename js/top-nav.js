@@ -152,6 +152,7 @@ function onClickNoWood(isNoWood) {
             if ($$(id)) building.removeChild($$(id));
             $miniMap.setPixel(u[0], u[1], getColor("--color-background-lighter"), 1, 1);
         });
+        $$("sign-is-no-wood").innerHTML = "无木";
     } else {
         BuildingFixed["tree"][$config.woodNum - 3].map((v) => {
             let u = v.split("-").map((w) => +w);
@@ -160,6 +161,7 @@ function onClickNoWood(isNoWood) {
             }
         });
         drawFixedBuilding("tree");
+        $$("sign-is-no-wood").innerHTML = "有木";
     }
 }
 
