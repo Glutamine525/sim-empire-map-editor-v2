@@ -300,6 +300,7 @@ function html2Text(node) {
             "border-left",
             "transform",
             "transform-origin",
+            "opacity",
         ]);
         txt += `<${nodeName} style="${style}">`;
         if (!tags.includes(nodeName)) {

@@ -48,13 +48,17 @@ var $vm = new Vue({
                     top: 0,
                     left: 0,
                     textAlign: "left",
+                    rotateDegree: 0,
                     lines: [
                         {
                             fontSize: 30,
+                            opacity: 1,
                             elements: [
                                 {
                                     isHighlight: false,
                                     color: null,
+                                    shadowSize: 5,
+                                    shadowColor: null,
                                     text: "",
                                 },
                             ],
@@ -330,10 +334,13 @@ var $vm = new Vue({
                         lines: [
                             {
                                 fontSize: 30,
+                                opacity: 1,
                                 elements: [
                                     {
                                         isHighlight: false,
                                         color: null,
+                                        shadowSize: 5,
+                                        shadowColor: null,
                                         text: "",
                                     },
                                 ],
@@ -361,10 +368,13 @@ var $vm = new Vue({
             }
             this.userSign[this.radioIndexUserSign].lines.push({
                 fontSize: 30,
+                opacity: 1,
                 elements: [
                     {
                         isHighlight: false,
                         color: null,
+                        shadowSize: 5,
+                        shadowColor: null,
                         text: "",
                     },
                 ],
@@ -383,6 +393,8 @@ var $vm = new Vue({
             this.userSign[this.radioIndexUserSign].lines[this.radioIndexUserSignLine].elements.push({
                 isHighlight: false,
                 color: null,
+                shadowSize: 5,
+                shadowColor: null,
                 text: "",
             });
         },

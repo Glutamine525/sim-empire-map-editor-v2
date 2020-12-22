@@ -376,16 +376,23 @@
                                         textAlign: sign.textAlign,
                                         top: sign.top+'px',
                                         left: sign.left+'px',
+                                        transform: 'rotate('+sign.rotateDegree+'deg)',
                                     }"
                                 >
                                     <div
                                         v-for="(line, j) in userSign[i].lines"
-                                        :style="{ fontSize: line.fontSize+'px' }"
+                                        :style="{ 
+                                            fontSize: line.fontSize+'px',
+                                            opacity: line.opacity,
+                                        }"
                                     >
                                         <span
                                             v-for="(element, k) in userSign[i].lines[j].elements"
                                             :class="{ highlight: element.isHighlight }"
-                                            :style="{ color: element.color }"
+                                            :style="{ 
+                                                color: element.color,
+                                                textShadow: element.shadowColor == null ? 'none' : '0 0 ' + element.shadowSize+'px' + ' ' + element.shadowColor,
+                                            }"
                                         >
                                             {{ element.text }}
                                         </span>
@@ -467,14 +474,14 @@
                                                 :key="'previewBox-'+i+'-'+j"
                                                 class="preview"
                                                 :style="{ 
-                                            width: `${specialBuilding.width * 30}px`, 
-                                            height: `${specialBuilding.height * 30}px`,
-                                            color: specialBuilding.color,
-                                            background: specialBuilding.background,
-                                            borderColor: specialBuilding.borderColor,
-                                            borderWidth: `${specialBuilding.borderWidth}px`,
-                                            fontSize: `${specialBuilding.fontSize}px`
-                                        }"
+                                                    width: `${specialBuilding.width * 30}px`, 
+                                                    height: `${specialBuilding.height * 30}px`,
+                                                    color: specialBuilding.color,
+                                                    background: specialBuilding.background,
+                                                    borderColor: specialBuilding.borderColor,
+                                                    borderWidth: `${specialBuilding.borderWidth}px`,
+                                                    fontSize: `${specialBuilding.fontSize}px`
+                                                }"
                                                 style="background: linear-gradient(45deg, blue, blue) !important"
                                             >
                                                 <div class="text" v-html="specialBuilding.text"></div>
@@ -767,7 +774,9 @@
                                 <div class="setting-row">
                                     <div class="setting-cell">
                                         <label>水印名称: </label>
-                                        {{ userSign[radioIndexUserSign].name }}
+                                        <span style="color: var(--color-text-primary); font-weight: bold">
+                                            {{ userSign[radioIndexUserSign].name }}
+                                        </span>
                                         <el-button
                                             size="mini"
                                             type="warning"
@@ -787,11 +796,23 @@
                                             删除
                                         </el-button>
                                     </div>
+                                </div>
+                                <div class="setting-row">
+                                    <div class="setting-cell">
+                                        <label>旋转角度: </label>
+                                        <el-input-number
+                                            v-model="userSign[radioIndexUserSign].rotateDegree"
+                                            size="small"
+                                            :min="-180"
+                                            :max="180"
+                                            :step="1"
+                                        ></el-input-number>
+                                    </div>
                                     <div class="setting-cell">
                                         <label>对齐样式: </label>
                                         <el-radio-group v-model="userSign[radioIndexUserSign].textAlign" size="small">
-                                            <el-radio-button label="left">左对齐</el-radio-button>
-                                            <el-radio-button label="right">右对齐</el-radio-button>
+                                            <el-radio-button label="left" style="width: 64px">左对齐</el-radio-button>
+                                            <el-radio-button label="right" style="width: 64px">右对齐</el-radio-button>
                                         </el-radio-group>
                                     </div>
                                 </div>
@@ -833,6 +854,8 @@
                                             删除
                                         </el-button>
                                     </div>
+                                </div>
+                                <div class="setting-row">
                                     <div class="setting-cell">
                                         <label>字体大小: </label>
                                         <el-input-number
@@ -842,6 +865,16 @@
                                             :max="200"
                                             :step="10"
                                             @blur="onChangeSignFontSize"
+                                        ></el-input-number>
+                                    </div>
+                                    <div class="setting-cell">
+                                        <label>透&ensp;明&ensp;度: </label>
+                                        <el-input-number
+                                            v-model="userSign[radioIndexUserSign].lines[radioIndexUserSignLine].opacity"
+                                            size="small"
+                                            :min="0"
+                                            :max="1"
+                                            :step="0.05"
                                         ></el-input-number>
                                     </div>
                                 </div>
@@ -876,6 +909,25 @@
                                     </div>
                                 </div>
                                 <div class="setting-row">
+                                    <div class="setting-cell">
+                                        <label>阴影大小: </label>
+                                        <el-input-number
+                                            size="small"
+                                            :min="0"
+                                            :max="60"
+                                            :step="1"
+                                            v-model="userSign[radioIndexUserSign].lines[radioIndexUserSignLine].elements[radioIndexUserSignElement].shadowSize"
+                                        ></el-input-number>
+                                    </div>
+                                    <div class="setting-cell">
+                                        <label>阴影颜色: </label>
+                                        <el-color-picker
+                                            size="small"
+                                            v-model="userSign[radioIndexUserSign].lines[radioIndexUserSignLine].elements[radioIndexUserSignElement].shadowColor"
+                                        ></el-color-picker>
+                                    </div>
+                                </div>
+                                <div class="setting-row">
                                     <label style="margin-right: 10px">显示文字: </label>
                                     <el-input
                                         v-model="userSign[radioIndexUserSign].lines[radioIndexUserSignLine].elements[radioIndexUserSignElement].text"
@@ -883,7 +935,7 @@
                                         size="small"
                                     ></el-input>
                                 </div>
-                                <!-- <div class="setting-row splitter"></div> -->
+                                <div class="setting-row" style="margin: 0"></div>
                             </div>
                         </el-tab-pane>
                         <el-tab-pane label="生成文明" name="third"> TODO </el-tab-pane>

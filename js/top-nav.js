@@ -66,6 +66,8 @@ function onClickHamButton(checked) {
         $$("sign").style.pointerEvents = "none";
         $$("sign").style.position = "absolute";
         $$("user-sign").style.display = "block";
+        $$$("#top-nav .top-menu", true).forEach((v) => (v.style.pointerEvents = "none"));
+        $$$("#top-nav .toggle--ordinary", true).forEach((v) => (v.style.pointerEvents = "none"));
     } else {
         // disappear
         $config.isPanelShowed = false;
@@ -82,6 +84,8 @@ function onClickHamButton(checked) {
         $$("sign").style.position = "relative";
         $$("user-sign").style.display = "none";
         $$("map").appendChild($$("sign"));
+        $$$("#top-nav .top-menu", true).forEach((v) => (v.style.pointerEvents = "auto"));
+        $$$("#top-nav .toggle--ordinary", true).forEach((v) => (v.style.pointerEvents = "auto"));
         window.scrollTo({
             left: $config.nowScrollX,
             top: $config.nowScrollY,

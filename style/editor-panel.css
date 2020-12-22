@@ -250,6 +250,6 @@
 
 #user-sign-setting .setting-row.splitter {
     height: 0;
-    margin: 10px 0 0 0;
+    margin: 15px 0 5px 0;
     border-top: 2px solid var(--color-border-base);
 }

@@ -465,7 +465,6 @@
     color: var(--color-text-regular);
     position: absolute;
     font-size: 30px;
-    text-shadow: 0 0 5px var(--color-border-base);
 }
 
 #user-sign span {
