@@ -3,11 +3,18 @@
     width: 100%;
     height: 40px;
     font-size: 14px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     margin: auto 0;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     text-align: center;
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
+    -webkit-box-shadow: 3px 3px 10px var(--color-border-base);
     box-shadow: 3px 3px 10px var(--color-border-base);
     z-index: 100;
     text-shadow: var(--color-border-lighter) 0px 1px 10px;
@@ -17,11 +24,15 @@
 }
 
 #top-nav-controller {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     white-space: initial;
 }
 
 #top-nav-controller > div > * {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
     display: inline-flex;
     vertical-align: middle;
     white-space: nowrap;
@@ -49,6 +60,7 @@
     background: var(--color-background-base) !important;
     border: 1px solid #303133 !important;
     color: var(--color-text-regular) !important;
+    -webkit-box-shadow: 3px 3px 12px var(--color-border-base);
     box-shadow: 3px 3px 12px var(--color-border-base);
     /* text-shadow: 0 0 3px var(--color-text-secondary); */
     border-radius: 10px;

@@ -5,6 +5,7 @@
 .toggle *,
 .toggle *::before,
 .toggle *::after {
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 
@@ -25,6 +26,8 @@ Some defaults across all toggle demos
     display: block;
     margin: 0 auto;
     font-size: 1.4em;
+    -webkit-transition: all 350ms ease-in;
+    -o-transition: all 350ms ease-in;
     transition: all 350ms ease-in;
 }
 .toggle--btn:hover {
@@ -40,6 +43,8 @@ Some defaults across all toggle demos
 .toggle--feature,
 .toggle--feature:before,
 .toggle--feature:after {
+    -webkit-transition: all 250ms ease-in;
+    -o-transition: all 250ms ease-in;
     transition: all 250ms ease-in;
 }
 .toggle--btn:before,
@@ -90,15 +95,23 @@ Day/Night and Gender toggle buttons
     opacity: 0;
     background-color: #fff;
     border-radius: 50%;
+    -webkit-box-shadow: #fff 0 0, #fff 3px 0, #fff 6px 0, #fff 9px 0, #fff 11px 0, #fff 14px 0, #fff 16px 0,
+        #fff 21px -1px 0 1px, #fff 16px -7px 0 -2px, #fff 7px -7px 0 1px, #d3d3d3 0 0 0 4px, #d3d3d3 6px 0 0 4px,
+        #d3d3d3 11px 0 0 4px, #d3d3d3 16px 0 0 4px, #d3d3d3 21px -1px 0 5px, #d3d3d3 16px -7px 0 1px,
+        #d3d3d3 7px -7px 0 5px;
     box-shadow: #fff 0 0, #fff 3px 0, #fff 6px 0, #fff 9px 0, #fff 11px 0, #fff 14px 0, #fff 16px 0,
         #fff 21px -1px 0 1px, #fff 16px -7px 0 -2px, #fff 7px -7px 0 1px, #d3d3d3 0 0 0 4px, #d3d3d3 6px 0 0 4px,
         #d3d3d3 11px 0 0 4px, #d3d3d3 16px 0 0 4px, #d3d3d3 21px -1px 0 5px, #d3d3d3 16px -7px 0 1px,
         #d3d3d3 7px -7px 0 5px;
+    -webkit-transition: opacity 100ms ease-in;
+    -o-transition: opacity 100ms ease-in;
     transition: opacity 100ms ease-in;
 }
 @-webkit-keyframes starry_star {
     50% {
         background-color: rgba(255, 255, 255, 0.1);
+        -webkit-box-shadow: #fff 30px -3px 0 0, #fff 12px 10px 0 -1px, rgba(255, 255, 255, 0.1) 38px 18px 0 1px,
+            #fff 32px 34px 0 0, rgba(255, 255, 255, 0.1) 20px 24px 0 -1.5px, #fff 5px 38px 0 1px;
         box-shadow: #fff 30px -3px 0 0, #fff 12px 10px 0 -1px, rgba(255, 255, 255, 0.1) 38px 18px 0 1px,
             #fff 32px 34px 0 0, rgba(255, 255, 255, 0.1) 20px 24px 0 -1.5px, #fff 5px 38px 0 1px;
     }
@@ -106,6 +119,8 @@ Day/Night and Gender toggle buttons
 @keyframes starry_star {
     50% {
         background-color: rgba(255, 255, 255, 0.1);
+        -webkit-box-shadow: #fff 30px -3px 0 0, #fff 12px 10px 0 -1px, rgba(255, 255, 255, 0.1) 38px 18px 0 1px,
+            #fff 32px 34px 0 0, rgba(255, 255, 255, 0.1) 20px 24px 0 -1.5px, #fff 5px 38px 0 1px;
         box-shadow: #fff 30px -3px 0 0, #fff 12px 10px 0 -1px, rgba(255, 255, 255, 0.1) 38px 18px 0 1px,
             #fff 32px 34px 0 0, rgba(255, 255, 255, 0.1) 20px 24px 0 -1.5px, #fff 5px 38px 0 1px;
     }
@@ -113,40 +128,50 @@ Day/Night and Gender toggle buttons
 @-webkit-keyframes bounceIn {
     0% {
         opacity: 0;
+        -webkit-transform: scale(0.3);
         transform: scale(0.3);
     }
     50% {
         opacity: 100;
+        -webkit-transform: scale(1.1);
         transform: scale(1.1);
     }
     55% {
+        -webkit-transform: scale(1.1);
         transform: scale(1.1);
     }
     75% {
+        -webkit-transform: scale(0.9);
         transform: scale(0.9);
     }
     100% {
         opacity: 100;
+        -webkit-transform: scale(1);
         transform: scale(1);
     }
 }
 @keyframes bounceIn {
     0% {
         opacity: 0;
+        -webkit-transform: scale(0.3);
         transform: scale(0.3);
     }
     50% {
         opacity: 100;
+        -webkit-transform: scale(1.1);
         transform: scale(1.1);
     }
     55% {
+        -webkit-transform: scale(1.1);
         transform: scale(1.1);
     }
     75% {
+        -webkit-transform: scale(0.9);
         transform: scale(0.9);
     }
     100% {
         opacity: 100;
+        -webkit-transform: scale(1);
         transform: scale(1);
     }
 }
@@ -160,6 +185,9 @@ Day/Night and Gender toggle buttons
     height: 4px;
     border-radius: 50%;
     background-color: #fff;
+    -webkit-box-shadow: rgba(255, 255, 255, 0.1) 30px -3px 0 0, rgba(255, 255, 255, 0.1) 12px 10px 0 -1px,
+        #fff 38px 18px 0 1px, rgba(255, 255, 255, 0.1) 32px 34px 0 0, #fff 20px 24px 0 -1.5px,
+        rgba(255, 255, 255, 0.1) 5px 38px 0 1px;
     box-shadow: rgba(255, 255, 255, 0.1) 30px -3px 0 0, rgba(255, 255, 255, 0.1) 12px 10px 0 -1px, #fff 38px 18px 0 1px,
         rgba(255, 255, 255, 0.1) 32px 34px 0 0, #fff 20px 24px 0 -1.5px, rgba(255, 255, 255, 0.1) 5px 38px 0 1px;
     -webkit-animation: starry_star 5s ease-in-out infinite;
@@ -174,7 +202,10 @@ Day/Night and Gender toggle buttons
     background-color: #fff;
     border-radius: 50%;
     border: 5px solid #e3e3c7;
+    -webkit-box-shadow: #e3e3c7 -28px 0 0 -3px, #e3e3c7 -8px 24px 0 -2px;
     box-shadow: #e3e3c7 -28px 0 0 -3px, #e3e3c7 -8px 24px 0 -2px;
+    -webkit-transform-origin: -6px 130%;
+    -ms-transform-origin: -6px 130%;
     transform-origin: -6px 130%;
 }
 .toggle--daynight .toggle--checkbox:checked + .toggle--btn {
@@ -201,6 +232,9 @@ Day/Night and Gender toggle buttons
 }
 .toggle--daynight .toggle--checkbox:checked + .toggle--btn > .toggle--feature {
     opacity: 0;
+    -webkit-box-shadow: rgba(255, 255, 255, 0.1) 30px -3px 0 -4px, rgba(255, 255, 255, 0.1) 12px 10px 0 -5px,
+        #fff 38px 18px 0 -3px, rgba(255, 255, 255, 0.1) 32px 34px 0 -4px, #fff 20px 24px 0 -5.5px,
+        rgba(255, 255, 255, 0.1) 5px 38px 0 -3px;
     box-shadow: rgba(255, 255, 255, 0.1) 30px -3px 0 -4px, rgba(255, 255, 255, 0.1) 12px 10px 0 -5px,
         #fff 38px 18px 0 -3px, rgba(255, 255, 255, 0.1) 32px 34px 0 -4px, #fff 20px 24px 0 -5.5px,
         rgba(255, 255, 255, 0.1) 5px 38px 0 -3px;
@@ -209,6 +243,8 @@ Day/Night and Gender toggle buttons
 }
 .toggle--daynight .toggle--checkbox:checked + .toggle--btn > .toggle--feature:before {
     left: 25px;
+    -webkit-transform: rotate(70deg);
+    -ms-transform: rotate(70deg);
     transform: rotate(70deg);
 }
 
@@ -231,6 +267,8 @@ Like specific styling
     background-color: var(--color-primary-light-8);
 }
 .toggle--ordinary .toggle--checkbox:checked + .toggle--btn:before {
+    -webkit-transform: translate(51px, 0);
+    -ms-transform: translate(51px, 0);
     transform: translate(51px, 0);
     background-color: var(--color-primary);
 }

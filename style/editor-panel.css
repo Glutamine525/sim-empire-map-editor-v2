@@ -5,6 +5,8 @@
     width: 100%;
     height: 100%;
     background: var(--color-background-darker);
+    -webkit-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
 }
 
@@ -16,6 +18,7 @@
     height: calc(100% - 100px);
     background: var(--color-background-base);
     border-radius: 20px;
+    -webkit-box-shadow: 3px 3px 7px var(--color-border-base);
     box-shadow: 3px 3px 7px var(--color-border-base);
 }
 
@@ -48,6 +51,8 @@
 
 #special-building,
 #user-sign-editor {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     height: 100%;
 }
@@ -56,7 +61,12 @@
 #user-sign-preview {
     border-right: 1px solid var(--color-border-base);
     width: 40%;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
 }
 
@@ -64,16 +74,28 @@
 #user-sign-preview .preview-operation {
     margin: auto;
     margin-top: 10px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
     width: 80%;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 }
 
 #special-building-preview .preview-operation > div,
 #user-sign-preview .preview-operation > div {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
 }
 
@@ -84,8 +106,14 @@
     background: var(--color-background-lighter);
     width: 80%;
     border: 1px solid var(--color-warning);
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     overflow: hidden;
 }
@@ -111,23 +139,36 @@
 }
 
 #special-building-preview .preview-box-row {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 
 #special-building-preview .preview {
     position: relative;
     /* margin: auto; */
+    -webkit-box-flex: 0;
+    -ms-flex: none;
     flex: none;
     width: 30px;
     height: 30px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     font-weight: bold;
     border: 1px solid #000000;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     color: #000000;
     background: #ffa500;
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
 }
 
@@ -142,16 +183,29 @@
     position: absolute;
     left: 2px;
     text-shadow: var(--color-white) 0px 1px 5px;
+    -webkit-transform: scale(0.75);
+    -ms-transform: scale(0.75);
     transform: scale(0.75);
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
     transform-origin: top left;
     color: red;
 }
 
 #special-building-setting,
 #user-sign-setting {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     border-left: 1px solid var(--color-border-base);
     width: 60%;
@@ -166,7 +220,11 @@
 #user-sign-setting .setting-row {
     height: 40px;
     width: 90%;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     margin-left: 10%;
 }
@@ -182,7 +240,11 @@
 #special-building-setting .setting-cell,
 #user-sign-setting .setting-cell {
     width: 50%;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 

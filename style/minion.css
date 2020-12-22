@@ -4,10 +4,20 @@
     height: 300px;
     border-radius: 50%;
     background: #ffcd00;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-transform: scale(0.1);
+    -ms-transform: scale(0.1);
     transform: scale(0.1);
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
     transform-origin: top left;
     overflow: hidden;
 }
@@ -21,6 +31,8 @@
     height: 30px;
     background: #b57700;
     border-radius: 30px;
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
     transition: 0.5s;
 }
 
@@ -38,6 +50,8 @@
 #minion .eyes {
     position: relative;
     top: -40px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
 }
 
@@ -56,6 +70,8 @@
     position: absolute;
     top: 50%;
     left: 25px;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     width: 40px;
     height: 40px;
