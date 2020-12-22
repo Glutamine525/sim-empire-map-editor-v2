@@ -696,7 +696,7 @@
                                             type="info"
                                             size="small"
                                             round
-                                            onclick="$$('toggle-display-mode').checked=true, onClickDisplayMode(true)"
+                                            onclick="$$('toggle-display-mode').checked=true,onClickDisplayMode(true)"
                                         >
                                             亮色
                                         </el-button>
@@ -704,12 +704,19 @@
                                             type="info"
                                             size="small"
                                             round
-                                            onclick="$$('toggle-display-mode').checked=false, onClickDisplayMode(false)"
+                                            onclick="$$('toggle-display-mode').checked=false,onClickDisplayMode(false)"
                                         >
                                             暗色
                                         </el-button>
-                                        <!-- <el-button type="warning" size="small" round onclick="screenshot(2, true)"> -->
-                                        <el-button type="warning" size="small" round onclick="screenshot(true)">
+                                        <el-button
+                                            type="warning"
+                                            size="small"
+                                            round
+                                            onclick="$$('toggle-rotation').checked=!$config.isMapRotated,onClickRotateMap(!$config.isMapRotated)"
+                                        >
+                                            旋转
+                                        </el-button>
+                                        <el-button type="primary" size="small" round onclick="screenshot(true)">
                                             截图
                                         </el-button>
                                     </div>

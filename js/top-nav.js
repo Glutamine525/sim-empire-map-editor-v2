@@ -58,8 +58,6 @@ function onClickHamButton(checked) {
         img.onload = () => {
             $$("user-sign-map-preview").getContext("2d").drawImage(img, 0, 0);
         };
-        if ($config.isMapRotated) $$("user-sign-map-preview").className = "rotate";
-        else $$("user-sign-map-preview").className = "";
         $$$("#user-sign-preview .preview-box").appendChild($$("sign"));
         $$("sign").style.top = 0;
         $$("sign").style.left = 0;
@@ -69,7 +67,9 @@ function onClickHamButton(checked) {
         $$("sign").style.position = "absolute";
         $$("user-sign").style.display = "block";
         $$$("#top-nav .top-menu", true).forEach((v) => (v.style.pointerEvents = "none"));
-        $$$("#top-nav .toggle--ordinary", true).forEach((v) => (v.style.pointerEvents = "none"));
+        $$$("#top-nav .toggle--ordinary", true).forEach((v, i) => {
+            if (i !== 2) v.style.pointerEvents = "none";
+        });
     } else {
         // disappear
         $config.isPanelShowed = false;
@@ -216,11 +216,13 @@ function onClickRotateMap(isMapRotated) {
         $$("cell").className = "rotate";
         $$("building").className = "rotate";
         $$("mini-map").className = "rotate";
+        $$("user-sign-map-preview").className = "rotate";
         $$("content").style.pointerEvents = "none";
     } else {
         $$("cell").className = "";
         $$("building").className = "";
         $$("mini-map").className = "";
+        $$("user-sign-map-preview").className = "";
         $$("content").style.pointerEvents = "auto";
     }
 }
