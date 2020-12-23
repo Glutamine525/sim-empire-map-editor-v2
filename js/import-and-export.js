@@ -173,6 +173,8 @@ function screenshot(withSign) {
             type: "image/svg+xml;charset=utf-8",
         });
         const url = window.URL.createObjectURL(svg);
+        // $$("download").setAttribute("href", url);
+        // return;
         let img = new Image();
         img.src = "data:image/svg+xml;base64," + window.btoa(unescape(encodeURIComponent(html)));
         img.onload = function () {
@@ -283,8 +285,14 @@ function html2Text(node) {
         const nodeName = node.nodeName.toLowerCase();
         const style = style2String(node, [
             "box-sizing",
-            "padding",
-            "margin",
+            "padding-top",
+            "padding-right",
+            "padding-bottom",
+            "padding-left",
+            "margin-top",
+            "margin-right",
+            "margin-bottom",
+            "margin-left",
             "z-index",
             "position",
             "display",
@@ -301,11 +309,18 @@ function html2Text(node) {
             "text-shadow",
             "background-color",
             "background-image",
-            "border-radius",
-            "border-top",
-            "border-right",
-            "border-bottom",
-            "border-left",
+            "border-top-color",
+            "border-right-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-top-width",
+            "border-right-width",
+            "border-bottom-width",
+            "border-left-width",
+            "border-top-style",
+            "border-right-style",
+            "border-bottom-style",
+            "border-left-style",
             "transform",
             "transform-origin",
             "opacity",

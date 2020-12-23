@@ -1,7 +1,3 @@
-.toggle {
-    zoom: 0.35;
-}
-
 .toggle *,
 .toggle *::before,
 .toggle *::after {
@@ -15,7 +11,10 @@ Some defaults across all toggle demos
 .toggle {
     display: inline-block;
     text-align: center;
-    /* user-select: none; */
+    -webkit-transform: scale(0.35);
+    -ms-transform: scale(0.35);
+    transform: scale(0.35);
+    margin: -17.5px -37.5px !important;
 }
 
 .toggle--checkbox {

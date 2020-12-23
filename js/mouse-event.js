@@ -1,35 +1,38 @@
+function isInBuilding(path) {
+    return path[0].id === "building" || path[1].id === "building" || path[2].id === "building";
+}
+
+function isInPreview(path) {
+    return path[0].id === "preview" || path[1].id === "preview";
+}
+
+function isInRangeContainer(path) {
+    return (
+        path[0].id === "range-container" ||
+        path[1].id === "range-container" ||
+        path[2].id === "range-container" ||
+        path[3].id === "range-container"
+    );
+}
+
+function isInRoadHelper(path) {
+    return path[0].id === "road-helper";
+}
+
 function onMouseDown(event) {
-    // console.log("down", event);
+    const path = event.path || (event.composedPath && event.composedPath());
     $config.isMouseDown = true;
     $config.startX = event.pageX - 96;
     $config.startY = event.pageY - 72;
     $config.startLi = Math.ceil((event.pageY - 72) / 30);
     $config.startCo = Math.ceil((event.pageX - 96) / 30);
-    if (
-        event.path.length > 3 &&
-        event.path[1].id !== "selection-operation" &&
-        event.path[2].id !== "selection-operation"
-    ) {
+    if (path.length > 3 && path[1].id !== "selection-operation" && path[2].id !== "selection-operation") {
         $selectionBlock.hide();
     }
-    if (
-        event.path.length > 3 &&
-        event.path[1].id !== "deletion-operation" &&
-        event.path[2].id !== "deletion-operation"
-    ) {
+    if (path.length > 3 && path[1].id !== "deletion-operation" && path[2].id !== "deletion-operation") {
         $deletionBlock.hide();
     }
-    if (
-        $config.operation === "null" &&
-        event.path.length > 3 &&
-        (event.path[0].id === "building" ||
-            event.path[1].id === "building" ||
-            event.path[2].id === "building" ||
-            // event.path[0].id === "range-container" ||
-            // event.path[1].id === "range-container" ||
-            // event.path[2].id === "range-container" ||
-            event.path[3].id === "range-container")
-    ) {
+    if ($config.operation === "null" && path.length > 3 && (isInBuilding(path) || isInRangeContainer(path))) {
         $config.dragMap.startScrollLeft = $$$("html").scrollLeft;
         $config.dragMap.startScrollTop = $$$("html").scrollTop;
         $config.dragMap.startX = event.clientX;
@@ -40,17 +43,8 @@ function onMouseDown(event) {
     }
     if (
         $config.isCtrlDown &&
-        event.path.length > 3 &&
-        (event.path[0].id === "building" ||
-            event.path[1].id === "building" ||
-            event.path[2].id === "building" ||
-            event.path[0].id === "building" ||
-            event.path[0].id === "preview" ||
-            event.path[1].id === "preview" ||
-            // event.path[0].id === "range-container" ||
-            // event.path[1].id === "range-container" ||
-            // event.path[2].id === "range-container" ||
-            event.path[3].id === "range-container")
+        path.length > 3 &&
+        (isInBuilding(path) || isInPreview(path) || isInRangeContainer(path))
     ) {
         $config.dragMap.startScrollLeft = $$$("html").scrollLeft;
         $config.dragMap.startScrollTop = $$$("html").scrollTop;
@@ -64,6 +58,7 @@ function onMouseDown(event) {
 
 function onMouseUp(event) {
     // console.log("up", event);
+    const path = event.path || (event.composedPath && event.composedPath());
     $config.isMouseDown = false;
     if ($config.dragMap.isDragging) {
         $config.dragMap.isDragging = false;
@@ -71,13 +66,8 @@ function onMouseUp(event) {
     if (
         !$config.isCtrlDown &&
         $config.holding.isRoad &&
-        event.path.length > 3 &&
-        (event.path[0].id === "building" ||
-            event.path[1].id === "building" ||
-            event.path[2].id === "building" ||
-            event.path[0].id === "road-helper" ||
-            event.path[0].id === "preview" ||
-            event.path[1].id === "preview")
+        path.length > 3 &&
+        (isInBuilding(path) || isInRoadHelper(path) || isInPreview(path))
     ) {
         let li = Math.ceil((event.pageY - 72) / 30);
         let co = Math.ceil((event.pageX - 96) / 30);
@@ -117,9 +107,9 @@ function onMouseUp(event) {
     }
     if (
         $config.operation === "selecting-building" &&
-        event.path.length > 3 &&
-        event.path[1].id !== "selection-operation" &&
-        event.path[2].id !== "selection-operation"
+        path.length > 3 &&
+        path[1].id !== "selection-operation" &&
+        path[2].id !== "selection-operation"
     ) {
         $selectionBlock.finalize({
             startX: $config.startX,
@@ -130,9 +120,9 @@ function onMouseUp(event) {
     }
     if (
         $config.operation === "deleting-building" &&
-        event.path.length > 3 &&
-        event.path[1].id !== "deletion-operation" &&
-        event.path[2].id !== "deletion-operation"
+        path.length > 3 &&
+        path[1].id !== "deletion-operation" &&
+        path[2].id !== "deletion-operation"
     ) {
         $deletionBlock.finalize({
             startX: $config.startX,
@@ -144,6 +134,7 @@ function onMouseUp(event) {
 }
 
 function onMouseClick(event) {
+    const path = event.path || (event.composedPath && event.composedPath());
     let li = Math.ceil((event.pageY - 72) / 30);
     let co = Math.ceil((event.pageX - 96) / 30);
     if (li < 0 || co < 0 || li > 116 || co > 116) return;
@@ -171,11 +162,9 @@ function onMouseClick(event) {
     } else if (
         !$config.isCtrlDown &&
         $config.operation === "placing-building" &&
-        ($$("preview").style.display === "flex" ||
-            $$("preview").style.display === "-webkit-box" ||
-            $$("preview").style.display === "-ms-flexbox") &&
-        event.path.length > 3 &&
-        (event.path[0].id === "building" || event.path[0].id === "preview" || event.path[1].id === "preview")
+        $$("preview").style.display !== "none" &&
+        path.length > 3 &&
+        (path[0].id === "building" || isInPreview(path))
     ) {
         let { offsetLi, offsetCo, width, height } = $config.holding;
         for (let i = li - offsetLi; i < li - offsetLi + height; i++) {
@@ -217,14 +206,12 @@ function onMouseClick(event) {
 
 function onMouseMove(event) {
     minionEyeballs(event);
+    const path = event.path || (event.composedPath && event.composedPath());
     if ($config.isMouseDown && $config.dragMap.isDragging) {
         if (
             ($config.operation === "null" || $config.isCtrlDown) &&
-            event.path.length > 3 &&
-            (event.path[0].id === "building" ||
-                event.path[1].id === "building" ||
-                event.path[2].id === "building" ||
-                event.path[3].id === "range-container")
+            path.length > 3 &&
+            (isInBuilding(path) || isInRangeContainer(path))
         ) {
             let config = $config.dragMap;
             $config.dragMap.nowX = event.clientX;
@@ -255,8 +242,8 @@ function onMouseMove(event) {
         if ($config.core === "safari") preview.style.display = "-webkit-box";
     } else if (
         $config.operation === "placing-building" &&
-        event.path.length > 3 &&
-        (event.path[0].id === "building" || event.path[0].id === "preview" || event.path[1].id === "preview")
+        path.length > 3 &&
+        (path[0].id === "building" || isInPreview(path))
     ) {
         setupPreview(li, co);
     } else {
@@ -265,11 +252,11 @@ function onMouseMove(event) {
     if ($config.isMouseDown) {
         if (
             $config.operation === "selecting-building" &&
-            event.path.length > 3 &&
-            (event.path[0].id === "building" ||
-                event.path[0].id === "selection-block" ||
-                event.path[0].className.indexOf("building") > -1 ||
-                event.path[1].className.indexOf("building") > -1)
+            path.length > 3 &&
+            (path[0].id === "building" ||
+                path[0].id === "selection-block" ||
+                path[0].className.indexOf("building") > -1 ||
+                path[1].className.indexOf("building") > -1)
         ) {
             $selectionBlock.update({
                 startX: $config.startX,
@@ -280,11 +267,11 @@ function onMouseMove(event) {
         }
         if (
             $config.operation === "deleting-building" &&
-            event.path.length > 3 &&
-            (event.path[0].id === "building" ||
-                event.path[0].id === "deletion-block" ||
-                event.path[0].className.indexOf("building") > -1 ||
-                event.path[1].className.indexOf("building") > -1)
+            path.length > 3 &&
+            (path[0].id === "building" ||
+                path[0].id === "deletion-block" ||
+                path[0].className.indexOf("building") > -1 ||
+                path[1].className.indexOf("building") > -1)
         ) {
             $deletionBlock.update({
                 startX: $config.startX,

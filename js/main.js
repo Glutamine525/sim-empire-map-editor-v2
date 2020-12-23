@@ -52,7 +52,10 @@ $$("top-nav-version").innerHTML = $config.version;
 $$("sign-version").innerHTML = $config.version;
 $$("sign-civil").innerHTML = "中国";
 
-if ("backdrop-filter" in document.documentElement.style) {
+if (
+    "backdrop-filter" in document.documentElement.style ||
+    "-webkit-backdrop-filter" in document.documentElement.style
+) {
     // if (false) {
     $config.isFtosted = true;
     let topNav = $$("top-nav");
