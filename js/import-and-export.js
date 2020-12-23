@@ -177,8 +177,8 @@ function screenshot(withSign) {
         img.src = "data:image/svg+xml;base64," + window.btoa(unescape(encodeURIComponent(html)));
         img.onload = function () {
             let canvas = document.createElement("canvas");
-            canvas.width = $cellSize * $length * 2;
-            canvas.height = $cellSize * $length * 2;
+            canvas.width = $cellSize * $length * 1.5;
+            canvas.height = $cellSize * $length * 1.5;
             let ctx = canvas.getContext("2d");
             ctx.fillStyle = getColor("--color-background-darker");
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -195,7 +195,7 @@ function screenshot(withSign) {
             canvas.toBlob((blob) => {
                 console.timeEnd("sreenshot");
                 console.time("download");
-                download(blob, `${getFileName()}.png`);
+                download(blob, `${getFileName()}.jpg`);
                 toggleWaiting(false);
                 console.timeEnd("download");
                 if (withSign) {
@@ -204,7 +204,7 @@ function screenshot(withSign) {
                     $$("sign").style.webkitTransform = signScale;
                     $$$("#user-sign-preview .preview-box").appendChild($$("sign"));
                 }
-            });
+            }, "image/jpeg");
         };
     }, 10);
 }

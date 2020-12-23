@@ -58,10 +58,8 @@ class Building {
         marker.innerHTML = this.marker;
         marker.className = "marker";
         if (!this.showMarker()) marker.style.display = "none";
-        if (this.range) {
-            node.onmouseover = this.onMouseEnter;
-            node.onmouseleave = this.onMouseLeave;
-        }
+        node.onmouseover = this.onMouseEnter;
+        node.onmouseleave = this.onMouseLeave;
         if (!this.isFixed) node.ondblclick = this.onMouseDoubleClick;
         if (this.text) node.append(text);
         if (!this.isMiracle && !this.isDecoration && !this.isProtection && !this.barrierType) node.append(marker);
@@ -141,22 +139,32 @@ class Building {
                 if (this.marker === $config.protection.length) $$(this.id).lastChild.style.color = "green";
                 if (this.marker < $config.protection.length) $$(this.id).lastChild.style.color = "red";
             }
-            // } else if (!this.isMiracle && !this.isDecoration && !this.isProtection && !this.barrierType) {
         } else if (this.isRoad) {
             $$(this.id).lastChild.style.display = "none";
         }
     }
 
     onMouseEnter() {
-        if ($config.operation === "deleting-building") return;
+        // if ($config.operation === "selecting-building") return;
+        // if ($config.operation === "deleting-building") return;
+        if ($config.isMouseDown) return;
+        if ($config.dragMap.isDragging) return;
         let u = parseID(this.id);
         let building = $cell[u[0]][u[1]].occupied;
-        $range.show(building);
+        if (building.range) $range.show(building);
+        if (building.isFixed || building.isRoad) {
+            $config.lastHover = {};
+        } else $config.lastHover = building;
     }
 
     onMouseLeave() {
-        if ($config.operation === "deleting-building") return;
-        $range.hide(this.id);
+        // if ($config.operation === "selecting-building") return;
+        // if ($config.operation === "deleting-building") return;
+        // if ($config.isMouseDown) return;
+        // if ($config.dragMap.isDragging) return;
+        let u = parseID(this.id);
+        let building = $cell[u[0]][u[1]].occupied;
+        if (building.range) $range.hide(this.id);
     }
 
     onMouseDoubleClick() {
