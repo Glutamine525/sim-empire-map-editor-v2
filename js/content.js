@@ -519,5 +519,5 @@ function setupPreview(li, co) {
     preview.style.top = `${(li - 1 - $config.holding.offsetLi) * $cellSize}px`;
     preview.style.left = `${(co - 1 - $config.holding.offsetCo) * $cellSize}px`;
     preview.style.display = "flex";
-    if ($config.core === "safari") preview.style.display = "-webkit-box";
+    // if ($config.core === "safari") preview.style.display = "-webkit-box";
 }

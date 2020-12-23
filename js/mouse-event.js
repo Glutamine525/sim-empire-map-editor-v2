@@ -239,7 +239,7 @@ function onMouseMove(event) {
         preview.style.left = `${($cell[li][co].occupied.column - 1) * $cellSize}px`;
         setPreviewMarker($cell[li][co].occupied.marker);
         preview.style.display = "flex";
-        if ($config.core === "safari") preview.style.display = "-webkit-box";
+        // if ($config.core === "safari") preview.style.display = "-webkit-box";
     } else if (
         $config.operation === "placing-building" &&
         path.length > 3 &&
