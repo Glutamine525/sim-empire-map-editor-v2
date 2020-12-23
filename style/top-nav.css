@@ -70,14 +70,22 @@
     text-align: right;
     margin: auto 20px auto 0;
     font-size: 12px;
-    /* white-space: nowrap; */
+}
+
+#top-nav-count {
+    text-align: left;
+    margin: auto 5px;
+    font-size: 12px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
 }
 
 #top-nav-info > *:not(:last-child) {
     margin-left: 10px;
-    /* white-space: nowrap; */
 }
 
+#top-nav-count strong,
 #top-nav-operation strong,
 #top-nav-info strong {
     color: var(--color-text-primary);

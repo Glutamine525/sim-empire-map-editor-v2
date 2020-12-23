@@ -125,3 +125,7 @@ document.onkeydown = onKeyDown;
 document.onkeyup = onKeyUp;
 document.onscroll = onScroll;
 window.onresize = onResize;
+document.body.oncontextmenu = () => {
+    window.event.returnValue = false;
+    return false;
+};

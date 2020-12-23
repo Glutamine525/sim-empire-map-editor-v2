@@ -137,6 +137,7 @@ function createBuilding(config) {
     building.marker = protectionRecord.length;
     updateBorder(building, false);
     building.init();
+    updateBuildingCount(1, building);
     $miniMap.setPixel(line, column, building.background, width, height);
     if (building.isRoad) updateRoadMarker(line, column);
     if (building.isProtection) {
@@ -190,6 +191,7 @@ function deleteBuilding(li, co, force) {
         }
     }
     if (building.isRoad) updateRoadMarker(line, column);
+    updateBuildingCount(-1, building);
     $miniMap.setPixel(line, column, getColor("--color-background-lighter"), width, height);
     $$("building").removeChild($$(id));
 }

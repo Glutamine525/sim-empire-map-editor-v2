@@ -60,6 +60,7 @@ class Building {
         if (!this.showMarker()) marker.style.display = "none";
         node.onmouseover = this.onMouseEnter;
         node.onmouseleave = this.onMouseLeave;
+        if (this.catagory === "住宅") node.onmouseup = this.onMouseUp;
         if (!this.isFixed) node.ondblclick = this.onMouseDoubleClick;
         if (this.text) node.append(text);
         if (!this.isMiracle && !this.isDecoration && !this.isProtection && !this.barrierType) node.append(marker);
@@ -167,10 +168,94 @@ class Building {
         if (building.range) $range.hide(this.id);
     }
 
+    onMouseUp(event) {
+        // if ($config.dragMap.isDragging) return;
+        if (event.button !== 2) return;
+        $$$("body .el-notification.right .el-notification__closeBtn.el-icon-close", true).forEach((v) => v.click());
+        let u = parseID(this.id);
+        let building = $cell[u[0]][u[1]].occupied;
+        let { line, column, width, height } = building;
+        let requirement = $config.civilBuilding[$config.civil][`${building.name}需求`];
+        let maxRange = 0;
+        let result = {};
+        Object.keys(requirement).forEach((cata) => {
+            result[cata] = [];
+            for (let req of requirement[cata]) {
+                let range = $config.civilBuilding[$config.civil][cata].find((v) => v.name === req)["range_size"];
+                let covered = false;
+                maxRange = range > maxRange ? range : maxRange;
+                for (let i = line - range; i < line + height + range; i++) {
+                    if (covered) break;
+                    for (let j = column - range; j < column + width + range; j++) {
+                        if (covered) break;
+                        let occupied = $cell[i][j].occupied;
+                        if (!occupied) continue;
+                        if (occupied.catagory !== cata || occupied.name !== req) continue;
+                        for (let cornerLi of [line, line + height - 1, line, line + height - 1]) {
+                            if (covered) break;
+                            for (let cornerCo of [column, column, column + width - 1, column + width - 1]) {
+                                if (
+                                    isInBuildingRange(
+                                        cornerLi,
+                                        cornerCo,
+                                        occupied.line,
+                                        occupied.column,
+                                        occupied.width,
+                                        occupied.height,
+                                        range
+                                    )
+                                )
+                                    covered = true;
+                                if (covered) break;
+                            }
+                        }
+                    }
+                }
+                result[cata].push({ name: req, covered: covered });
+            }
+        });
+        let message = "";
+        Object.keys(result).forEach((cata) => {
+            message +=
+                "<div style='border: 1px solid var(--color-border-base); width: 100%; margin: 2px 0'></div><div>";
+            message += `<span style="font-size: 15px; font-weight: bold;">${cata}</span><br />`;
+            let count = 0;
+            for (let req of result[cata]) {
+                if (!count) {
+                    message += "<div style='display: flex; display: -webkit-box; display: -ms-flexbox;'>";
+                }
+                message += `<div style="width: 50%"><span>${req.name}:</span>`;
+                message += `<span style="margin-left: 2px; font-weight: bold; color: ${
+                    req.covered ? "#0be881" : "#ff5e57"
+                }">${req.covered ? "√" : "×"}</span></div>`;
+                count++;
+                if (count >= 2) {
+                    count = 0;
+                    message += "</div>";
+                }
+            }
+            message += "</div>";
+        });
+        $vm.$notify({
+            dangerouslyUseHTMLString: true,
+            iconClass: "fas fa-search",
+            title: "住宅需求查询结果",
+            message: message,
+            duration: 4000,
+            showClose: true,
+            customClass: "residence-requirement",
+            offset: $config.topNavHeight + 10,
+        });
+    }
+
     onMouseDoubleClick() {
         let u = parseID(this.id);
-        if ($cell[u[0]][u[1]].occupied.range) {
+        let building = $cell[u[0]][u[1]].occupied;
+        if (building.range) {
             $$("range-container").removeChild($$(`range-${this.id}`));
+        }
+        if (building.catagory === "住宅") {
+            $$$("body .el-notification.right", true).forEach((v) => v.parentNode.removeChild(v));
         }
         deleteBuilding(u[0], u[1]);
     }

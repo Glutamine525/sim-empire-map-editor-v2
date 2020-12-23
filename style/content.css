@@ -315,8 +315,14 @@
     width: 174px;
     height: 174px;
     margin: 3px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 
@@ -501,4 +507,21 @@
 
 #user-sign span {
     display: inline-block;
+}
+
+.residence-requirement {
+    background: var(--color-background-lighter);
+    border-color: var(--color-border-darker);
+    -webkit-box-shadow: 3px 3px 5px var(--color-border-lighter);
+    box-shadow: 3px 3px 5px var(--color-border-lighter);
+}
+
+.residence-requirement .el-notification__group {
+    width: 100%;
+}
+
+.residence-requirement h2,
+.residence-requirement div {
+    color: var(--color-text-regular);
+    text-shadow: 0 0 3px var(--color-border-lighter);
 }

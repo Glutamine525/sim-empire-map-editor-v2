@@ -121,6 +121,7 @@ function onClickWoodNum(woodNum) {
     $selectionBlock.hide();
     $deletionBlock.hide();
     $$("sign-wood-num").innerHTML = `${woodNum}木`;
+    resetBuildingCount();
 }
 
 function onClickCivil(civil) {
@@ -145,6 +146,7 @@ function onClickCivil(civil) {
             }
         }
     }
+    resetBuildingCount();
 }
 
 function onClickNoWood(isNoWood) {
@@ -225,6 +227,34 @@ function onClickRotateMap(isMapRotated) {
         $$("user-sign-map-preview").className = "";
         $$("content").style.pointerEvents = "auto";
     }
+}
+
+function updateBuildingCount(diff, building) {
+    switch (building.name) {
+        case "普通住宅":
+            if (building.catagory !== "住宅") return;
+            $$("top-nav-residence-0").innerHTML = +$$("top-nav-residence-0").innerHTML + diff;
+            break;
+        case "高级住宅":
+            if (building.catagory !== "住宅") return;
+            $$("top-nav-residence-1").innerHTML = +$$("top-nav-residence-1").innerHTML + diff;
+            break;
+        case "粮仓":
+            if (building.catagory !== "市政") return;
+            $$("top-nav-warehouse-0").innerHTML = +$$("top-nav-warehouse-0").innerHTML + diff;
+            break;
+        case "货栈":
+            if (building.catagory !== "市政") return;
+            $$("top-nav-warehouse-1").innerHTML = +$$("top-nav-warehouse-1").innerHTML + diff;
+            break;
+    }
+}
+
+function resetBuildingCount() {
+    $$("top-nav-residence-0").innerHTML = 0;
+    $$("top-nav-residence-1").innerHTML = 0;
+    $$("top-nav-warehouse-0").innerHTML = 0;
+    $$("top-nav-warehouse-1").innerHTML = 0;
 }
 
 function minionEyeballs(event) {

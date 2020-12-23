@@ -190,6 +190,32 @@
                         <strong id="top-nav-holding">无</strong>
                     </div>
                 </div>
+                <div id="top-nav-count">
+                    <div>
+                        <div>
+                            普通住宅:
+                            <strong id="top-nav-residence-0">0</strong>
+                            个
+                        </div>
+                        <div>
+                            高级住宅:
+                            <strong id="top-nav-residence-1">0</strong>
+                            个
+                        </div>
+                    </div>
+                    <div style="margin-left: 10px">
+                        <div>
+                            粮仓:
+                            <strong id="top-nav-warehouse-0">0</strong>
+                            个
+                        </div>
+                        <div>
+                            货栈:
+                            <strong id="top-nav-warehouse-1">0</strong>
+                            个
+                        </div>
+                    </div>
+                </div>
                 <el-tooltip style="border-radius: 50%" popper-class="hint-popper" placement="bottom-start">
                     <div slot="content">
                         快捷键:
@@ -209,6 +235,8 @@
                         <div style="width: 100%; border: 1px solid var(--color-border-base); margin: 6px 0"></div>
                         其它操作:
                         <br />
+                        - 右键点击住宅建筑可以查询需求结果
+                        <br />
                         - 双击建筑可以删除建筑
                         <br />
                         - 按住Ctrl键可以在选中操作时拖动地图
@@ -218,8 +246,6 @@
                         - 如果无法放置建筑，尝试按一次Ctrl
                         <br />
                         - 鼠标悬停在建筑上，按Ctrl+C可以复制建筑
-                        <br />
-                        - 可以用相同大小的建筑覆盖通用建筑
                         <br />
                         - 特殊建筑的数据会被导入导出
                         <br />
