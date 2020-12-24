@@ -120,15 +120,18 @@ window.scrollTo({
 $$("ghost-container").style.display = "none";
 $$("loading-background-container").style.display = "none";
 
-document.onclick = onMouseClick;
-document.onmousemove = onMouseMove;
-document.onmousedown = onMouseDown;
-document.onmouseup = onMouseUp;
-document.onkeydown = onKeyDown;
-document.onkeyup = onKeyUp;
-document.onscroll = onScroll;
-window.onresize = onResize;
-document.body.oncontextmenu = () => {
-    window.event.returnValue = false;
-    return false;
+window.onload = () => {
+    document.onclick = onMouseClick;
+    document.onmousemove = onMouseMove;
+    document.onmousedown = onMouseDown;
+    document.onmouseup = onMouseUp;
+    document.onkeydown = onKeyDown;
+    document.onkeyup = onKeyUp;
+    document.onscroll = onScroll;
+    window.onresize = onResize;
+    document.body.oncontextmenu = () => {
+        window.event.returnValue = false;
+        return false;
+    };
+    console.timeEnd("loading");
 };

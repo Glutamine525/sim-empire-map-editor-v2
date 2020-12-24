@@ -24,25 +24,29 @@
     --color-danger: #ff5e57;
     --color-info: #808e9b;
 
-    --color-primary-light-1: #33c6fa;
-    --color-primary-light-2: #4bcdfa;
-    --color-primary-light-3: #63d3fb;
-    --color-primary-light-4: #7bdafc;
-    --color-primary-light-5: #93e1fc;
-    --color-primary-light-6: #abe8fd;
-    --color-primary-light-7: #c3eefe;
-    --color-primary-light-8: #dbf5fe;
-    --color-primary-light-9: #f3fcff;
+    --color-primary-light-1: #27c3fa;
+    --color-primary-light-2: #3fc9fa;
+    --color-primary-light-3: #57d0fb;
+    --color-primary-light-4: #6fd7fb;
+    --color-primary-light-5: #87defc;
+    --color-primary-light-6: #9fe4fd;
+    --color-primary-light-7: #b7ebfd;
+    --color-primary-light-8: #cff2fe;
+    --color-primary-light-9: #e7f8fe;
 
+    --color-success-hover: #54efa7;
     --color-success-light: #b6f8d9;
     --color-success-lighter: #dafcec;
 
+    --color-warning-hover: #ffd37f;
     --color-warning-light: #ffecc8;
     --color-warning-lighter: #fff6e4;
 
+    --color-danger-hover: #ff8e89;
     --color-danger-light: #ffcfcd;
     --color-danger-lighter: #ffe7e6;
 
+    --color-info-hover: #a6b0b9;
     --color-info-light: #d9dde1;
     --color-info-lighter: #eceef0;
 }

@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>模拟帝国地图编辑器V2</title>
+        <title>模拟帝国布局图编辑器V2</title>
         <link rel="icon" href="./img/logo.png" />
         <link rel="stylesheet" href="./library/fontawesome.all.css" />
         <link rel="stylesheet" href="./library/element-ui.v2.14.1.css" />
@@ -49,6 +49,9 @@
         <script src="./js/import-and-export.js"></script>
     </head>
     <body>
+        <script>
+            console.time("loading");
+        </script>
         <div id="app" style="display: none">
             <div id="top-nav">
                 <div id="top-nav-controller">
@@ -506,14 +509,7 @@
                         <el-tab-pane id="special-building" label="特殊建筑" name="first">
                             <div id="special-building-preview">
                                 <div class="preview-box">
-                                    <div
-                                        style="
-                                            display: flex;
-                                            flex-direction: column;
-                                            justify-content: center;
-                                            align-items: center;
-                                        "
-                                    >
+                                    <div class="preview-box-sheet">
                                         <div v-for="i in previewBox.row" :key="'previewBox-'+i" class="preview-box-row">
                                             <div
                                                 v-for="j in previewBox.cell"
@@ -528,7 +524,6 @@
                                                     borderWidth: `${specialBuilding.borderWidth}px`,
                                                     fontSize: `${specialBuilding.fontSize}px`
                                                 }"
-                                                style="background: linear-gradient(45deg, blue, blue) !important"
                                             >
                                                 <div class="text" v-html="specialBuilding.text"></div>
                                                 <div
@@ -570,20 +565,14 @@
                                 </div>
                             </div>
                             <div id="special-building-setting">
-                                <div
-                                    class="setting-row"
-                                    style="margin: 0 0 10px 0; justify-content: center; height: auto; flex-wrap: wrap"
-                                >
+                                <div class="setting-row center" style="margin: 0 0 10px 0">
                                     已添加
                                     <span style="color: var(--color-text-primary); font-weight: bold; margin: 0 4px">
                                         {{ specialBuildingList.length }}
                                     </span>
                                     个特殊建筑，最多添加10个。
                                 </div>
-                                <div
-                                    class="setting-row"
-                                    style="margin: 0 0 20px 0; justify-content: center; height: auto; flex-wrap: wrap"
-                                >
+                                <div class="setting-row center" style="margin: 0 0 20px 0">
                                     <el-tooltip
                                         v-for="(item, index) in specialBuildingList"
                                         :key="'special-'+item.name"
@@ -596,18 +585,25 @@
                                             <br />
                                             显示文字: {{ item.text }}
                                             <br />
-                                            宽度: {{ item.width }}， 高度: {{ item.height }}
+                                            宽度: {{ item.width }}格， 高度: {{ item.height }}格
                                             <br />
-                                            文字颜色: <span :style="{ color: item.color }">{{ item.color }}</span>，
-                                            字体大小: {{ item.fontSize }}px
+                                            文字颜色:
+                                            <span
+                                                :style="{ color: item.color, textShadow: 'var(--color-white) 0px 1px 10px' }"
+                                                >{{ item.color }}</span
+                                            >， 字体大小: {{ item.fontSize }}px
                                             <br />
                                             边框颜色:
-                                            <span :style="{ color: item.borderColor }">{{ item.borderColor }}</span>，
-                                            边框宽度: {{ item.borderWidth }}px
+                                            <span
+                                                :style="{ color: item.borderColor, textShadow: 'var(--color-white) 0px 1px 10px' }"
+                                                >{{ item.borderColor }}</span
+                                            >， 边框宽度: {{ item.borderWidth }}px
                                             <br />
                                             背景颜色:
-                                            <span :style="{ color: item.background }">{{ item.background }}</span>，
-                                            建筑范围: {{ item.range }}格
+                                            <span
+                                                :style="{ color: item.background, textShadow: 'var(--color-white) 0px 1px 10px' }"
+                                                >{{ item.background }}</span
+                                            >， 影响范围: {{ item.range }}格
                                             <br />
                                             美化建筑:
                                             <span :style="{ color: item.isDecoration ? 'green' : 'red' }">
@@ -690,7 +686,7 @@
                                         <el-color-picker v-model="specialBuilding.background"></el-color-picker>
                                     </div>
                                     <div class="setting-cell">
-                                        <label>建筑范围: </label>
+                                        <label>影响范围: </label>
                                         <el-input-number v-model="specialBuilding.range" :min="0"></el-input-number>
                                     </div>
                                 </div>
@@ -991,7 +987,303 @@
                                 <div class="setting-row" style="margin: 0"></div>
                             </div>
                         </el-tab-pane>
-                        <el-tab-pane label="生成文明" name="third"> TODO </el-tab-pane>
+                        <el-tab-pane id="civil-editor" label="生成文明" name="third">
+                            <div id="civil-editor-step">
+                                <div style="height: 100%">
+                                    <el-steps
+                                        direction="vertical"
+                                        :active="civilEditorActiveStep"
+                                        finish-status="success"
+                                    >
+                                        <el-step
+                                            v-for="item in civilEditorStepLabel"
+                                            :title="item"
+                                            :key="item"
+                                        ></el-step>
+                                    </el-steps>
+                                </div>
+                            </div>
+                            <div id="civil-editor-preview">
+                                <div class="preview-box">
+                                    <div
+                                        class="preview"
+                                        :style="{ 
+                                            width: `${civilEditorPreview.width * 30}px`, 
+                                            height: `${civilEditorPreview.height * 30}px`,
+                                            color: civilEditorPreview.color,
+                                            background: civilEditorPreview.backgroundColor,
+                                            borderColor: civilEditorPreview.borderColor,
+                                            borderWidth: `${civilEditorPreview.borderWidth}px`,
+                                            fontSize: `${civilEditorPreview.fontSize}px`
+                                        }"
+                                        v-show="civilEditorResult[civilEditorStepLabel[civilEditorActiveStep]].length"
+                                    >
+                                        <div class="text">{{ civilEditorPreview.text }}</div>
+                                        <div
+                                            class="marker"
+                                            v-show="!(civilEditorPreview.isDecoration||civilEditorPreview.isMiracle||civilEditorPreview.isProtection)"
+                                        >
+                                            0
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="civil-editor-setting">
+                                <el-scrollbar>
+                                    <div
+                                        class="setting-row center"
+                                        style="margin: 0 0 10px 0; font-size: 20px; font-weight: bold"
+                                    >
+                                        {{ civilEditorStepLabel[civilEditorActiveStep] }}
+                                        <el-button
+                                            type="primary"
+                                            size="small"
+                                            style="margin-left: 20px"
+                                            round
+                                            @click="insertCivilBuilding"
+                                            v-show="civilEditorActiveStep<=9"
+                                        >
+                                            添加建筑
+                                        </el-button>
+                                    </div>
+                                    <div class="setting-row center" style="margin: 0 0 10px 0">
+                                        <el-tooltip
+                                            v-for="(item, index) in civilEditorResult[civilEditorStepLabel[civilEditorActiveStep]]"
+                                            :key="'civil-editor-'+item.name"
+                                            popper-class="hint-popper"
+                                            effect="dark"
+                                            placement="bottom"
+                                            v-show="civilEditorActiveStep<=9"
+                                        >
+                                            <div slot="content">
+                                                建筑名称: {{ item.name }}
+                                                <br />
+                                                显示文字: {{ item.text }}
+                                                <br />
+                                                宽度: {{ item.width }}格， 高度: {{ item.height }}格
+                                                <br />
+                                                文字颜色:
+                                                <span
+                                                    :style="{ color: item.color, textShadow: 'var(--color-white) 0px 1px 10px' }"
+                                                    >{{ item.color }} </span
+                                                >，字体大小: {{ item.fontSize }}px
+                                                <br />
+                                                边框颜色:
+                                                <span
+                                                    :style="{ color: item.borderColor, textShadow: 'var(--color-white) 0px 1px 10px' }"
+                                                    >{{ item.borderColor }} </span
+                                                >， 边框宽度: {{ item.borderWidth }}px
+                                                <br />
+                                                背景颜色:
+                                                <span
+                                                    :style="{ color: item.backgroundColor, textShadow: 'var(--color-white) 0px 1px 10px' }"
+                                                    >{{ item.backgroundColor }} </span
+                                                >，影响范围: {{ item.range }}格
+                                                <br />
+                                                美化建筑:
+                                                <span :style="{ color: item.isDecoration ? 'green' : 'red' }">
+                                                    {{ item.isDecoration ? '√' : '×' }}
+                                                </span>
+                                                ， 奇迹建筑:
+                                                <span :style="{ color: item.isMiracle ? 'green' : 'red' }">
+                                                    {{ item.isMiracle? '√' : '×' }}
+                                                </span>
+                                            </div>
+                                            <el-tag
+                                                size="medium"
+                                                closable
+                                                style="margin: 10px; cursor: pointer"
+                                                effect="dark"
+                                                @click="selectCivilTag(index)"
+                                                @close="deleteCivilTag(index)"
+                                            >
+                                                {{ item.name }}
+                                            </el-tag>
+                                        </el-tooltip>
+                                    </div>
+                                    <div class="setting-row">
+                                        <div class="setting-cell">
+                                            <label>建筑名称:</label>
+                                            <span
+                                                style="color: var(--color-text-primary); font-weight: bold"
+                                                v-show="[0].indexOf(civilEditorActiveStep)>-1"
+                                            >
+                                                {{ civilEditorPreview.name }}
+                                            </span>
+                                            <el-input
+                                                v-model="civilEditorPreview.name"
+                                                style="width: 180px"
+                                                v-show="[].indexOf(civilEditorActiveStep)>-1"
+                                            ></el-input>
+                                        </div>
+                                        <div class="setting-cell">
+                                            <label>显示名称:</label>
+                                            <span
+                                                style="color: var(--color-text-primary); font-weight: bold"
+                                                v-show="[].indexOf(civilEditorActiveStep)>-1"
+                                            >
+                                                {{ civilEditorPreview.text }}
+                                            </span>
+                                            <el-input
+                                                v-model="civilEditorPreview.text"
+                                                style="width: 180px"
+                                                v-show="[0].indexOf(civilEditorActiveStep)>-1"
+                                            ></el-input>
+                                        </div>
+                                    </div>
+                                    <div class="setting-row">
+                                        <div class="setting-cell">
+                                            <label>建筑宽度:</label>
+                                            <span
+                                                style="color: var(--color-text-primary); font-weight: bold"
+                                                v-show="[].indexOf(civilEditorActiveStep)>-1"
+                                            >
+                                                {{ civilEditorPreview.width }}
+                                            </span>
+                                            <el-input-number
+                                                v-model="civilEditorPreview.width"
+                                                :min="1"
+                                                :max="20"
+                                                v-show="[0].indexOf(civilEditorActiveStep)>-1"
+                                            ></el-input-number>
+                                        </div>
+                                        <div class="setting-cell">
+                                            <label>建筑高度:</label>
+                                            <span
+                                                style="color: var(--color-text-primary); font-weight: bold"
+                                                v-show="[].indexOf(civilEditorActiveStep)>-1"
+                                            >
+                                                {{ civilEditorPreview.height }}
+                                            </span>
+                                            <el-input-number
+                                                v-model="civilEditorPreview.height"
+                                                :min="1"
+                                                :max="20"
+                                                v-show="[0].indexOf(civilEditorActiveStep)>-1"
+                                            ></el-input-number>
+                                        </div>
+                                    </div>
+                                    <div class="setting-row">
+                                        <div class="setting-cell">
+                                            <label>影响范围:</label>
+                                            <span
+                                                style="color: var(--color-text-primary); font-weight: bold"
+                                                v-show="[0].indexOf(civilEditorActiveStep)>-1"
+                                            >
+                                                {{ civilEditorPreview.range }}
+                                            </span>
+                                            <el-input-number
+                                                v-model="civilEditorPreview.range"
+                                                :min="0"
+                                                v-show="[].indexOf(civilEditorActiveStep)>-1"
+                                            ></el-input-number>
+                                        </div>
+                                        <div class="setting-cell">
+                                            <label>文字颜色:</label>
+                                            <span
+                                                :style="{
+                                                    color: civilEditorPreview.color,
+                                                    textShadow: 'var(--color-white) 0px 1px 10px',
+                                                    fontWeight: 'bold',
+                                                }"
+                                                v-show="[0].indexOf(civilEditorActiveStep)>-1"
+                                            >
+                                                {{ civilEditorPreview.color }}
+                                            </span>
+                                            <el-color-picker
+                                                v-model="civilEditorPreview.color"
+                                                v-show="[].indexOf(civilEditorActiveStep)>-1"
+                                            ></el-color-picker>
+                                        </div>
+                                    </div>
+                                    <div class="setting-row">
+                                        <div class="setting-cell">
+                                            <label>背景颜色:</label>
+                                            <span
+                                                :style="{
+                                                    color: civilEditorPreview.backgroundColor,
+                                                    textShadow: 'var(--color-white) 0px 1px 10px',
+                                                    fontWeight: 'bold',
+                                                }"
+                                                v-show="[0].indexOf(civilEditorActiveStep)>-1"
+                                            >
+                                                {{ civilEditorPreview.backgroundColor }}
+                                            </span>
+                                            <el-color-picker
+                                                v-model="civilEditorPreview.backgroundColor"
+                                                v-show="[].indexOf(civilEditorActiveStep)>-1"
+                                            ></el-color-picker>
+                                        </div>
+                                        <div class="setting-cell">
+                                            <label>边框颜色:</label>
+                                            <span
+                                                :style="{
+                                                    color: civilEditorPreview.borderColor,
+                                                    textShadow: 'var(--color-white) 0px 1px 10px',
+                                                    fontWeight: 'bold',
+                                                }"
+                                                v-show="[0].indexOf(civilEditorActiveStep)>-1"
+                                            >
+                                                {{ civilEditorPreview.borderColor }}
+                                            </span>
+                                            <el-color-picker
+                                                v-model="civilEditorPreview.borderColor"
+                                                v-show="[].indexOf(civilEditorActiveStep)>-1"
+                                            ></el-color-picker>
+                                        </div>
+                                    </div>
+                                    <div v-show="civilEditorActiveStep===0"></div>
+                                    <div v-show="civilEditorActiveStep===1"></div>
+                                    <div v-show="civilEditorActiveStep===2"></div>
+                                    <div v-show="civilEditorActiveStep===3"></div>
+                                    <div v-show="civilEditorActiveStep===4"></div>
+                                    <div v-show="civilEditorActiveStep===5"></div>
+                                    <div v-show="civilEditorActiveStep===6"></div>
+                                    <div v-show="civilEditorActiveStep===7"></div>
+                                    <div v-show="civilEditorActiveStep===8"></div>
+                                    <div v-show="civilEditorActiveStep===9"></div>
+                                    <div v-show="civilEditorActiveStep===10"></div>
+                                    <div v-show="civilEditorActiveStep===11"></div>
+                                </el-scrollbar>
+                                <div id="civil-editor-setting-button">
+                                    <el-button-group v-show="civilEditorActiveStep<11">
+                                        <el-button
+                                            type="primary"
+                                            size="small"
+                                            @click="updateCivilEditorStep(civilEditorActiveStep===0?0:civilEditorActiveStep-1)"
+                                            icon="el-icon-arrow-left"
+                                            round
+                                        >
+                                            上一步
+                                        </el-button>
+                                        <el-button
+                                            type="primary"
+                                            size="small"
+                                            @click="updateCivilEditorStep(civilEditorActiveStep+1)"
+                                            round
+                                        >
+                                            下一步
+                                            <i class="el-icon-arrow-right"></i>
+                                        </el-button>
+                                    </el-button-group>
+                                    <el-button-group v-show="civilEditorActiveStep>=11">
+                                        <el-button
+                                            type="primary"
+                                            size="small"
+                                            @click="updateCivilEditorStep(civilEditorActiveStep===0?0:civilEditorActiveStep-1)"
+                                            icon="el-icon-arrow-left"
+                                            round
+                                        >
+                                            上一步
+                                        </el-button>
+                                        <el-button type="primary" size="small" round>
+                                            生&ensp;成&ensp;
+                                            <i class="el-icon-download"></i>
+                                        </el-button>
+                                    </el-button-group>
+                                </div>
+                            </div>
+                        </el-tab-pane>
                     </el-tabs>
                 </div>
             </div>

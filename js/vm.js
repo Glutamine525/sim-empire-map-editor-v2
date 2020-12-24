@@ -72,6 +72,62 @@ var $vm = new Vue({
             radioIndexUserSign: 0,
             radioIndexUserSignLine: 0,
             radioIndexUserSignElement: 0,
+            civilEditorStepLabel: [
+                "住宅",
+                "农业",
+                "工业",
+                "商业",
+                "市政",
+                "文化",
+                "宗教",
+                "军事",
+                "美化",
+                "奇迹",
+                "住宅需求",
+                "信息核对",
+            ],
+            civilEditorActiveStep: 0,
+            civilEditorPreview: {},
+            civilEditorResult: {
+                住宅: [
+                    {
+                        name: "普通住宅",
+                        text: "宅",
+                        width: 1,
+                        height: 1,
+                        range: 0,
+                        color: BuildingColor.Black,
+                        backgroundColor: BuildingColor["住宅"][0],
+                        borderColor: BuildingColor.Black,
+                        isDecoration: false,
+                        isMiracle: false,
+                        isProtection: false,
+                    },
+                    {
+                        name: "高级住宅",
+                        text: "高级住宅",
+                        width: 3,
+                        height: 3,
+                        range: 0,
+                        color: BuildingColor.Black,
+                        backgroundColor: BuildingColor["住宅"][1],
+                        borderColor: BuildingColor.Black,
+                        isDecoration: false,
+                        isMiracle: false,
+                        isProtection: false,
+                    },
+                ],
+                农业: [],
+                工业: [],
+                商业: [],
+                市政: [],
+                文化: [],
+                宗教: [],
+                军事: [],
+                美化: [],
+                奇迹: [],
+                名称: "",
+            },
         };
     },
     computed: {
@@ -184,12 +240,12 @@ var $vm = new Vue({
             newHolding.name = selectedBuilding.name;
             newHolding.catagory = indexPath[0];
             newHolding.text = selectedBuilding.text;
-            newHolding.width = selectedBuilding.size;
-            newHolding.height = selectedBuilding.size;
-            newHolding.range = selectedBuilding.range_size;
+            newHolding.width = selectedBuilding.size || selectedBuilding.width;
+            newHolding.height = selectedBuilding.size || selectedBuilding.height;
+            newHolding.range = selectedBuilding.range_size || selectedBuilding.range;
             newHolding.color = selectedBuilding.color;
-            newHolding.background = selectedBuilding.background_color;
-            newHolding.borderColor = selectedBuilding.border_color;
+            newHolding.background = selectedBuilding.background_color || selectedBuilding.backgroundColor;
+            newHolding.borderColor = selectedBuilding.border_color || selectedBuilding.borderColor;
             newHolding.borderWidth = 1;
             newHolding.isPreview = true;
             newHolding.isProtection =
@@ -320,6 +376,15 @@ var $vm = new Vue({
                 inputErrorMessage: "水印名称重复",
             })
                 .then(({ value }) => {
+                    if (!value) {
+                        this.$message({
+                            type: "error",
+                            message: "水印名称不能为空！",
+                            duration: 3000,
+                            offset: $config.topNavHeight + 10,
+                        });
+                        return;
+                    }
                     if (this.userSign.length >= 10) {
                         this.$message({
                             type: "error",
@@ -410,6 +475,15 @@ var $vm = new Vue({
                 inputErrorMessage: "水印名称重复",
             })
                 .then(({ value }) => {
+                    if (!value) {
+                        this.$message({
+                            type: "error",
+                            message: "水印名称不能为空！",
+                            duration: 3000,
+                            offset: $config.topNavHeight + 10,
+                        });
+                        return;
+                    }
                     let newSign = Object.assign({}, this.userSign[this.radioIndexUserSign]);
                     newSign.name = value;
                     this.userSign.splice(this.radioIndexUserSign, 1, newSign);
@@ -518,9 +592,104 @@ var $vm = new Vue({
                 })
                 .catch(() => {});
         },
+        updateCivilEditorStep(step) {
+            this.civilEditorActiveStep = step;
+            if (this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]].length) {
+                this.civilEditorPreview = this.civilEditorResult[
+                    this.civilEditorStepLabel[this.civilEditorActiveStep]
+                ][0];
+            }
+        },
+        insertCivilBuilding() {
+            this.$prompt("请输入建筑名称", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                inputValidator: (value) =>
+                    this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]].findIndex(
+                        (v) => v.name === value
+                    ) === -1,
+                inputErrorMessage: "名称名称重复",
+            })
+                .then(({ value }) => {
+                    if (!value) {
+                        this.$message({
+                            type: "error",
+                            message: "建筑名称不能为空！",
+                            duration: 3000,
+                            offset: $config.topNavHeight + 10,
+                        });
+                        return;
+                    }
+                    let length =
+                        this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]].length + 1;
+                    let maxLength = BuildingColor[this.civilEditorStepLabel[this.civilEditorActiveStep]].length;
+                    length = length > maxLength ? maxLength : length;
+                    this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]].push({
+                        name: value,
+                        text: "建筑",
+                        width: 2,
+                        height: 2,
+                        range: 0,
+                        color:
+                            ["宗教", "军事", "奇迹"].indexOf(this.civilEditorStepLabel[this.civilEditorActiveStep]) > -1
+                                ? BuildingColor.White
+                                : BuildingColor.Black,
+                        backgroundColor:
+                            BuildingColor[this.civilEditorStepLabel[this.civilEditorActiveStep]][length - 1],
+                        borderColor: BuildingColor.Black,
+                        isDecoration: false,
+                        isMiracle: false,
+                        isProtection: false,
+                    });
+                    length = this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]].length;
+                    this.civilEditorPreview = this.civilEditorResult[
+                        this.civilEditorStepLabel[this.civilEditorActiveStep]
+                    ][length - 1];
+                    this.$message({
+                        type: "success",
+                        message: `已添加新建筑: ${value}`,
+                        duration: 3000,
+                        offset: $config.topNavHeight + 10,
+                    });
+                })
+                .catch(() => {});
+        },
+        selectCivilTag(index) {
+            this.civilEditorPreview = this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]][
+                index
+            ];
+        },
+        deleteCivilTag(index) {
+            this.civilEditorPreview = this.civilEditorResult[
+                this.civilEditorStepLabel[this.civilEditorActiveStep]
+            ].splice(index, 1);
+            if (this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]].length) {
+                this.civilEditorPreview = this.civilEditorResult[
+                    this.civilEditorStepLabel[this.civilEditorActiveStep]
+                ][0];
+            }
+        },
     },
     created() {},
     mounted() {
+        this.civilEditorPreview = this.civilEditorResult["住宅"][0];
         this.onChangeCivil("中国");
+        $$$("#civil-editor-step .el-step__icon.is-text", true).forEach((v, i) => {
+            v.style.cursor = "pointer";
+            v.onclick = () => {
+                this.updateCivilEditorStep(i);
+            };
+        });
+        $$$("#civil-editor-step .el-step__title", true).forEach((v, i) => {
+            let text = v.innerHTML;
+            let span = document.createElement("span");
+            span.innerHTML = text;
+            span.style.cursor = "pointer";
+            span.onclick = () => {
+                this.updateCivilEditorStep(i);
+            };
+            v.innerHTML = "";
+            v.appendChild(span);
+        });
     },
 });

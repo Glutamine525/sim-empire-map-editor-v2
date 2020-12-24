@@ -22,6 +22,15 @@
     box-shadow: 3px 3px 7px var(--color-border-base);
 }
 
+#editor .setting-row.center {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    height: auto;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
 #editor-tab {
     margin: 20px;
     height: calc(100% - 40px);
@@ -31,7 +40,8 @@
     color: var(--color-text-regular);
 }
 
-#editor .el-tabs__item.is-active {
+#editor .el-tabs__item.is-active,
+#editor .el-tabs__item:hover {
     color: var(--color-primary);
 }
 
@@ -49,8 +59,44 @@
     height: calc(100% - 50px);
 }
 
+#civil-editor-step .el-step__head.is-process {
+    color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+}
+
+#civil-editor-step .el-step__head.is-wait {
+    color: var(--color-text-secondary);
+    border-color: var(--color-text-secondary);
+}
+
+#civil-editor-step .el-step__head.is-success {
+    color: var(--color-success);
+    border-color: var(--color-success);
+}
+
+#civil-editor-step .el-step__icon {
+    background: var(--color-background-lighter);
+}
+
+#civil-editor-step .el-step__line {
+    background: var(--color-text-secondary);
+}
+
+#civil-editor-step .el-step__title.is-process {
+    color: var(--color-text-primary);
+}
+
+#civil-editor-step .el-step__title.is-wait {
+    color: var(--color-text-secondary);
+}
+
+#civil-editor-step .el-step__title.is-success {
+    color: var(--color-success);
+}
+
 #special-building,
-#user-sign-editor {
+#user-sign-editor,
+#civil-editor {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -58,7 +104,8 @@
 }
 
 #special-building-preview,
-#user-sign-preview {
+#user-sign-preview,
+#civil-editor-preview {
     border-right: 1px solid var(--color-border-base);
     width: 40%;
     display: -webkit-box;
@@ -99,6 +146,7 @@
     justify-content: center;
 }
 
+#civil-editor-preview .preview-box,
 #special-building-preview .preview-box,
 #user-sign-preview .preview-box {
     margin: auto;
@@ -118,12 +166,33 @@
     overflow: hidden;
 }
 
+#special-building-preview .preview-box-sheet {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
 #user-sign-preview .preview-box {
     /* margin-bottom: auto; */
     position: relative;
     background: var(--color-background-darker);
 }
 
+#civil-editor-preview .preview-box {
+    margin: auto;
+}
+
+#civil-editor-preview .preview-box::before,
 #special-building-preview .preview-box::before,
 #user-sign-preview .preview-box::before {
     content: "";
@@ -131,6 +200,7 @@
     float: left;
 }
 
+#civil-editor-preview .preview-box::after,
 #special-building-preview .preview-box::after,
 #user-sign-preview .preview-box::after {
     content: "";
@@ -150,7 +220,8 @@
     align-items: center;
 }
 
-#special-building-preview .preview {
+#special-building-preview .preview,
+#civil-editor-preview .preview {
     position: relative;
     /* margin: auto; */
     -webkit-box-flex: 0;
@@ -172,13 +243,15 @@
     transition: all 0.3s ease-in-out;
 }
 
-#special-building-preview .preview .text {
+#special-building-preview .preview .text,
+#civil-editor-preview .preview .text {
     margin: auto;
     text-shadow: var(--color-white) 0px 1px 10px;
     text-align: center;
 }
 
-#special-building-preview .preview .marker {
+#special-building-preview .preview .marker,
+#civil-editor-preview .preview .marker {
     font-size: 10px;
     position: absolute;
     left: 2px;
@@ -211,6 +284,7 @@
     width: 60%;
 }
 
+#civil-editor-setting .setting-cell > label,
 #special-building-setting .setting-cell > label,
 #user-sign-setting .setting-cell > label {
     margin-right: 10px;
@@ -229,6 +303,7 @@
     margin-left: 10%;
 }
 
+#civil-editor-setting .setting-row + .setting-row,
 #special-building-setting .setting-row + .setting-row {
     margin-top: 20px;
 }
@@ -237,6 +312,7 @@
     margin-top: 10px;
 }
 
+#civil-editor-setting .setting-cell,
 #special-building-setting .setting-cell,
 #user-sign-setting .setting-cell {
     width: 50%;
@@ -258,4 +334,47 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+#civil-editor-step {
+    width: 10%;
+    height: calc(100% - 20px);
+    padding: 10px;
+    border-right: 2px solid var(--color-border-base);
+}
+
+#civil-editor-setting {
+    border-left: 1px solid var(--color-border-base);
+    overflow: hidden;
+    width: 50%;
+    padding: 10px 0 10px 10px;
+    height: calc(100% - 20px);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+#civil-editor-setting-button {
+    margin-top: 10px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+#civil-editor-setting .setting-row {
+    width: 100%;
+    height: 40px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
 }

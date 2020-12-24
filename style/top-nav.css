@@ -56,16 +56,6 @@
     /* white-space: nowrap; */
 }
 
-.hint-popper {
-    background: var(--color-background-base) !important;
-    border: 1px solid #303133 !important;
-    color: var(--color-text-regular) !important;
-    -webkit-box-shadow: 3px 3px 12px var(--color-border-base);
-    box-shadow: 3px 3px 12px var(--color-border-base);
-    /* text-shadow: 0 0 3px var(--color-text-secondary); */
-    border-radius: 10px;
-}
-
 #top-nav-info {
     text-align: right;
     margin: auto 20px auto 0;
