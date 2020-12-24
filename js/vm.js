@@ -192,7 +192,10 @@ var $vm = new Vue({
             newHolding.borderColor = selectedBuilding.border_color;
             newHolding.borderWidth = 1;
             newHolding.isPreview = true;
-            newHolding.isProtection = $config.civilBuilding[$config.civil]["防"].indexOf(selectedBuilding.text) > -1;
+            newHolding.isProtection =
+                $config.civilBuilding[$config.civil]["防"].indexOf(selectedBuilding.text) > -1 &&
+                $config.civilBuilding[$config.civil]["防护"].indexOf(selectedBuilding.name) > -1 &&
+                indexPath[0] === "市政";
             newHolding.isDecoration = indexPath[0] === "美化";
             newHolding.isGeneral = indexPath[0] === "通用";
             newHolding.isMiracle = indexPath[0] === "奇迹";

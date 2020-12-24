@@ -23,6 +23,7 @@
         <link rel="stylesheet" href="./style/content.css" />
         <link rel="stylesheet" href="./style/editor-panel.css" />
         <script src="./js/constant/label-text.js"></script>
+        <script src="./js/constant/building-color.js"></script>
         <script src="./js/constant/building-fixed.js"></script>
         <script src="./js/constant/building-china.js"></script>
         <script src="./js/constant/building-persian.js"></script>
@@ -306,11 +307,11 @@
                                 </template>
                                 <el-menu-item-group :title="item1">
                                     <el-menu-item
-                                        v-for="item2 in buildingInfo[item1]"
+                                        v-for="(item2, index) in buildingInfo[item1]"
                                         :key="item2.name"
                                         :index="item2.name"
                                     >
-                                        {{ item2.name }}
+                                        {{ index+1 + ". " + item2.name }}
                                     </el-menu-item>
                                 </el-menu-item-group>
                             </el-submenu>
@@ -321,11 +322,11 @@
                                 </template>
                                 <el-menu-item-group title="特殊建筑">
                                     <el-menu-item
-                                        v-for="item in specialBuildingList"
+                                        v-for="(item, index) in specialBuildingList"
                                         :key="item.name"
                                         :index="item.name"
                                     >
-                                        {{ item.name }}
+                                        {{ index+1 + ". " + item.name }}
                                     </el-menu-item>
                                 </el-menu-item-group>
                             </el-submenu>
@@ -346,8 +347,12 @@
                                     <span slot="title">{{ item1 }}</span>
                                 </template>
                                 <el-menu-item-group :title="item1">
-                                    <el-menu-item v-for="item2 in labelText[item1]" :key="item2" :index="item2">
-                                        {{ item2 }}
+                                    <el-menu-item
+                                        v-for="(item2, index) in labelText[item1]"
+                                        :key="item2"
+                                        :index="item2"
+                                    >
+                                        {{ index+1 + ". " + item2 }}
                                     </el-menu-item>
                                 </el-menu-item-group>
                             </el-submenu>

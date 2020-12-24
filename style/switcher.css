@@ -254,16 +254,19 @@ Like specific styling
     position: relative;
 }
 .toggle--ordinary .toggle--btn {
-    border: 5px solid #b0bec5;
+    border: 5px solid var(--color-danger);
     background-color: var(--color-danger-lighter);
 }
 .toggle--ordinary .toggle--btn:before {
-    border: 5px solid #b0bec5;
+    border: 5px solid var(--color-danger-light);
     background-color: var(--color-danger);
 }
 .toggle--ordinary .toggle--checkbox:checked + .toggle--btn {
-    border: 5px solid #b0bec5;
+    border: 5px solid var(--color-primary-light-3);
     background-color: var(--color-primary-light-8);
+}
+.toggle--ordinary .toggle--checkbox:checked + .toggle--btn:before {
+    border: 5px solid var(--color-primary-light-7);
 }
 .toggle--ordinary .toggle--checkbox:checked + .toggle--btn:before {
     -webkit-transform: translate(51px, 0);
