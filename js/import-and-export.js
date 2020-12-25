@@ -190,7 +190,6 @@ function importNewCivil() {
                 });
                 return;
             }
-            console.log(data);
             if (
                 data["名称"] === undefined ||
                 data["住宅"] === undefined ||
