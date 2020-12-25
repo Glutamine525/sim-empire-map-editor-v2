@@ -213,6 +213,15 @@ function importNewCivil() {
                 });
                 return;
             }
+            if (data["名称"] in $config.civilBuilding) {
+                $vm.$message({
+                    message: "已经导入该文明数据，导入失败！",
+                    type: "error",
+                    duration: 5000,
+                    offset: $config.topNavHeight + 10,
+                });
+                return;
+            }
             data["通用"] = $config.civilBuilding["中国"]["通用"];
             $config.civilBuilding[data["名称"]] = data;
             let li = document.createElement("li");
