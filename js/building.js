@@ -181,7 +181,9 @@ class Building {
         Object.keys(requirement).forEach((cata) => {
             result[cata] = [];
             for (let req of requirement[cata]) {
-                let range = $config.civilBuilding[$config.civil][cata].find((v) => v.name === req)["range_size"];
+                let range =
+                    $config.civilBuilding[$config.civil][cata].find((v) => v.name === req)["range_size"] ||
+                    $config.civilBuilding[$config.civil][cata].find((v) => v.name === req)["range"];
                 let covered = false;
                 maxRange = range > maxRange ? range : maxRange;
                 for (let i = line - range; i < line + height + range; i++) {

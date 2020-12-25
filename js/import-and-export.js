@@ -37,6 +37,26 @@ function importData() {
                 });
                 return;
             }
+            if (
+                data.woodNum === undefined ||
+                data.civil === undefined ||
+                data.isNoWood === undefined ||
+                data.isLightMode === undefined ||
+                data.showMiniMap === undefined ||
+                data.isNoWood === undefined ||
+                data.isLightMode === undefined ||
+                data.showMiniMap === undefined ||
+                data.roads === undefined ||
+                data.buildings === undefined
+            ) {
+                $vm.$message({
+                    message: "该文件不是地图数据，导入失败！",
+                    type: "error",
+                    duration: 5000,
+                    offset: $config.topNavHeight + 10,
+                });
+                return;
+            }
             for (let i = 1; i <= $length; i++) {
                 for (let j = 1; j <= $length; j++) {
                     if ($cell[i][j].occupied && !$cell[i][j].occupied.isFixed) {
@@ -142,7 +162,85 @@ function exportData() {
     download(new Blob([stringToBase64(JSON.stringify(data))]), `${getFileName()}.txt`);
 }
 
-function importNewCivil() {}
+function importNewCivil() {
+    let file = $$("load-file");
+    file.click();
+    file.onchange = () => {
+        let fr = new FileReader();
+        fr.onload = (event) => {
+            let base64 = base64ToString(event.target.result);
+            if (!base64) {
+                $vm.$message({
+                    message: "该数据已被损坏 或 不是txt文件，导入失败！",
+                    type: "error",
+                    duration: 5000,
+                    offset: $config.topNavHeight + 10,
+                });
+                return;
+            }
+            let data = JSON.parse(base64);
+            let dataMD5 = data.md5;
+            delete data.md5;
+            if (dataMD5 !== md5(JSON.stringify(data))) {
+                $vm.$message({
+                    message: "该数据已被损坏，导入失败！",
+                    type: "error",
+                    duration: 5000,
+                    offset: $config.topNavHeight + 10,
+                });
+                return;
+            }
+            console.log(data);
+            if (
+                data["名称"] === undefined ||
+                data["住宅"] === undefined ||
+                data["农业"] === undefined ||
+                data["工业"] === undefined ||
+                data["商业"] === undefined ||
+                data["市政"] === undefined ||
+                data["文化"] === undefined ||
+                data["宗教"] === undefined ||
+                data["军事"] === undefined ||
+                data["美化"] === undefined ||
+                data["奇迹"] === undefined ||
+                data["防护"] === undefined ||
+                data["防"] === undefined
+            ) {
+                $vm.$message({
+                    message: "该文件不是文明建筑数据，导入失败！",
+                    type: "error",
+                    duration: 5000,
+                    offset: $config.topNavHeight + 10,
+                });
+                return;
+            }
+            data["通用"] = $config.civilBuilding["中国"]["通用"];
+            $config.civilBuilding[data["名称"]] = data;
+            let li = document.createElement("li");
+            let a = document.createElement("a");
+            li.className = "top-menu-item-active";
+            a.value = data["名称"];
+            a.innerHTML = data["名称"];
+            a.onclick = "onClickCivil(this.getAttribute('value'))";
+            li.appendChild(a);
+            $$$("#top-nav-controller a#civil + ul.top-sub-menu").appendChild(li);
+            onClickCivil(data["名称"]);
+            $vm.$message({
+                message: "已成功导入数据！",
+                type: "success",
+                duration: 3000,
+                offset: $config.topNavHeight + 10,
+            });
+        };
+        fr.readAsText(file.files[0]);
+        let tmp = document.createElement("input");
+        tmp.type = "file";
+        tmp.accept = ".txt";
+        tmp.id = "load-file";
+        tmp.style.display = "none";
+        file.replaceWith(tmp);
+    };
+}
 
 function exportNewCivil(civil, resicenceReq) {
     let result = {};

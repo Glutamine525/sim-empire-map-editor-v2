@@ -249,6 +249,9 @@ var $vm = new Vue({
                     $topNav.setOperation("删除建筑");
                     $$("range-container").innerHTML = "";
                     break;
+                case "导入新文明":
+                    importNewCivil();
+                    break;
                 case "导入数据":
                     importData();
                     break;

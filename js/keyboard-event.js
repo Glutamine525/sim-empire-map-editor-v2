@@ -71,11 +71,17 @@ function onKeyUp(event) {
     } else if (event.keyCode === 68) {
         $vm.onSelectOperation("删除建筑", ["删除建筑"]);
     } else if (event.keyCode === 90) {
-        $vm.onSelectBuilding($config.protectionFull[0], ["市政", $config.protectionFull[0]]);
+        if ($config.protectionFull.length > 0)
+            $vm.onSelectBuilding($config.protectionFull[0], ["市政", $config.protectionFull[0]]);
+        else return;
     } else if (event.keyCode === 88) {
-        $vm.onSelectBuilding($config.protectionFull[1], ["市政", $config.protectionFull[1]]);
+        if ($config.protectionFull.length > 1)
+            $vm.onSelectBuilding($config.protectionFull[1], ["市政", $config.protectionFull[1]]);
+        else return;
     } else if (event.keyCode === 67) {
-        $vm.onSelectBuilding($config.protectionFull[2], ["市政", $config.protectionFull[2]]);
+        if ($config.protectionFull.length > 2)
+            $vm.onSelectBuilding($config.protectionFull[2], ["市政", $config.protectionFull[2]]);
+        else return;
     } else if (event.keyCode === 86) {
         if ($config.protectionFull.length > 3)
             $vm.onSelectBuilding($config.protectionFull[3], ["市政", $config.protectionFull[3]]);
