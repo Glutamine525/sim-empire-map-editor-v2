@@ -139,7 +139,50 @@ function exportData() {
     data.specialBuildings = $vm.specialBuildingList;
     data.userSign = $vm.userSign;
     data.md5 = md5(JSON.stringify(data));
-    download(new Blob([stringToBase64(JSON.stringify(data))]), `${getDataFileName()}.txt`);
+    download(new Blob([stringToBase64(JSON.stringify(data))]), `${getFileName()}.txt`);
+}
+
+function importNewCivil() {}
+
+function exportNewCivil(civil, resicenceReq) {
+    let result = {};
+    result["名称"] = civil["名称"];
+    result["防护"] = [];
+    result["防"] = [];
+    for (let k in civil) {
+        if (k === "名称") continue;
+        result[k] = [];
+        let index = 0;
+        for (let v of civil[k]) {
+            let tmp = {};
+            tmp.name = v.name;
+            tmp.text = v.text;
+            tmp.width = v.width;
+            tmp.height = v.height;
+            tmp.range = v.range;
+            tmp.color = v.color;
+            tmp.backgroundColor = v.backgroundColor;
+            tmp.borderColor = v.borderColor;
+            result[k].push(tmp);
+            if (v.isProtection) {
+                result["防护"].push(v.name);
+                result["防"].push(v.text);
+            }
+            if (k === "住宅") {
+                result[`${v.name}需求`] = { 商业: [], 市政: [], 文化: [], 宗教: [] };
+                for (let w of resicenceReq[index]) {
+                    let splitter = w.indexOf("-");
+                    let catagory = w.substring(0, splitter);
+                    let name = w.substring(splitter + 1);
+                    result[`${v.name}需求`][catagory].push(name);
+                }
+            }
+            index++;
+        }
+    }
+    result.md5 = md5(JSON.stringify(result));
+    console.log(result);
+    download(new Blob([stringToBase64(JSON.stringify(result))]), `${result["名称"]}-建筑数据-${getPostfixName()}.txt`);
 }
 
 function screenshot(withSign) {
@@ -217,7 +260,7 @@ function download(blob, fileName) {
     $$("download").click();
 }
 
-function getFileName() {
+function getPostfixName() {
     let time = new Date();
     let fullYear = time.getFullYear();
     let month = time.getMonth() + 1;
@@ -227,8 +270,8 @@ function getFileName() {
     return numberFileName;
 }
 
-function getDataFileName() {
-    return `模拟帝国地图编辑器-${$config.civil}-${$config.woodNum}木-${getFileName()}`;
+function getFileName() {
+    return `${$config.civil}-${$config.woodNum}木-${$config.isNoWood ? "无木" : "有木"}-${getPostfixName()}`;
 }
 
 function stringToBase64(str) {

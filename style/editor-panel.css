@@ -59,6 +59,57 @@
     height: calc(100% - 50px);
 }
 
+.building-hint {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    grid-column-gap: 8px;
+    grid-row-gap: 2px;
+}
+
+.building-hint .div1 {
+    grid-area: 1 / 1 / 2 / 3;
+}
+.building-hint .div2 {
+    grid-area: 2 / 1 / 3 / 3;
+}
+.building-hint .div3 {
+    grid-area: 3 / 1 / 4 / 2;
+}
+.building-hint .div4 {
+    grid-area: 3 / 2 / 4 / 3;
+}
+.building-hint .div5 {
+    grid-area: 4 / 1 / 5 / 2;
+}
+.building-hint .div6 {
+    grid-area: 4 / 2 / 5 / 3;
+}
+.building-hint .div7 {
+    grid-area: 5 / 1 / 6 / 2;
+}
+.building-hint .div8 {
+    grid-area: 5 / 2 / 6 / 3;
+}
+.building-hint .div9 {
+    grid-area: 6 / 1 / 7 / 2;
+}
+.building-hint .div10 {
+    grid-area: 6 / 2 / 7 / 3;
+}
+.building-hint .div11 {
+    grid-area: 7 / 1 / 8 / 2;
+}
+.building-hint .div12 {
+    grid-area: 7 / 2 / 8 / 3;
+}
+.building-hint .div13 {
+    grid-area: 8 / 1 / 9 / 2;
+}
+.building-hint .div14 {
+    grid-area: 8 / 2 / 9 / 3;
+}
+
 #civil-editor-step .el-step__head.is-process {
     color: var(--color-text-primary);
     border-color: var(--color-text-primary);
@@ -347,7 +398,7 @@
     border-left: 1px solid var(--color-border-base);
     overflow: hidden;
     width: 50%;
-    padding: 10px 0 10px 10px;
+    padding: 10px 0 10px 20px;
     height: calc(100% - 20px);
     display: -webkit-box;
     display: -ms-flexbox;

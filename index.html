@@ -580,38 +580,83 @@
                                         effect="dark"
                                         placement="bottom"
                                     >
-                                        <div slot="content">
-                                            建筑名称: {{ item.name }}
-                                            <br />
-                                            显示文字: {{ item.text }}
-                                            <br />
-                                            宽度: {{ item.width }}格， 高度: {{ item.height }}格
-                                            <br />
-                                            文字颜色:
-                                            <span
-                                                :style="{ color: item.color, textShadow: 'var(--color-white) 0px 1px 10px' }"
-                                                >{{ item.color }}</span
-                                            >， 字体大小: {{ item.fontSize }}px
-                                            <br />
-                                            边框颜色:
-                                            <span
-                                                :style="{ color: item.borderColor, textShadow: 'var(--color-white) 0px 1px 10px' }"
-                                                >{{ item.borderColor }}</span
-                                            >， 边框宽度: {{ item.borderWidth }}px
-                                            <br />
-                                            背景颜色:
-                                            <span
-                                                :style="{ color: item.background, textShadow: 'var(--color-white) 0px 1px 10px' }"
-                                                >{{ item.background }}</span
-                                            >， 影响范围: {{ item.range }}格
-                                            <br />
-                                            美化建筑:
-                                            <span :style="{ color: item.isDecoration ? 'green' : 'red' }">
-                                                {{ item.isDecoration ? '√' : '×' }}
+                                        <div
+                                            slot="content"
+                                            class="building-hint"
+                                            style="grid-template-rows: repeat(7, 1fr)"
+                                        >
+                                            <div class="building-hint-row div1">
+                                                建筑名称:
+                                                <span style="font-weight: bold">{{ item.name }}</span>
+                                            </div>
+                                            <div class="building-hint-row div2">
+                                                显示文字:
+                                                <span style="font-weight: bold">{{ item.text }}</span>
+                                            </div>
+                                            <span class="building-hint-cell div3">
+                                                宽度:
+                                                <span style="font-weight: bold">{{ item.width }}</span>
+                                                格
                                             </span>
-                                            ， 奇迹建筑:
-                                            <span :style="{ color: item.isMiracle ? 'green' : 'red' }">
-                                                {{ item.isMiracle? '√' : '×' }}
+                                            <span class="building-hint-cell div4">
+                                                高度:
+                                                <span style="font-weight: bold"> {{ item.height }} </span>
+                                                格
+                                            </span>
+                                            <span class="building-hint-cell div5">
+                                                文字颜色:
+                                                <span
+                                                    :style="{ color: item.color, textShadow: 'var(--color-border-base) 0px 1px 10px', fontWeight: 'bold' }"
+                                                >
+                                                    {{ item.color }}
+                                                </span>
+                                            </span>
+                                            <span class="building-hint-cell div6">
+                                                字体大小:
+                                                <span style="font-weight: bold">{{ item.fontSize }}</span>
+                                                px
+                                            </span>
+                                            <span class="building-hint-cell div7">
+                                                边框颜色:
+                                                <span
+                                                    :style="{ color: item.borderColor, textShadow: 'var(--color-border-base) 0px 1px 10px', fontWeight: 'bold' }"
+                                                >
+                                                    {{ item.borderColor }}
+                                                </span>
+                                            </span>
+                                            <span class="building-hint-cell div8">
+                                                边框宽度:
+                                                <span style="font-weight: bold">{{ item.borderWidth }}</span>
+                                                px
+                                            </span>
+                                            <span class="building-hint-cell div9">
+                                                背景颜色:
+                                                <span
+                                                    :style="{ color: item.background, textShadow: 'var(--color-border-base) 0px 1px 10px', fontWeight: 'bold' }"
+                                                >
+                                                    {{ item.background }}
+                                                </span>
+                                            </span>
+                                            <span class="building-hint-cell div10">
+                                                影响范围:
+                                                <span style="font-weight: bold">{{ item.range }}</span>
+                                                格
+                                            </span>
+                                            <span class="building-hint-cell div11">
+                                                美化建筑:
+                                                <span
+                                                    :style="{ color: item.isDecoration ? 'var(--color-success)' : 'var(--color-danger)', fontWeight: 'bold' }"
+                                                >
+                                                    {{ item.isDecoration ? '√' : '×' }}
+                                                </span>
+                                            </span>
+                                            <span class="building-hint-cell div12">
+                                                奇迹建筑:
+                                                <span
+                                                    :style="{ color: item.isMiracle ? 'var(--color-success)' : 'var(--color-danger)', fontWeight: 'bold' }"
+                                                >
+                                                    {{ item.isMiracle? '√' : '×' }}
+                                                </span>
                                             </span>
                                         </div>
                                         <el-tag
@@ -1016,7 +1061,8 @@
                                             borderWidth: `${civilEditorPreview.borderWidth}px`,
                                             fontSize: `${civilEditorPreview.fontSize}px`
                                         }"
-                                        v-show="civilEditorResult[civilEditorStepLabel[civilEditorActiveStep]].length"
+                                        v-show="(civilEditorActiveStep<=9 && civilEditorResult[civilEditorStepLabel[civilEditorActiveStep]].length)
+                                            || (civilEditorActiveStep===11)"
                                     >
                                         <div class="text">{{ civilEditorPreview.text }}</div>
                                         <div
@@ -1046,204 +1092,558 @@
                                             添加建筑
                                         </el-button>
                                     </div>
-                                    <div class="setting-row center" style="margin: 0 0 10px 0">
+                                    <div
+                                        class="setting-row center"
+                                        style="margin: 0 0 10px 0"
+                                        v-show="civilEditorActiveStep<=9"
+                                    >
                                         <el-tooltip
                                             v-for="(item, index) in civilEditorResult[civilEditorStepLabel[civilEditorActiveStep]]"
                                             :key="'civil-editor-'+item.name"
                                             popper-class="hint-popper"
                                             effect="dark"
                                             placement="bottom"
-                                            v-show="civilEditorActiveStep<=9"
                                         >
-                                            <div slot="content">
-                                                建筑名称: {{ item.name }}
-                                                <br />
-                                                显示文字: {{ item.text }}
-                                                <br />
-                                                宽度: {{ item.width }}格， 高度: {{ item.height }}格
-                                                <br />
-                                                文字颜色:
-                                                <span
-                                                    :style="{ color: item.color, textShadow: 'var(--color-white) 0px 1px 10px' }"
-                                                    >{{ item.color }} </span
-                                                >，字体大小: {{ item.fontSize }}px
-                                                <br />
-                                                边框颜色:
-                                                <span
-                                                    :style="{ color: item.borderColor, textShadow: 'var(--color-white) 0px 1px 10px' }"
-                                                    >{{ item.borderColor }} </span
-                                                >， 边框宽度: {{ item.borderWidth }}px
-                                                <br />
-                                                背景颜色:
-                                                <span
-                                                    :style="{ color: item.backgroundColor, textShadow: 'var(--color-white) 0px 1px 10px' }"
-                                                    >{{ item.backgroundColor }} </span
-                                                >，影响范围: {{ item.range }}格
-                                                <br />
-                                                美化建筑:
-                                                <span :style="{ color: item.isDecoration ? 'green' : 'red' }">
-                                                    {{ item.isDecoration ? '√' : '×' }}
+                                            <div slot="content" class="building-hint">
+                                                <div class="building-hint-row div1">
+                                                    建筑名称:
+                                                    <span style="font-weight: bold">{{ item.name }}</span>
+                                                </div>
+                                                <div class="building-hint-row div2">
+                                                    显示文字:
+                                                    <span style="font-weight: bold">{{ item.text }}</span>
+                                                </div>
+                                                <span class="building-hint-cell div3">
+                                                    宽度:
+                                                    <span style="font-weight: bold">{{ item.width }}</span>
+                                                    格
                                                 </span>
-                                                ， 奇迹建筑:
-                                                <span :style="{ color: item.isMiracle ? 'green' : 'red' }">
-                                                    {{ item.isMiracle? '√' : '×' }}
+                                                <span class="building-hint-cell div4">
+                                                    高度:
+                                                    <span style="font-weight: bold"> {{ item.height }} </span>
+                                                    格
+                                                </span>
+                                                <span class="building-hint-cell div5">
+                                                    文字颜色:
+                                                    <span
+                                                        :style="{ color: item.color, textShadow: 'var(--color-border-base) 0px 1px 10px', fontWeight: 'bold' }"
+                                                    >
+                                                        {{ item.color }}
+                                                    </span>
+                                                </span>
+                                                <span class="building-hint-cell div6">
+                                                    字体大小:
+                                                    <span style="font-weight: bold">16</span>
+                                                    px
+                                                </span>
+                                                <span class="building-hint-cell div7">
+                                                    边框颜色:
+                                                    <span
+                                                        :style="{ color: item.borderColor, textShadow: 'var(--color-border-base) 0px 1px 10px', fontWeight: 'bold' }"
+                                                    >
+                                                        {{ item.borderColor }}
+                                                    </span>
+                                                </span>
+                                                <span class="building-hint-cell div8">
+                                                    边框宽度:
+                                                    <span style="font-weight: bold">1</span>
+                                                    px
+                                                </span>
+                                                <span class="building-hint-cell div9">
+                                                    背景颜色:
+                                                    <span
+                                                        :style="{ color: item.backgroundColor, textShadow: 'var(--color-border-base) 0px 1px 10px', fontWeight: 'bold' }"
+                                                    >
+                                                        {{ item.backgroundColor }}
+                                                    </span>
+                                                </span>
+                                                <span class="building-hint-cell div10">
+                                                    影响范围:
+                                                    <span style="font-weight: bold">{{ item.range }}</span>
+                                                    格
+                                                </span>
+                                                <span class="building-hint-cell div11">
+                                                    美化建筑:
+                                                    <span
+                                                        :style="{ color: item.isDecoration ? 'var(--color-success)' : 'var(--color-danger)', fontWeight: 'bold' }"
+                                                    >
+                                                        {{ item.isDecoration ? '√' : '×' }}
+                                                    </span>
+                                                </span>
+                                                <span class="building-hint-cell div12">
+                                                    奇迹建筑:
+                                                    <span
+                                                        :style="{ color: item.isMiracle ? 'var(--color-success)' : 'var(--color-danger)', fontWeight: 'bold' }"
+                                                    >
+                                                        {{ item.isMiracle? '√' : '×' }}
+                                                    </span>
+                                                </span>
+                                                <span class="building-hint-cell div13">
+                                                    防护建筑:
+                                                    <span
+                                                        :style="{ color: item.isProtection ? 'var(--color-success)' : 'var(--color-danger)', fontWeight: 'bold' }"
+                                                    >
+                                                        {{ item.isProtection? '√' : '×' }}
+                                                    </span>
                                                 </span>
                                             </div>
                                             <el-tag
                                                 size="medium"
                                                 closable
                                                 style="margin: 10px; cursor: pointer"
-                                                effect="dark"
+                                                :effect="item.effect"
                                                 @click="selectCivilTag(index)"
                                                 @close="deleteCivilTag(index)"
                                             >
-                                                {{ item.name }}
+                                                {{ (index+1) + ". " + item.name }}
                                             </el-tag>
                                         </el-tooltip>
                                     </div>
-                                    <div class="setting-row">
-                                        <div class="setting-cell">
-                                            <label>建筑名称:</label>
-                                            <span
-                                                style="color: var(--color-text-primary); font-weight: bold"
-                                                v-show="[0].indexOf(civilEditorActiveStep)>-1"
-                                            >
-                                                {{ civilEditorPreview.name }}
-                                            </span>
-                                            <el-input
-                                                v-model="civilEditorPreview.name"
-                                                style="width: 180px"
-                                                v-show="[].indexOf(civilEditorActiveStep)>-1"
-                                            ></el-input>
+                                    <div v-show="civilEditorActiveStep<=9">
+                                        <div class="setting-row">
+                                            <div class="setting-cell">
+                                                <label>建筑名称:</label>
+                                                <span
+                                                    style="color: var(--color-text-primary); font-weight: bold"
+                                                    v-show="[0,1,2,3,4,5,6,7,8,9].indexOf(civilEditorActiveStep)>-1"
+                                                >
+                                                    {{ civilEditorPreview.name }}
+                                                </span>
+                                                <el-input
+                                                    v-model="civilEditorPreview.name"
+                                                    style="width: 180px"
+                                                    v-show="[].indexOf(civilEditorActiveStep)>-1"
+                                                ></el-input>
+                                            </div>
+                                            <div class="setting-cell">
+                                                <label>显示名称:</label>
+                                                <span
+                                                    style="color: var(--color-text-primary); font-weight: bold"
+                                                    v-show="[].indexOf(civilEditorActiveStep)>-1"
+                                                >
+                                                    {{ civilEditorPreview.text }}
+                                                </span>
+                                                <el-input
+                                                    v-model="civilEditorPreview.text"
+                                                    style="width: 180px"
+                                                    v-show="[0,1,2,3,4,5,6,7,8,9].indexOf(civilEditorActiveStep)>-1"
+                                                ></el-input>
+                                            </div>
                                         </div>
-                                        <div class="setting-cell">
-                                            <label>显示名称:</label>
-                                            <span
-                                                style="color: var(--color-text-primary); font-weight: bold"
-                                                v-show="[].indexOf(civilEditorActiveStep)>-1"
-                                            >
-                                                {{ civilEditorPreview.text }}
-                                            </span>
-                                            <el-input
-                                                v-model="civilEditorPreview.text"
-                                                style="width: 180px"
-                                                v-show="[0].indexOf(civilEditorActiveStep)>-1"
-                                            ></el-input>
+                                        <div class="setting-row">
+                                            <div class="setting-cell">
+                                                <label>建筑宽度:</label>
+                                                <span
+                                                    style="color: var(--color-text-primary); font-weight: bold"
+                                                    v-show="[].indexOf(civilEditorActiveStep)>-1"
+                                                >
+                                                    {{ civilEditorPreview.width }}格
+                                                </span>
+                                                <el-input-number
+                                                    v-model="civilEditorPreview.width"
+                                                    :min="1"
+                                                    :max="20"
+                                                    v-show="[0,1,2,3,4,5,6,7,8,9].indexOf(civilEditorActiveStep)>-1"
+                                                ></el-input-number>
+                                            </div>
+                                            <div class="setting-cell">
+                                                <label>建筑高度:</label>
+                                                <span
+                                                    style="color: var(--color-text-primary); font-weight: bold"
+                                                    v-show="[].indexOf(civilEditorActiveStep)>-1"
+                                                >
+                                                    {{ civilEditorPreview.height }}格
+                                                </span>
+                                                <el-input-number
+                                                    v-model="civilEditorPreview.height"
+                                                    :min="1"
+                                                    :max="20"
+                                                    v-show="[0,1,2,3,4,5,6,7,8,9].indexOf(civilEditorActiveStep)>-1"
+                                                ></el-input-number>
+                                            </div>
+                                        </div>
+                                        <div class="setting-row">
+                                            <div class="setting-cell">
+                                                <label>影响范围:</label>
+                                                <span
+                                                    style="color: var(--color-text-primary); font-weight: bold"
+                                                    v-show="[0,1,2,7,8,9].indexOf(civilEditorActiveStep)>-1"
+                                                >
+                                                    {{ civilEditorPreview.range }}格
+                                                </span>
+                                                <el-input-number
+                                                    v-model="civilEditorPreview.range"
+                                                    :min="0"
+                                                    v-show="[3,4,5,6].indexOf(civilEditorActiveStep)>-1"
+                                                ></el-input-number>
+                                            </div>
+                                            <div class="setting-cell">
+                                                <label>文字颜色:</label>
+                                                <span
+                                                    :style="{
+                                                        color: civilEditorPreview.color,
+                                                        textShadow: 'var(--color-border-base) 0px 1px 10px',
+                                                        fontWeight: 'bold',
+                                                    }"
+                                                    v-show="[0,1,2,3,5,6,7,9].indexOf(civilEditorActiveStep)>-1"
+                                                >
+                                                    {{ civilEditorPreview.color }}
+                                                </span>
+                                                <el-color-picker
+                                                    v-model="civilEditorPreview.color"
+                                                    :predefine="predefineColors"
+                                                    v-show="[4,8].indexOf(civilEditorActiveStep)>-1"
+                                                ></el-color-picker>
+                                            </div>
+                                        </div>
+                                        <div class="setting-row">
+                                            <div class="setting-cell">
+                                                <el-tooltip popper-class="hint-popper" effect="dark" placement="bottom">
+                                                    <div slot="content">
+                                                        <div>为保证和其它文明建筑颜色风格一致，</div>
+                                                        <div>
+                                                            推荐使用下列预设来设置<strong>市政</strong>和<strong>美化</strong>建筑!
+                                                        </div>
+                                                        <br />
+                                                        <div><strong>市政</strong></div>
+                                                        <div>
+                                                            水井:
+                                                            <strong
+                                                                style="
+                                                                    color: #1f8fff;
+                                                                    text-shadow: var(--color-border-base) 0px 1px 10px;
+                                                                "
+                                                            >
+                                                                #1F8FFF
+                                                            </strong>
+                                                        </div>
+                                                        <div>
+                                                            防护建筑:
+                                                            <strong
+                                                                style="
+                                                                    color: #ff3838;
+                                                                    text-shadow: var(--color-border-base) 0px 1px 10px;
+                                                                "
+                                                            >
+                                                                #FF3838
+                                                            </strong>
+                                                        </div>
+                                                        <div>
+                                                            粮仓:
+                                                            <strong
+                                                                style="
+                                                                    color: #25ccf7;
+                                                                    text-shadow: var(--color-border-base) 0px 1px 10px;
+                                                                "
+                                                            >
+                                                                #25CCF7
+                                                            </strong>
+                                                        </div>
+                                                        <div>
+                                                            货栈:
+                                                            <strong
+                                                                style="
+                                                                    color: #25eff7;
+                                                                    text-shadow: var(--color-border-base) 0px 1px 10px;
+                                                                "
+                                                            >
+                                                                #25EFF7
+                                                            </strong>
+                                                        </div>
+                                                        <div>
+                                                            宫殿或皇宫:
+                                                            <strong
+                                                                style="
+                                                                    color: #fff200;
+                                                                    text-shadow: var(--color-border-base) 0px 1px 10px;
+                                                                "
+                                                            >
+                                                                #FFF200
+                                                            </strong>
+                                                        </div>
+                                                        <div>
+                                                            职务建筑(如 中国的衙门, 波斯的办公厅):
+                                                            <strong
+                                                                style="
+                                                                    color: #ff7979;
+                                                                    text-shadow: var(--color-border-base) 0px 1px 10px;
+                                                                "
+                                                            >
+                                                                #FF7979
+                                                            </strong>
+                                                        </div>
+                                                        <div>
+                                                            贸易战:
+                                                            <strong
+                                                                style="
+                                                                    color: #5a7ca3;
+                                                                    text-shadow: var(--color-border-base) 0px 1px 10px;
+                                                                "
+                                                            >
+                                                                #5A7CA3
+                                                            </strong>
+                                                        </div>
+                                                        <div>
+                                                            税务局:
+                                                            <strong
+                                                                style="
+                                                                    color: #ff5e57;
+                                                                    text-shadow: var(--color-border-base) 0px 1px 10px;
+                                                                "
+                                                            >
+                                                                #FF5E57
+                                                            </strong>
+                                                        </div>
+                                                        <div>
+                                                            磨坊:
+                                                            <strong
+                                                                style="
+                                                                    color: #b8e994;
+                                                                    text-shadow: var(--color-border-base) 0px 1px 10px;
+                                                                "
+                                                            >
+                                                                #B8E994
+                                                            </strong>
+                                                        </div>
+                                                        <div>
+                                                            浇灌渠、水车房:
+                                                            <strong
+                                                                style="
+                                                                    color: #78e08f;
+                                                                    text-shadow: var(--color-border-base) 0px 1px 10px;
+                                                                "
+                                                            >
+                                                                #78E08F
+                                                            </strong>
+                                                        </div>
+                                                        <div>
+                                                            驿站:
+                                                            <strong
+                                                                style="
+                                                                    color: #98aec7;
+                                                                    text-shadow: var(--color-border-base) 0px 1px 10px;
+                                                                "
+                                                            >
+                                                                #98AEC7
+                                                            </strong>
+                                                        </div>
+                                                        <br />
+                                                        <div><strong>美化</strong></div>
+                                                        <div>
+                                                            树:
+                                                            <strong
+                                                                style="
+                                                                    color: #32ff7e;
+                                                                    text-shadow: var(--color-border-base) 0px 1px 10px;
+                                                                "
+                                                            >
+                                                                #32FF7E
+                                                            </strong>
+                                                        </div>
+                                                        <div>
+                                                            城墙:
+                                                            <strong
+                                                                style="
+                                                                    color: #3c6382;
+                                                                    text-shadow: var(--color-border-base) 0px 1px 10px;
+                                                                "
+                                                            >
+                                                                #3C6382
+                                                            </strong>
+                                                        </div>
+                                                        <div>
+                                                            城门:
+                                                            <strong
+                                                                style="
+                                                                    color: #0a3d62;
+                                                                    text-shadow: var(--color-border-base) 0px 1px 10px;
+                                                                "
+                                                            >
+                                                                #0A3D62
+                                                            </strong>
+                                                        </div>
+                                                    </div>
+                                                    <label>背景颜色:</label>
+                                                </el-tooltip>
+                                                <span
+                                                    :style="{
+                                                        color: civilEditorPreview.backgroundColor,
+                                                        textShadow: 'var(--color-border-base) 0px 1px 10px',
+                                                        fontWeight: 'bold',
+                                                    }"
+                                                    v-show="[0,1,2,3,5,6,7,9].indexOf(civilEditorActiveStep)>-1"
+                                                >
+                                                    {{ civilEditorPreview.backgroundColor }}
+                                                </span>
+                                                <el-color-picker
+                                                    v-model="civilEditorPreview.backgroundColor"
+                                                    :predefine="predefineBackgroundColors"
+                                                    v-show="[4,8].indexOf(civilEditorActiveStep)>-1"
+                                                ></el-color-picker>
+                                            </div>
+                                            <div class="setting-cell">
+                                                <label>边框颜色:</label>
+                                                <span
+                                                    :style="{
+                                                        color: civilEditorPreview.borderColor,
+                                                        textShadow: 'var(--color-border-base) 0px 1px 10px',
+                                                        fontWeight: 'bold',
+                                                    }"
+                                                    v-show="[0,1,2,3,4,5,6,7,8,9].indexOf(civilEditorActiveStep)>-1"
+                                                >
+                                                    {{ civilEditorPreview.borderColor }}
+                                                </span>
+                                                <el-color-picker
+                                                    v-model="civilEditorPreview.borderColor"
+                                                    v-show="[].indexOf(civilEditorActiveStep)>-1"
+                                                ></el-color-picker>
+                                            </div>
+                                        </div>
+                                        <div class="setting-row" v-show="civilEditorActiveStep===4">
+                                            <div class="setting-cell">
+                                                <label>防护建筑:</label>
+                                                <el-switch v-model="civilEditorPreview.isProtection"></el-switch>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="setting-row">
-                                        <div class="setting-cell">
-                                            <label>建筑宽度:</label>
-                                            <span
-                                                style="color: var(--color-text-primary); font-weight: bold"
-                                                v-show="[].indexOf(civilEditorActiveStep)>-1"
-                                            >
-                                                {{ civilEditorPreview.width }}
-                                            </span>
-                                            <el-input-number
-                                                v-model="civilEditorPreview.width"
-                                                :min="1"
-                                                :max="20"
-                                                v-show="[0].indexOf(civilEditorActiveStep)>-1"
-                                            ></el-input-number>
-                                        </div>
-                                        <div class="setting-cell">
-                                            <label>建筑高度:</label>
-                                            <span
-                                                style="color: var(--color-text-primary); font-weight: bold"
-                                                v-show="[].indexOf(civilEditorActiveStep)>-1"
-                                            >
-                                                {{ civilEditorPreview.height }}
-                                            </span>
-                                            <el-input-number
-                                                v-model="civilEditorPreview.height"
-                                                :min="1"
-                                                :max="20"
-                                                v-show="[0].indexOf(civilEditorActiveStep)>-1"
-                                            ></el-input-number>
-                                        </div>
-                                    </div>
-                                    <div class="setting-row">
-                                        <div class="setting-cell">
-                                            <label>影响范围:</label>
-                                            <span
-                                                style="color: var(--color-text-primary); font-weight: bold"
-                                                v-show="[0].indexOf(civilEditorActiveStep)>-1"
-                                            >
-                                                {{ civilEditorPreview.range }}
-                                            </span>
-                                            <el-input-number
-                                                v-model="civilEditorPreview.range"
-                                                :min="0"
-                                                v-show="[].indexOf(civilEditorActiveStep)>-1"
-                                            ></el-input-number>
-                                        </div>
-                                        <div class="setting-cell">
-                                            <label>文字颜色:</label>
-                                            <span
-                                                :style="{
-                                                    color: civilEditorPreview.color,
-                                                    textShadow: 'var(--color-white) 0px 1px 10px',
-                                                    fontWeight: 'bold',
+                                    <div v-show="civilEditorActiveStep===10" style="margin: 20px 0">
+                                        <div
+                                            class="setting-row center"
+                                            v-for="(item, index) in civilEditorResult['住宅']"
+                                            :key="'transfer-'+index"
+                                        >
+                                            <el-transfer
+                                                v-model="civilEditorResicenceReq[index]"
+                                                :props="{
+                                                    key: 'id',
+                                                    label: 'id'
                                                 }"
-                                                v-show="[0].indexOf(civilEditorActiveStep)>-1"
+                                                :data="civilEditorResicenceData"
+                                                :titles="[item.name,item.name+'需求']"
+                                                filterable
                                             >
-                                                {{ civilEditorPreview.color }}
-                                            </span>
-                                            <el-color-picker
-                                                v-model="civilEditorPreview.color"
-                                                v-show="[].indexOf(civilEditorActiveStep)>-1"
-                                            ></el-color-picker>
+                                            </el-transfer>
                                         </div>
                                     </div>
-                                    <div class="setting-row">
-                                        <div class="setting-cell">
-                                            <label>背景颜色:</label>
-                                            <span
-                                                :style="{
-                                                    color: civilEditorPreview.backgroundColor,
-                                                    textShadow: 'var(--color-white) 0px 1px 10px',
-                                                    fontWeight: 'bold',
-                                                }"
-                                                v-show="[0].indexOf(civilEditorActiveStep)>-1"
-                                            >
-                                                {{ civilEditorPreview.backgroundColor }}
-                                            </span>
-                                            <el-color-picker
-                                                v-model="civilEditorPreview.backgroundColor"
-                                                v-show="[].indexOf(civilEditorActiveStep)>-1"
-                                            ></el-color-picker>
+                                    <div v-show="civilEditorActiveStep===11">
+                                        <div class="setting-row" style="margin: 20px 0 10px">
+                                            <div class="setting-cell">
+                                                <label>文明名称: </label>
+                                                <el-input
+                                                    v-model="civilEditorResult['名称']"
+                                                    style="width: 180px"
+                                                ></el-input>
+                                            </div>
                                         </div>
-                                        <div class="setting-cell">
-                                            <label>边框颜色:</label>
-                                            <span
-                                                :style="{
-                                                    color: civilEditorPreview.borderColor,
-                                                    textShadow: 'var(--color-white) 0px 1px 10px',
-                                                    fontWeight: 'bold',
-                                                }"
-                                                v-show="[0].indexOf(civilEditorActiveStep)>-1"
-                                            >
-                                                {{ civilEditorPreview.borderColor }}
+                                        <div
+                                            class="setting-row"
+                                            style="margin: 0 0 10px 0; height: auto; min-height: 40px; flex-wrap: wrap"
+                                            v-for="index0 in 10"
+                                        >
+                                            <span style="font-weight: bold; margin-right: 20px">
+                                                {{ civilEditorStepLabel[index0-1] }}
                                             </span>
-                                            <el-color-picker
-                                                v-model="civilEditorPreview.borderColor"
-                                                v-show="[].indexOf(civilEditorActiveStep)>-1"
-                                            ></el-color-picker>
+                                            <el-tooltip
+                                                v-for="(item, index) in civilEditorResult[civilEditorStepLabel[index0-1]]"
+                                                :key="'civil-editor-'+item.name"
+                                                popper-class="hint-popper"
+                                                effect="dark"
+                                                placement="bottom"
+                                            >
+                                                <div slot="content" class="building-hint">
+                                                    <div class="building-hint-row div1">
+                                                        建筑名称:
+                                                        <span style="font-weight: bold">{{ item.name }}</span>
+                                                    </div>
+                                                    <div class="building-hint-row div2">
+                                                        显示文字:
+                                                        <span style="font-weight: bold">{{ item.text }}</span>
+                                                    </div>
+                                                    <span class="building-hint-cell div3">
+                                                        宽度:
+                                                        <span style="font-weight: bold">{{ item.width }}</span>
+                                                        格
+                                                    </span>
+                                                    <span class="building-hint-cell div4">
+                                                        高度:
+                                                        <span style="font-weight: bold"> {{ item.height }} </span>
+                                                        格
+                                                    </span>
+                                                    <span class="building-hint-cell div5">
+                                                        文字颜色:
+                                                        <span
+                                                            :style="{ color: item.color, textShadow: 'var(--color-border-base) 0px 1px 10px', fontWeight: 'bold' }"
+                                                        >
+                                                            {{ item.color }}
+                                                        </span>
+                                                    </span>
+                                                    <span class="building-hint-cell div6">
+                                                        字体大小:
+                                                        <span style="font-weight: bold">16</span>
+                                                        px
+                                                    </span>
+                                                    <span class="building-hint-cell div7">
+                                                        边框颜色:
+                                                        <span
+                                                            :style="{ color: item.borderColor, textShadow: 'var(--color-border-base) 0px 1px 10px', fontWeight: 'bold' }"
+                                                        >
+                                                            {{ item.borderColor }}
+                                                        </span>
+                                                    </span>
+                                                    <span class="building-hint-cell div8">
+                                                        边框宽度:
+                                                        <span style="font-weight: bold">1</span>
+                                                        px
+                                                    </span>
+                                                    <span class="building-hint-cell div9">
+                                                        背景颜色:
+                                                        <span
+                                                            :style="{ color: item.backgroundColor, textShadow: 'var(--color-border-base) 0px 1px 10px', fontWeight: 'bold' }"
+                                                        >
+                                                            {{ item.backgroundColor }}
+                                                        </span>
+                                                    </span>
+                                                    <span class="building-hint-cell div10">
+                                                        影响范围:
+                                                        <span style="font-weight: bold">{{ item.range }}</span>
+                                                        格
+                                                    </span>
+                                                    <span class="building-hint-cell div11">
+                                                        美化建筑:
+                                                        <span
+                                                            :style="{ color: item.isDecoration ? 'var(--color-success)' : 'var(--color-danger)', fontWeight: 'bold' }"
+                                                        >
+                                                            {{ item.isDecoration ? '√' : '×' }}
+                                                        </span>
+                                                    </span>
+                                                    <span class="building-hint-cell div12">
+                                                        奇迹建筑:
+                                                        <span
+                                                            :style="{ color: item.isMiracle ? 'var(--color-success)' : 'var(--color-danger)', fontWeight: 'bold' }"
+                                                        >
+                                                            {{ item.isMiracle? '√' : '×' }}
+                                                        </span>
+                                                    </span>
+                                                    <span class="building-hint-cell div13">
+                                                        防护建筑:
+                                                        <span
+                                                            :style="{ color: item.isProtection ? 'var(--color-success)' : 'var(--color-danger)', fontWeight: 'bold' }"
+                                                        >
+                                                            {{ item.isProtection? '√' : '×' }}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                                <el-tag
+                                                    size="medium"
+                                                    style="margin: 10px; cursor: pointer"
+                                                    :effect="item.effect"
+                                                    @click="selectCivilTag(index, index0-1)"
+                                                >
+                                                    {{ (index+1) + ". " + item.name }}
+                                                </el-tag>
+                                            </el-tooltip>
                                         </div>
                                     </div>
-                                    <div v-show="civilEditorActiveStep===0"></div>
-                                    <div v-show="civilEditorActiveStep===1"></div>
-                                    <div v-show="civilEditorActiveStep===2"></div>
-                                    <div v-show="civilEditorActiveStep===3"></div>
-                                    <div v-show="civilEditorActiveStep===4"></div>
-                                    <div v-show="civilEditorActiveStep===5"></div>
-                                    <div v-show="civilEditorActiveStep===6"></div>
-                                    <div v-show="civilEditorActiveStep===7"></div>
-                                    <div v-show="civilEditorActiveStep===8"></div>
-                                    <div v-show="civilEditorActiveStep===9"></div>
-                                    <div v-show="civilEditorActiveStep===10"></div>
-                                    <div v-show="civilEditorActiveStep===11"></div>
                                 </el-scrollbar>
                                 <div id="civil-editor-setting-button">
                                     <el-button-group v-show="civilEditorActiveStep<11">
@@ -1276,7 +1676,7 @@
                                         >
                                             上一步
                                         </el-button>
-                                        <el-button type="primary" size="small" round>
+                                        <el-button type="primary" size="small" @click="generateNewCivil" round>
                                             生&ensp;成&ensp;
                                             <i class="el-icon-download"></i>
                                         </el-button>

@@ -86,8 +86,25 @@ var $vm = new Vue({
                 "住宅需求",
                 "信息核对",
             ],
+            predefineColors: [BuildingColor.White, BuildingColor.Black],
+            predefineBackgroundColors: [
+                BuildingColor["市政"]["水"],
+                BuildingColor["市政"]["防"],
+                BuildingColor["市政"]["粮"],
+                BuildingColor["市政"]["货"],
+                BuildingColor["市政"]["殿"],
+                BuildingColor["市政"]["职"],
+                BuildingColor["市政"]["贸"],
+                BuildingColor["市政"]["税"],
+                BuildingColor["市政"]["磨"],
+                BuildingColor["市政"]["浇"],
+                BuildingColor["市政"]["驿"],
+                BuildingColor["美化"]["树"],
+            ],
             civilEditorActiveStep: 0,
             civilEditorPreview: {},
+            civilEditorResicenceData: [],
+            civilEditorResicenceReq: [],
             civilEditorResult: {
                 住宅: [
                     {
@@ -102,6 +119,8 @@ var $vm = new Vue({
                         isDecoration: false,
                         isMiracle: false,
                         isProtection: false,
+                        effect: "dark",
+                        id: "住宅-普通住宅",
                     },
                     {
                         name: "高级住宅",
@@ -115,16 +134,50 @@ var $vm = new Vue({
                         isDecoration: false,
                         isMiracle: false,
                         isProtection: false,
+                        effect: "plain",
+                        id: "住宅-高级住宅",
                     },
                 ],
                 农业: [],
                 工业: [],
                 商业: [],
-                市政: [],
+                市政: [
+                    {
+                        name: "水井",
+                        text: "水",
+                        width: 1,
+                        height: 1,
+                        range: 4,
+                        color: BuildingColor.Black,
+                        backgroundColor: BuildingColor["市政"]["水"],
+                        borderColor: BuildingColor.Black,
+                        isDecoration: false,
+                        isMiracle: false,
+                        isProtection: false,
+                        effect: "plain",
+                        id: "市政-水井",
+                    },
+                ],
                 文化: [],
                 宗教: [],
                 军事: [],
-                美化: [],
+                美化: [
+                    {
+                        name: "树",
+                        text: "树",
+                        width: 1,
+                        height: 1,
+                        range: 0,
+                        color: BuildingColor.Black,
+                        backgroundColor: BuildingColor["美化"]["树"],
+                        borderColor: BuildingColor.Black,
+                        isDecoration: true,
+                        isMiracle: false,
+                        isProtection: false,
+                        effect: "plain",
+                        id: "美化-树",
+                    },
+                ],
                 奇迹: [],
                 名称: "",
             },
@@ -594,10 +647,38 @@ var $vm = new Vue({
         },
         updateCivilEditorStep(step) {
             this.civilEditorActiveStep = step;
-            if (this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]].length) {
-                this.civilEditorPreview = this.civilEditorResult[
-                    this.civilEditorStepLabel[this.civilEditorActiveStep]
-                ][0];
+            if (
+                this.civilEditorActiveStep <= 9 &&
+                this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]].length
+            ) {
+                this.selectCivilTag(0);
+            } else {
+                this.civilEditorPreview = {};
+            }
+            if (this.civilEditorActiveStep === 10) {
+                if (this.civilEditorResicenceReq.length !== this.civilEditorResult["住宅"].length) {
+                    this.civilEditorResicenceReq = [];
+                    for (let v of this.civilEditorResult["住宅"]) {
+                        this.civilEditorResicenceReq.push([]);
+                    }
+                }
+                this.civilEditorResicenceData = [];
+                for (let v of this.civilEditorResult["商业"]) {
+                    this.civilEditorResicenceData.push(v);
+                }
+                for (let v of this.civilEditorResult["市政"]) {
+                    if (v.isProtection) continue;
+                    this.civilEditorResicenceData.push(v);
+                }
+                for (let v of this.civilEditorResult["文化"]) {
+                    this.civilEditorResicenceData.push(v);
+                }
+                for (let v of this.civilEditorResult["宗教"]) {
+                    this.civilEditorResicenceData.push(v);
+                }
+            }
+            if (this.civilEditorActiveStep === 11) {
+                this.selectCivilTag(0, 0);
             }
         },
         insertCivilBuilding() {
@@ -626,10 +707,10 @@ var $vm = new Vue({
                     length = length > maxLength ? maxLength : length;
                     this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]].push({
                         name: value,
-                        text: "建筑",
-                        width: 2,
-                        height: 2,
-                        range: 0,
+                        text: value,
+                        width: this.civilEditorStepLabel[this.civilEditorActiveStep] === "商业" ? 1 : 2,
+                        height: this.civilEditorStepLabel[this.civilEditorActiveStep] === "商业" ? 1 : 2,
+                        range: this.civilEditorStepLabel[this.civilEditorActiveStep] === "商业" ? 5 : 0,
                         color:
                             ["宗教", "军事", "奇迹"].indexOf(this.civilEditorStepLabel[this.civilEditorActiveStep]) > -1
                                 ? BuildingColor.White
@@ -637,14 +718,14 @@ var $vm = new Vue({
                         backgroundColor:
                             BuildingColor[this.civilEditorStepLabel[this.civilEditorActiveStep]][length - 1],
                         borderColor: BuildingColor.Black,
-                        isDecoration: false,
-                        isMiracle: false,
+                        isDecoration: this.civilEditorStepLabel[this.civilEditorActiveStep] === "美化",
+                        isMiracle: this.civilEditorStepLabel[this.civilEditorActiveStep] === "奇迹",
                         isProtection: false,
+                        effect: "plain",
+                        id: `${this.civilEditorStepLabel[this.civilEditorActiveStep]}-${value}`,
                     });
                     length = this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]].length;
-                    this.civilEditorPreview = this.civilEditorResult[
-                        this.civilEditorStepLabel[this.civilEditorActiveStep]
-                    ][length - 1];
+                    this.selectCivilTag(length - 1);
                     this.$message({
                         type: "success",
                         message: `已添加新建筑: ${value}`,
@@ -654,20 +735,86 @@ var $vm = new Vue({
                 })
                 .catch(() => {});
         },
-        selectCivilTag(index) {
+        selectCivilTag(index, catagoryIndex) {
+            if (catagoryIndex !== undefined) {
+                for (let i = 0; i < 10; i++) {
+                    for (let v of this.civilEditorResult[this.civilEditorStepLabel[i]]) {
+                        v.effect = "plain";
+                    }
+                }
+                this.civilEditorPreview = this.civilEditorResult[this.civilEditorStepLabel[catagoryIndex]][index];
+                this.civilEditorResult[this.civilEditorStepLabel[catagoryIndex]][index].effect = "dark";
+                return;
+            }
+            for (let v of this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]]) {
+                v.effect = "plain";
+            }
             this.civilEditorPreview = this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]][
                 index
             ];
+            this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]][index].effect = "dark";
         },
         deleteCivilTag(index) {
-            this.civilEditorPreview = this.civilEditorResult[
-                this.civilEditorStepLabel[this.civilEditorActiveStep]
-            ].splice(index, 1);
-            if (this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]].length) {
-                this.civilEditorPreview = this.civilEditorResult[
-                    this.civilEditorStepLabel[this.civilEditorActiveStep]
-                ][0];
+            this.$confirm("是否确认删除该建筑？", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+                .then(() => {
+                    let buildingID = this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]][
+                        index
+                    ].id;
+                    for (let v of this.civilEditorResicenceReq) {
+                        let index = v.findIndex((value) => value === buildingID);
+                        if (index > -1) {
+                            v.splice(index, 1);
+                        }
+                    }
+                    this.civilEditorPreview = this.civilEditorResult[
+                        this.civilEditorStepLabel[this.civilEditorActiveStep]
+                    ].splice(index, 1);
+                    if (this.civilEditorResult[this.civilEditorStepLabel[this.civilEditorActiveStep]].length) {
+                        this.selectCivilTag(0);
+                    }
+                    this.$message({
+                        type: "success",
+                        message: "删除成功!",
+                        duration: 3000,
+                        offset: $config.topNavHeight + 10,
+                    });
+                })
+                .catch(() => {});
+        },
+        generateNewCivil() {
+            if (!this.civilEditorResult["名称"]) {
+                this.$message({
+                    type: "error",
+                    message: "文明名称为空，生成失败!",
+                    duration: 3000,
+                    offset: $config.topNavHeight + 10,
+                });
+                return;
             }
+            this.$confirm(
+                "<strong>是否确认建筑信息、住宅需求全部正确？<br />生成后的文件将无法修改！</strong>",
+                "提示",
+                {
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    type: "warning",
+                    dangerouslyUseHTMLString: true,
+                }
+            )
+                .then(() => {
+                    exportNewCivil(this.civilEditorResult, this.civilEditorResicenceReq);
+                    this.$message({
+                        type: "success",
+                        message: "生成成功!",
+                        duration: 3000,
+                        offset: $config.topNavHeight + 10,
+                    });
+                })
+                .catch(() => {});
         },
     },
     created() {},
