@@ -280,6 +280,7 @@ function exportNewCivil(civil, resicenceReq) {
                     let splitter = w.indexOf("-");
                     let catagory = w.substring(0, splitter);
                     let name = w.substring(splitter + 1);
+                    if (civil[catagory].find((value) => value.name === name).isProtection) continue;
                     result[`${v.name}需求`][catagory].push(name);
                 }
             }
@@ -287,7 +288,6 @@ function exportNewCivil(civil, resicenceReq) {
         }
     }
     result.md5 = md5(JSON.stringify(result));
-    console.log(result);
     download(new Blob([stringToBase64(JSON.stringify(result))]), `${result["名称"]}-建筑数据-${getPostfixName()}.txt`);
 }
 
