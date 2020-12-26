@@ -144,7 +144,8 @@
     border-radius: 0 0 10px 20px;
 }
 
-#ghost-text {
+#ghost-text,
+#ghost-text-hint {
     position: absolute;
     -webkit-transform: translateY(80px);
     -ms-transform: translateY(80px);
@@ -155,4 +156,10 @@
     text-shadow: 0 0 5px var(--color-primary-light-7), 0 0 10px var(--color-primary-light-7),
         0 0 15px var(--color-primary-light-7), 0 0 20px var(--color-primary-light-7),
         0 0 25px var(--color-primary-light-7), 0 0 30px var(--color-primary-light-7);
+}
+
+#ghost-text-hint {
+    -webkit-transform: translateY(135px);
+    -ms-transform: translateY(135px);
+    transform: translateY(135px);
 }

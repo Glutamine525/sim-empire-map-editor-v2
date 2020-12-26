@@ -121,6 +121,7 @@ $$("ghost-container").style.display = "none";
 $$("loading-background-container").style.display = "none";
 
 window.onload = () => {
+    $$("ghost-text-hint").style.display = "none";
     document.onclick = onMouseClick;
     document.onmousemove = onMouseMove;
     document.onmousedown = onMouseDown;
