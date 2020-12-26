@@ -1,5 +1,5 @@
-var $length = 116;
-var $cellSize = 30;
+const $length = 116;
+const $cellSize = 30;
 
 var $topNav = new TopNav(40);
 var $sideNav = new SideNav(64);
@@ -71,7 +71,6 @@ if (
     $$("side-nav").style.background = "transparent";
     $$("side-nav").style.width = "66px";
     $$("side-nav").style.display = "flex";
-    // if ($config.core === "safari") $$("side-nav").style.display = "-webkit-box";
     $$("side-nav").style.flexDirection = "column";
     $$("side-nav").style.webkitBoxOrient = "vertical";
     $$("side-nav").style.webkitBoxDirection = "normal";
@@ -103,7 +102,6 @@ if (
     $$("side-nav").style.webkitBoxShadow = "3px 3px 5px var(--color-border-base)";
     $$$("#side-nav > .side-nav-container").style.height = "100%";
     $$$("#side-nav .side-nav-container").style.display = "flex";
-    // if ($config.core === "safari") $$$("#side-nav .side-nav-container").style.display = "-webkit-box";
     $$$("#side-nav .el-menu--collapse").style.margin = "auto 0";
 }
 

@@ -7,6 +7,7 @@
     -webkit-transition: all 0.3s ease-in-out;
     -o-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
+    overflow: hidden;
 }
 
 #map {
@@ -27,6 +28,13 @@
     -webkit-transform-origin: center;
     -ms-transform-origin: center;
     transform-origin: center;
+}
+
+#map-function {
+    position: absolute;
+    margin: 72px 32px 32px 96px;
+    top: 0;
+    left: 0;
 }
 
 #cell {

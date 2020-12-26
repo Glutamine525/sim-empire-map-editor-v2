@@ -1,7 +1,6 @@
 function toggleWaiting(show) {
     if (show) {
         $$("ghost-container").style.display = "flex";
-        // if ($config.core === "safari") $$("ghost-container").style.display = "-webkit-box";
         $$("loading-background-container").style.display = "block";
     } else {
         $$("ghost-container").style.display = "none";

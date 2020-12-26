@@ -19,13 +19,25 @@ function isInRoadHelper(path) {
     return path[0].id === "road-helper";
 }
 
+function getPosition(event) {
+    let pageX = event.pageX - 96;
+    let pageY = event.pageY - 72;
+    return {
+        pageX: pageX,
+        pageY: pageY,
+        li: Math.ceil(pageY / 30),
+        co: Math.ceil(pageX / 30),
+    };
+}
+
 function onMouseDown(event) {
     const path = event.path || (event.composedPath && event.composedPath());
+    let { pageX, pageY, li, co } = getPosition(event);
     $config.isMouseDown = true;
-    $config.startX = event.pageX - 96;
-    $config.startY = event.pageY - 72;
-    $config.startLi = Math.ceil((event.pageY - 72) / 30);
-    $config.startCo = Math.ceil((event.pageX - 96) / 30);
+    $config.startX = pageX;
+    $config.startY = pageY;
+    $config.startLi = li;
+    $config.startCo = co;
     if (path.length > 3 && path[1].id !== "selection-operation" && path[2].id !== "selection-operation") {
         $selectionBlock.hide();
     }
@@ -58,20 +70,20 @@ function onMouseDown(event) {
 
 function onMouseUp(event) {
     // console.log("up", event);
-    const path = event.path || (event.composedPath && event.composedPath());
     $config.isMouseDown = false;
     if ($config.dragMap.isDragging) {
         $config.dragMap.isDragging = false;
     }
+    const path = event.path || (event.composedPath && event.composedPath());
+    let { pageX, pageY, li, co } = getPosition(event);
     if (
         !$config.isCtrlDown &&
         $config.holding.isRoad &&
         path.length > 3 &&
         (isInBuilding(path) || isInRoadHelper(path) || isInPreview(path))
     ) {
-        let li = Math.ceil((event.pageY - 72) / 30);
-        let co = Math.ceil((event.pageX - 96) / 30);
         $$("road-helper").style.display = "none";
+        $$("preview").style.display = "none";
         if (li === $config.startLi) {
             let start = co > $config.startCo ? $config.startCo : co;
             let end = co > $config.startCo ? co : $config.startCo;
@@ -114,8 +126,8 @@ function onMouseUp(event) {
         $selectionBlock.finalize({
             startX: $config.startX,
             startY: $config.startY,
-            nowX: event.pageX - 96,
-            nowY: event.pageY - 72,
+            nowX: pageX,
+            nowY: pageY,
         });
     }
     if (
@@ -127,16 +139,15 @@ function onMouseUp(event) {
         $deletionBlock.finalize({
             startX: $config.startX,
             startY: $config.startY,
-            nowX: event.pageX - 96,
-            nowY: event.pageY - 72,
+            nowX: pageX,
+            nowY: pageY,
         });
     }
 }
 
 function onMouseClick(event) {
     const path = event.path || (event.composedPath && event.composedPath());
-    let li = Math.ceil((event.pageY - 72) / 30);
-    let co = Math.ceil((event.pageX - 96) / 30);
+    let { li, co } = getPosition(event);
     if (li < 0 || co < 0 || li > 116 || co > 116) return;
     if (
         $config.operation === "placing-building" &&
@@ -223,8 +234,7 @@ function onMouseMove(event) {
             return;
         }
     }
-    let li = Math.ceil((event.pageY - 72) / 30);
-    let co = Math.ceil((event.pageX - 96) / 30);
+    let { li, co, pageX, pageY } = getPosition(event);
     if (li < 1 || co < 1 || li > 116 || co > 116) return;
     if (
         $config.operation === "placing-building" &&
@@ -241,7 +251,6 @@ function onMouseMove(event) {
         preview.style.left = `${($cell[li][co].occupied.column - 1) * $cellSize}px`;
         setPreviewMarker($cell[li][co].occupied.marker);
         preview.style.display = "flex";
-        // if ($config.core === "safari") preview.style.display = "-webkit-box";
     } else if (
         $config.operation === "placing-building" &&
         path.length > 3 &&
@@ -263,8 +272,8 @@ function onMouseMove(event) {
             $selectionBlock.update({
                 startX: $config.startX,
                 startY: $config.startY,
-                nowX: event.pageX - 96,
-                nowY: event.pageY - 72,
+                nowX: pageX,
+                nowY: pageY,
             });
         }
         if (
@@ -278,8 +287,8 @@ function onMouseMove(event) {
             $deletionBlock.update({
                 startX: $config.startX,
                 startY: $config.startY,
-                nowX: event.pageX - 96,
-                nowY: event.pageY - 72,
+                nowX: pageX,
+                nowY: pageY,
             });
         }
         onMouseClick(event);
