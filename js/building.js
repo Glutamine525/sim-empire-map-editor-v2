@@ -226,10 +226,12 @@ class Building {
                 if (!count) {
                     message += "<div style='display: flex; display: -webkit-box; display: -ms-flexbox;'>";
                 }
-                message += `<div style="width: 50%"><span>${req.name}:</span>`;
+                message += "<div style='width: 50%'>";
+                message += `<span style="cursor: pointer" onclick="$vm.onSelectBuilding('${req.name}', ['${cata}', '${req.name}'])">`;
+                message += `<span>${req.name}:</span>`;
                 message += `<span style="margin-left: 2px; font-weight: bold; color: ${
                     req.covered ? "#0be881" : "#ff5e57"
-                }">${req.covered ? "√" : "×"}</span></div>`;
+                }">${req.covered ? "√" : "×"}</span></span></div>`;
                 count++;
                 if (count >= 2) {
                     count = 0;
@@ -243,7 +245,7 @@ class Building {
             iconClass: "fas fa-search",
             title: "住宅需求查询结果",
             message: message,
-            duration: 4000,
+            duration: 6000,
             showClose: true,
             customClass: "residence-requirement",
             offset: $config.topNavHeight + 10,

@@ -22,6 +22,22 @@ class BuildingRange {
                     !isInBuildingRange(li, co, 0, 0, width, height, range)
                 )
                     cell.className += " range-hide";
+                else if (isInBuildingRange(li, co, 0, 0, width, height, range)) {
+                    cell.style.background = config.background + "6f";
+                    cell.style.borderColor = config.background;
+                    if (row.children[j - 1] && row.children[j - 1].className === "range-cell") {
+                        row.children[j - 1].style.borderRight = "none";
+                        cell.style.borderLeft = "none";
+                    }
+                    if (
+                        node.children[i - 1] &&
+                        node.children[i - 1].children[j] &&
+                        node.children[i - 1].children[j].className === "range-cell"
+                    ) {
+                        node.children[i - 1].children[j].style.borderBottom = "none";
+                        cell.style.borderTop = "none";
+                    }
+                }
                 row.appendChild(cell);
             }
             node.appendChild(row);

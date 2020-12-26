@@ -245,11 +245,16 @@
     height: 30px;
     display: inline-block;
     background: var(--color-danger-light);
-    opacity: 0.7;
+    border: 2px solid;
+    border-color: var(--color-danger);
+    opacity: 0.8;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 #range-container .range-hide {
     background: transparent;
+    border-color: transparent;
 }
 
 #selection-block,
