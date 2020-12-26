@@ -3,6 +3,7 @@ class BuildingRange {
         if ($config.dragMap.isDragging) return;
         let { line, column, width, height, range } = config;
         if ($$(`range-${config.id}`)) return;
+        let frag = document.createDocumentFragment();
         let node = document.createElement("div");
         node.className = "range";
         node.id = `range-${config.id}`;
@@ -29,7 +30,8 @@ class BuildingRange {
         node.style.left = `${(column - range - 1) * $cellSize}px`;
         node.style.width = `${(width + range * 2) * $cellSize}px`;
         node.style.height = `${(height + range * 2) * $cellSize}px`;
-        $$("range-container").appendChild(node);
+        frag.appendChild(node);
+        $$("range-container").appendChild(frag);
         if ($config.operation === "null") {
             node.style.display = "none";
             $(`#range-${config.id}`).fadeIn(350);
