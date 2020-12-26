@@ -216,7 +216,7 @@ class Building {
                 result[cata].push({ name: req, covered: covered });
             }
         });
-        let message = "";
+        let message = "<div style='font-size: 12px; color: var(--color-text-secondary)'>点击下列建筑可以直接选中</div>";
         Object.keys(result).forEach((cata) => {
             message +=
                 "<div style='border: 1px solid var(--color-border-base); width: 100%; margin: 2px 0'></div><div>";

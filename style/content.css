@@ -247,7 +247,7 @@
     background: var(--color-danger-light);
     border: 2px solid;
     border-color: var(--color-danger);
-    opacity: 0.8;
+    /* opacity: 0.8; */
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }

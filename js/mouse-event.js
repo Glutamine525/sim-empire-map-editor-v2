@@ -31,6 +31,7 @@ function getPosition(event) {
 }
 
 function onMouseDown(event) {
+    if (event.button !== 0) return;
     const path = event.path || (event.composedPath && event.composedPath());
     let { pageX, pageY, li, co } = getPosition(event);
     $config.isMouseDown = true;
@@ -45,30 +46,35 @@ function onMouseDown(event) {
         $deletionBlock.hide();
     }
     if ($config.operation === "null" && path.length > 3 && (isInBuilding(path) || isInRangeContainer(path))) {
-        $config.dragMap.startScrollLeft = $$$("html").scrollLeft;
-        $config.dragMap.startScrollTop = $$$("html").scrollTop;
-        $config.dragMap.startX = event.clientX;
-        $config.dragMap.startY = event.clientY;
-        $config.dragMap.nowX = event.clientX;
-        $config.dragMap.nowY = event.clientY;
-        $config.dragMap.isDragging = true;
+        window.requestAnimationFrame(() => {
+            $config.dragMap.startScrollLeft = $$$("html").scrollLeft;
+            $config.dragMap.startScrollTop = $$$("html").scrollTop;
+            $config.dragMap.startX = event.clientX;
+            $config.dragMap.startY = event.clientY;
+            $config.dragMap.nowX = event.clientX;
+            $config.dragMap.nowY = event.clientY;
+            $config.dragMap.isDragging = true;
+        });
     }
     if (
         $config.isCtrlDown &&
         path.length > 3 &&
         (isInBuilding(path) || isInPreview(path) || isInRangeContainer(path))
     ) {
-        $config.dragMap.startScrollLeft = $$$("html").scrollLeft;
-        $config.dragMap.startScrollTop = $$$("html").scrollTop;
-        $config.dragMap.startX = event.clientX;
-        $config.dragMap.startY = event.clientY;
-        $config.dragMap.nowX = event.clientX;
-        $config.dragMap.nowY = event.clientY;
-        $config.dragMap.isDragging = true;
+        window.requestAnimationFrame(() => {
+            $config.dragMap.startScrollLeft = $$$("html").scrollLeft;
+            $config.dragMap.startScrollTop = $$$("html").scrollTop;
+            $config.dragMap.startX = event.clientX;
+            $config.dragMap.startY = event.clientY;
+            $config.dragMap.nowX = event.clientX;
+            $config.dragMap.nowY = event.clientY;
+            $config.dragMap.isDragging = true;
+        });
     }
 }
 
 function onMouseUp(event) {
+    if (event.button !== 0) return;
     // console.log("up", event);
     $config.isMouseDown = false;
     if ($config.dragMap.isDragging) {
@@ -146,6 +152,7 @@ function onMouseUp(event) {
 }
 
 function onMouseClick(event) {
+    if (event.button !== 0) return;
     const path = event.path || (event.composedPath && event.composedPath());
     let { li, co } = getPosition(event);
     if (li < 0 || co < 0 || li > 116 || co > 116) return;
