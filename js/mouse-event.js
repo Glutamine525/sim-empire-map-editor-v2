@@ -213,11 +213,13 @@ function onMouseMove(event) {
             path.length > 3 &&
             (isInBuilding(path) || isInRangeContainer(path))
         ) {
-            let config = $config.dragMap;
-            $config.dragMap.nowX = event.clientX;
-            $config.dragMap.nowY = event.clientY;
-            $$$("html").scrollLeft = config.startScrollLeft + config.startX - config.nowX;
-            $$$("html").scrollTop = config.startScrollTop + config.startY - config.nowY;
+            window.requestAnimationFrame(() => {
+                let config = $config.dragMap;
+                $config.dragMap.nowX = event.clientX;
+                $config.dragMap.nowY = event.clientY;
+                $$$("html").scrollLeft = config.startScrollLeft + config.startX - config.nowX;
+                $$$("html").scrollTop = config.startScrollTop + config.startY - config.nowY;
+            });
             return;
         }
     }

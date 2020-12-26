@@ -40,7 +40,7 @@ class BuildingRange {
         if ($config.operation === "null") {
             $(`#range-${id}`).fadeOut(150, () => $$("range-container").removeChild($$(`range-${id}`)));
         } else {
-            $$("range-container").removeChild($$(`range-${id}`));
+            if ($$(`range-${id}`)) $$("range-container").removeChild($$(`range-${id}`));
         }
     }
 }

@@ -152,7 +152,7 @@ class Building {
         if ($config.dragMap.isDragging) return;
         let u = parseID(this.id);
         let building = $cell[u[0]][u[1]].occupied;
-        if (building.range) $range.show(building);
+        if (building.range) window.requestAnimationFrame(() => $range.show(building));
         if (building.isFixed || building.isRoad) {
             $config.lastHover = {};
         } else $config.lastHover = building;
@@ -165,7 +165,7 @@ class Building {
         // if ($config.dragMap.isDragging) return;
         let u = parseID(this.id);
         let building = $cell[u[0]][u[1]].occupied;
-        if (building.range) $range.hide(this.id);
+        if (building.range) window.requestAnimationFrame(() => $range.hide(this.id));
     }
 
     onMouseUp(event) {
