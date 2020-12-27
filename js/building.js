@@ -220,7 +220,7 @@ class Building {
         Object.keys(result).forEach((cata) => {
             message +=
                 "<div style='border: 1px solid var(--color-border-base); width: 100%; margin: 2px 0'></div><div>";
-            message += `<span style="font-size: 15px; font-weight: bold;">${cata}</span><br />`;
+            message += `<span style="font-size: 15px; color: var(--color-text-primary); font-weight: bold;">${cata}</span><br />`;
             let count = 0;
             for (let req of result[cata]) {
                 if (!count) {

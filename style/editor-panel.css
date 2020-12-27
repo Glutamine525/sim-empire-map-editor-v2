@@ -4,7 +4,7 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: var(--color-background-darker);
+    /* background: var(--color-background-darker); */
     background-image: -webkit-gradient(
         linear,
         left top,
