@@ -1,7 +1,7 @@
 class Config {
     constructor() {
         this.version = "V2.3";
-        this.minorPatch = "2.3.0";
+        this.minorPatch = "2.3.1";
         this.core = "default";
 
         this.isMouseDown = false;
@@ -47,7 +47,7 @@ class Config {
             波斯: BuildingPersian,
             埃及: BuildingEgypt,
             希腊: BuildingGreece,
-            阿兹特克: BuildingAztaka,
+            阿兹特克: BuildingAztec,
         };
         this.protection = this.civilBuilding["中国"]["防"];
         this.protectionFull = this.civilBuilding["中国"]["防护"];

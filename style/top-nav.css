@@ -44,7 +44,17 @@
 
 #top-nav-operation {
     text-align: left;
-    margin: auto 0 auto 20px;
+    margin: auto 5px;
+}
+
+#top-nav-minion {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin: auto 5px;
+    -webkit-box-flex: 0;
+    -ms-flex: none;
+    flex: none;
 }
 
 #top-nav-operation > *:not(:last-child) {
@@ -58,7 +68,7 @@
 
 #top-nav-info {
     text-align: right;
-    margin: auto 20px auto 0;
+    margin: auto 20px auto 5px;
     font-size: 12px;
 }
 
@@ -69,10 +79,6 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-}
-
-#top-nav-info > *:not(:last-child) {
-    margin-left: 10px;
 }
 
 #top-nav-count strong,

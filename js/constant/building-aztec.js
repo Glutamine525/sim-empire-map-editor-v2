@@ -1,4 +1,4 @@
-const BuildingAztaka = {
+const BuildingAztec = {
     防: ["哨", "维", "医院"],
     防护: ["哨塔", "维修站点", "医院"],
     普通住宅需求: {

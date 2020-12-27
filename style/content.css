@@ -21,6 +21,13 @@
     transform: rotate(45deg);
 }
 
+#cell,
+#building,
+#mini-map,
+#user-sign-map-preview {
+    transition: transform 0.3s ease-in-out;
+}
+
 #mini-map.rotate {
     -webkit-transform: rotate(45deg) scale(0.75);
     -ms-transform: rotate(45deg) scale(0.75);

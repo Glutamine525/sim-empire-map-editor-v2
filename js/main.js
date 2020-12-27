@@ -1,3 +1,23 @@
+// let minorPatch = getCookie("minor-patch");
+// if (!minorPatch) {
+//     setCookie("minor-patch", $config.minorPatch);
+// } else if (minorPatch !== $config.minorPatch) {
+//     setCookie("minor-patch", $config.minorPatch);
+//     $.ajax({
+//         url: window.location.href,
+//         dataType: "json",
+//         data: {},
+//         beforeSend: function (xmlHttp) {
+//             xmlHttp.setRequestHeader("If-Modified-Since", "0");
+//             xmlHttp.setRequestHeader("Cache-Control", "no-cache");
+//         },
+//         success: function (response) {
+//             console.log(1);
+//         },
+//         async: false,
+//     });
+// }
+
 const $length = 116;
 const $cellSize = 30;
 
