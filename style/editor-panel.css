@@ -5,6 +5,12 @@
     width: 100%;
     height: 100%;
     /* background: var(--color-background-darker); */
+    background-image: -o-linear-gradient(
+        top left,
+        var(--color-background-lighter) 0%,
+        var(--color-background-base) 50%,
+        var(--color-background-darker) 100%
+    );
     background-image: -webkit-gradient(
         linear,
         left top,
@@ -12,12 +18,6 @@
         from(var(--color-background-lighter)),
         color-stop(50%, var(--color-background-base)),
         to(var(--color-background-darker))
-    );
-    background-image: -o-linear-gradient(
-        top left,
-        var(--color-background-lighter) 0%,
-        var(--color-background-base) 50%,
-        var(--color-background-darker) 100%
     );
     background-image: linear-gradient(
         to bottom right,
@@ -173,6 +173,13 @@
     display: -ms-flexbox;
     display: flex;
     height: 100%;
+}
+
+#auto-save {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
 }
 
 #special-building-preview,

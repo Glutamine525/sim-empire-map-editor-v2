@@ -330,7 +330,7 @@ var $vm = new Vue({
                 type: "warning",
             })
                 .then(() => {
-                    loadData(row);
+                    loadData(row, true);
                     this.$message({
                         message: `已载入${this.formatTimestamp(row.timestamp)}的数据！`,
                         type: "success",

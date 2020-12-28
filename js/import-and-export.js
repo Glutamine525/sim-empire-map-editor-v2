@@ -40,11 +40,6 @@ function importData() {
                 data.woodNum === undefined ||
                 data.civil === undefined ||
                 data.isNoWood === undefined ||
-                data.isLightMode === undefined ||
-                data.showMiniMap === undefined ||
-                data.isNoWood === undefined ||
-                data.isLightMode === undefined ||
-                data.showMiniMap === undefined ||
                 data.roads === undefined ||
                 data.buildings === undefined
             ) {
@@ -79,7 +74,7 @@ function exportData() {
     download(new Blob([stringToBase64(JSON.stringify(data))]), `${getFileName()}.txt`);
 }
 
-function loadData(data) {
+function loadData(data, isAutoSave) {
     stopAutoSave();
     for (let i = 1; i <= $length; i++) {
         for (let j = 1; j <= $length; j++) {
@@ -91,19 +86,17 @@ function loadData(data) {
     onClickWoodNum(data.woodNum);
     onClickCivil(data.civil);
     onClickNoWood(data.isNoWood);
-    onClickDisplayMode(data.isLightMode);
-    onClickMiniMap(data.showMiniMap);
     $$("toggle-no-wood").checked = data.isNoWood;
-    $$("toggle-display-mode").checked = data.isLightMode;
-    $$("toggle-mini-map").checked = data.showMiniMap;
-    $vm.specialBuildingList = data.specialBuildings;
-    $vm.userSign = data.userSign;
-    $vm.radioLabelUserSign = $vm.userSign[0].name;
-    $vm.radioLabelUserSignLine = "第1行";
-    $vm.radioLabelUserSignElement = "第1个";
-    $vm.radioIndexUserSign = 0;
-    $vm.radioIndexUserSignLine = 0;
-    $vm.radioIndexUserSignElement = 0;
+    if (!isAutoSave) {
+        $vm.specialBuildingList = data.specialBuildings;
+        $vm.userSign = data.userSign;
+        $vm.radioLabelUserSign = $vm.userSign[0].name;
+        $vm.radioLabelUserSignLine = "第1行";
+        $vm.radioLabelUserSignElement = "第1个";
+        $vm.radioIndexUserSign = 0;
+        $vm.radioIndexUserSignLine = 0;
+        $vm.radioIndexUserSignElement = 0;
+    }
     for (let v of data.roads) {
         createBuilding({
             line: v.line,
@@ -125,13 +118,11 @@ function loadData(data) {
     startAutoSave();
 }
 
-function generateData() {
+function generateData(isAutoSave) {
     let data = {};
     data.woodNum = $config.woodNum;
     data.civil = $config.civil;
     data.isNoWood = $config.isNoWood;
-    data.isLightMode = $config.isLightMode;
-    data.showMiniMap = $config.showMiniMap;
     let buildings = [];
     let roads = [];
     for (let i = 1; i <= $length; i++) {
@@ -166,8 +157,10 @@ function generateData() {
     }
     data.buildings = buildings;
     data.roads = roads;
-    data.specialBuildings = $vm.specialBuildingList;
-    data.userSign = $vm.userSign;
+    if (!isAutoSave) {
+        data.specialBuildings = $vm.specialBuildingList;
+        data.userSign = $vm.userSign;
+    }
     data.md5 = md5(JSON.stringify(data));
     return data;
 }

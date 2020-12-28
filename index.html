@@ -249,6 +249,7 @@
                         </div>
                         <div>- 特殊建筑的数据会被导入导出</div>
                         <div>- 编辑者自定义的水印会被导入导出</div>
+                        <div>- 自动保存不会保存特殊建筑和编辑者水印</div>
                         <div>- 菜单中「添加水印」里的截图才会生成编辑者水印</div>
                         <div>- 版权水印总是会生成</div>
                         <div>- 旋转地图开启后，无法编辑，只能截图</div>
@@ -503,21 +504,22 @@
                 <div id="editor">
                     <el-tabs id="editor-tab" v-model="editorPanelTab">
                         <el-tab-pane id="auto-save" label="自动保存" name="first">
+                            <div style="color: var(--color-text-secondary); font-size: 14px">
+                                每30秒自动保存一次数据，最多保存10个。若地图数据没有改变，则不会保存。载入数据和导入数据会重置已计时的时间。
+                            </div>
+                            <el-scrollbar>
                             <el-table :data="autoSave">
-                                <el-table-column prop="woodNum" label="地图类型" align="center"> </el-table-column>
+                                <el-table-column prop="woodNum" label="地图类型" align="center">
+                                    <template slot-scope="scope"> {{ scope.row.woodNum + "木" }} </template>
+                                </el-table-column>
                                 <el-table-column prop="civil" label="文明" align="center"> </el-table-column>
                                 <el-table-column prop="isNoWood" label="无木之地" align="center">
                                     <template slot-scope="scope">
                                         <span
                                             :style="{ color: scope.row.isNoWood ? 'var(--color-success)' : 'var(--color-danger)' }"
                                         >
-                                            {{ scope.row.isNoWood ? '√' : '×' }}
+                                            {{ scope.row.isNoWood ? "√" : "×" }}
                                         </span>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column prop="isLightMode" label="显示模式" align="center">
-                                    <template slot-scope="scope">
-                                        {{ scope.row.isLightMode ? '亮色' : '暗色' }}
                                     </template>
                                 </el-table-column>
                                 <el-table-column prop="buildings.length" label="建筑总数" align="center">
@@ -543,6 +545,7 @@
                                         </el-button>
                                     </template>
                                 </el-table-column>
+                            </el-scrollbar>
                             </el-table>
                         </el-tab-pane>
                         <el-tab-pane id="special-building" label="特殊建筑" name="second">
