@@ -532,19 +532,18 @@
 
 .residence-requirement {
     /* background: var(--color-background-lighter); */
-    background-image: -webkit-gradient(
-        linear,
-        left top,
-        right bottom,
-        from(var(--color-background-lighter)),
-        color-stop(50%, var(--color-background-base)),
-        to(var(--color-background-darker))
-    );
     background-image: -o-linear-gradient(
         top left,
         var(--color-background-lighter) 0%,
         var(--color-background-base) 50%,
         var(--color-background-darker) 100%
+    );
+    background-image: -webkit-gradient(
+        linear,
+        left top, right bottom,
+        from(var(--color-background-lighter)),
+        color-stop(50%, var(--color-background-base)),
+        to(var(--color-background-darker))
     );
     background-image: linear-gradient(
         to bottom right,
