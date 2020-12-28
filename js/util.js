@@ -142,3 +142,17 @@ function delCookie(name) {
     let cval = getCookie(name);
     if (cval != null) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
 }
+
+function addZero(m) {
+    return m < 10 ? "0" + m : m;
+}
+
+function formatTimestamp(timestamp) {
+    let time = new Date(timestamp);
+    let m = addZero(time.getMonth() + 1);
+    let d = addZero(time.getDate());
+    let h = addZero(time.getHours());
+    let mm = addZero(time.getMinutes());
+    let s = addZero(time.getSeconds());
+    return `${m}月${d}日 ${h}:${mm}:${s}`;
+}

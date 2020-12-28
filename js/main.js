@@ -21,13 +21,15 @@
 const $length = 116;
 const $cellSize = 30;
 
-var $topNav = new TopNav(40);
-var $sideNav = new SideNav(64);
-var $cell = {};
-var $range = new BuildingRange({});
-var $miniMap = new MiniMap();
-var $selectionBlock = new SelectionBlock();
-var $deletionBlock = new DeletionBlock();
+let $autoSave;
+
+let $topNav = new TopNav(40);
+let $sideNav = new SideNav(64);
+let $cell = {};
+let $range = new BuildingRange({});
+let $miniMap = new MiniMap();
+let $selectionBlock = new SelectionBlock();
+let $deletionBlock = new DeletionBlock();
 
 if (navigator.userAgent.indexOf("AppleWebKit") > -1 && !window.chrome) {
     $config.core = "safari";
@@ -139,6 +141,7 @@ $$("ghost-container").style.display = "none";
 $$("loading-background-container").style.display = "none";
 
 window.onload = () => {
+    startAutoSave(true);
     document.onclick = onMouseClick;
     document.onmousemove = onMouseMove;
     document.onmousedown = onMouseDown;

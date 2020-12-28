@@ -56,47 +56,7 @@ function importData() {
                 });
                 return;
             }
-            for (let i = 1; i <= $length; i++) {
-                for (let j = 1; j <= $length; j++) {
-                    if ($cell[i][j].occupied && !$cell[i][j].occupied.isFixed) {
-                        deleteBuilding(i, j);
-                    }
-                }
-            }
-            onClickWoodNum(data.woodNum);
-            onClickCivil(data.civil);
-            onClickNoWood(data.isNoWood);
-            onClickDisplayMode(data.isLightMode);
-            onClickMiniMap(data.showMiniMap);
-            $$("toggle-no-wood").checked = data.isNoWood;
-            $$("toggle-display-mode").checked = data.isLightMode;
-            $$("toggle-mini-map").checked = data.showMiniMap;
-            $vm.specialBuildingList = data.specialBuildings;
-            $vm.userSign = data.userSign;
-            $vm.radioLabelUserSign = $vm.userSign[0].name;
-            $vm.radioLabelUserSignLine = "第1行";
-            $vm.radioLabelUserSignElement = "第1个";
-            $vm.radioIndexUserSign = 0;
-            $vm.radioIndexUserSignLine = 0;
-            $vm.radioIndexUserSignElement = 0;
-            for (let v of data.roads) {
-                createBuilding({
-                    line: v.line,
-                    column: v.column,
-                    width: 1,
-                    height: 1,
-                    text: "",
-                    range: 0,
-                    borderWidth: 1,
-                    color: "var(--color-black)",
-                    background: BuildingFixed.color_road,
-                    borderColor: "var(--color-border-base)",
-                    isRoad: true,
-                });
-            }
-            for (let v of data.buildings) {
-                createBuilding(v);
-            }
+            loadData(data);
             $vm.$message({
                 message: "已成功导入数据！",
                 type: "success",
@@ -115,6 +75,57 @@ function importData() {
 }
 
 function exportData() {
+    let data = generateData();
+    download(new Blob([stringToBase64(JSON.stringify(data))]), `${getFileName()}.txt`);
+}
+
+function loadData(data) {
+    stopAutoSave();
+    for (let i = 1; i <= $length; i++) {
+        for (let j = 1; j <= $length; j++) {
+            if ($cell[i][j].occupied && !$cell[i][j].occupied.isFixed) {
+                deleteBuilding(i, j);
+            }
+        }
+    }
+    onClickWoodNum(data.woodNum);
+    onClickCivil(data.civil);
+    onClickNoWood(data.isNoWood);
+    onClickDisplayMode(data.isLightMode);
+    onClickMiniMap(data.showMiniMap);
+    $$("toggle-no-wood").checked = data.isNoWood;
+    $$("toggle-display-mode").checked = data.isLightMode;
+    $$("toggle-mini-map").checked = data.showMiniMap;
+    $vm.specialBuildingList = data.specialBuildings;
+    $vm.userSign = data.userSign;
+    $vm.radioLabelUserSign = $vm.userSign[0].name;
+    $vm.radioLabelUserSignLine = "第1行";
+    $vm.radioLabelUserSignElement = "第1个";
+    $vm.radioIndexUserSign = 0;
+    $vm.radioIndexUserSignLine = 0;
+    $vm.radioIndexUserSignElement = 0;
+    for (let v of data.roads) {
+        createBuilding({
+            line: v.line,
+            column: v.column,
+            width: 1,
+            height: 1,
+            text: "",
+            range: 0,
+            borderWidth: 1,
+            color: "var(--color-black)",
+            background: BuildingFixed.color_road,
+            borderColor: "var(--color-border-base)",
+            isRoad: true,
+        });
+    }
+    for (let v of data.buildings) {
+        createBuilding(v);
+    }
+    startAutoSave();
+}
+
+function generateData() {
     let data = {};
     data.woodNum = $config.woodNum;
     data.civil = $config.civil;
@@ -158,7 +169,7 @@ function exportData() {
     data.specialBuildings = $vm.specialBuildingList;
     data.userSign = $vm.userSign;
     data.md5 = md5(JSON.stringify(data));
-    download(new Blob([stringToBase64(JSON.stringify(data))]), `${getFileName()}.txt`);
+    return data;
 }
 
 function importNewCivil() {
@@ -356,7 +367,7 @@ function screenshot(withSign) {
                 }
             }, "image/jpeg");
         };
-    }, 10);
+    }, 0);
 }
 
 function download(blob, fileName) {

@@ -167,7 +167,8 @@
 
 #special-building,
 #user-sign-editor,
-#civil-editor {
+#civil-editor,
+#auto-save {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;

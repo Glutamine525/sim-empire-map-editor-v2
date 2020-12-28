@@ -46,7 +46,7 @@ function onMouseDown(event) {
         $deletionBlock.hide();
     }
     if ($config.operation === "null" && path.length > 3 && (isInBuilding(path) || isInRangeContainer(path))) {
-        window.requestAnimationFrame(() => {
+        setTimeout(() => {
             $config.dragMap.startScrollLeft = $$$("html").scrollLeft;
             $config.dragMap.startScrollTop = $$$("html").scrollTop;
             $config.dragMap.startX = event.clientX;
@@ -54,14 +54,14 @@ function onMouseDown(event) {
             $config.dragMap.nowX = event.clientX;
             $config.dragMap.nowY = event.clientY;
             $config.dragMap.isDragging = true;
-        });
+        }, 0);
     }
     if (
         $config.isCtrlDown &&
         path.length > 3 &&
         (isInBuilding(path) || isInPreview(path) || isInRangeContainer(path))
     ) {
-        window.requestAnimationFrame(() => {
+        setTimeout(() => {
             $config.dragMap.startScrollLeft = $$$("html").scrollLeft;
             $config.dragMap.startScrollTop = $$$("html").scrollTop;
             $config.dragMap.startX = event.clientX;
@@ -69,7 +69,7 @@ function onMouseDown(event) {
             $config.dragMap.nowX = event.clientX;
             $config.dragMap.nowY = event.clientY;
             $config.dragMap.isDragging = true;
-        });
+        }, 0);
     }
 }
 
@@ -231,13 +231,13 @@ function onMouseMove(event) {
             path.length > 3 &&
             (isInBuilding(path) || isInRangeContainer(path))
         ) {
-            window.requestAnimationFrame(() => {
+            setTimeout(() => {
                 let config = $config.dragMap;
                 $config.dragMap.nowX = event.clientX;
                 $config.dragMap.nowY = event.clientY;
                 $$$("html").scrollLeft = config.startScrollLeft + config.startX - config.nowX;
                 $$$("html").scrollTop = config.startScrollTop + config.startY - config.nowY;
-            });
+            }, 0);
             return;
         }
     }

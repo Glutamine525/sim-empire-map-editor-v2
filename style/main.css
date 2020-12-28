@@ -276,3 +276,31 @@ body {
 .el-checkbox__inner:hover {
     border-color: var(--color-primary);
 }
+
+.el-table::before {
+    background: transparent;
+}
+
+.el-table,
+.el-table__expanded-cell,
+.el-table th,
+.el-table tr {
+    background: transparent;
+}
+
+.el-table thead {
+    color: var(--color-text-primary);
+}
+
+.el-table {
+    color: var(--color-text-regular);
+}
+
+.el-table td,
+.el-table th.is-leaf {
+    border-color: var(--color-border-base);
+}
+
+.el-table tr:hover > td {
+    background: var(--color-background-darker) !important;
+}

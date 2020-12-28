@@ -22,6 +22,7 @@ var $vm = new Vue({
                 通用: [],
             },
             editorPanelTab: "first",
+            autoSave: [],
             previewBox: {
                 row: 1,
                 cell: 1,
@@ -198,6 +199,7 @@ var $vm = new Vue({
         },
     },
     methods: {
+        formatTimestamp: formatTimestamp,
         onChangeCivil(civil) {
             civil = civil || $config.civil;
             let that = this;
@@ -320,6 +322,23 @@ var $vm = new Vue({
             return $config.civilBuilding[civil][catagory].filter(function (v) {
                 return v.name === name;
             })[0];
+        },
+        loadAutoSave(index, row) {
+            this.$confirm("是否确认载入该数据？", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+                .then(() => {
+                    loadData(row);
+                    this.$message({
+                        message: `已载入${this.formatTimestamp(row.timestamp)}的数据！`,
+                        type: "success",
+                        duration: 3000,
+                        offset: $config.topNavHeight + 10,
+                    });
+                })
+                .catch(() => {});
         },
         onClickPreviewSingle() {
             this.previewBox.row = 1;

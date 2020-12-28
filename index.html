@@ -47,6 +47,7 @@
         <script src="./js/selection-block.js"></script>
         <script src="./js/deletion-block.js"></script>
         <script src="./js/import-and-export.js"></script>
+        <script src="./js/auto-save.js"></script>
     </head>
     <body>
         <script>
@@ -501,7 +502,56 @@
             <div id="editor-container">
                 <div id="editor">
                     <el-tabs id="editor-tab" v-model="editorPanelTab">
-                        <el-tab-pane id="special-building" label="特殊建筑" name="first">
+                        <el-tab-pane id="auto-save" label="自动保存" name="first">
+                            <el-table :data="autoSave">
+                                <el-table-column prop="woodNum" label="地图类型" align="center"> </el-table-column>
+                                <el-table-column prop="civil" label="文明" align="center"> </el-table-column>
+                                <el-table-column prop="isNoWood" label="无木之地" align="center">
+                                    <template slot-scope="scope">
+                                        <span
+                                            :style="{ color: scope.row.isNoWood ? 'var(--color-success)' : 'var(--color-danger)' }"
+                                        >
+                                            {{ scope.row.isNoWood ? '√' : '×' }}
+                                        </span>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="isLightMode" label="显示模式" align="center">
+                                    <template slot-scope="scope">
+                                        {{ scope.row.isLightMode ? '亮色' : '暗色' }}
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="showMiniMap" label="小地图" align="center">
+                                    <template slot-scope="scope">
+                                        <span
+                                            :style="{ color: scope.row.showMiniMap ? 'var(--color-success)' : 'var(--color-danger)' }"
+                                        >
+                                            {{ scope.row.showMiniMap ? '√' : '×' }}
+                                        </span>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="buildings.length" label="建筑总数" align="center">
+                                </el-table-column>
+                                <el-table-column prop="roads.length" label="道路总数" align="center"> </el-table-column>
+                                <el-table-column prop="timestamp" label="存档时间" align="center" width="150">
+                                    <template slot-scope="scope"> {{ formatTimestamp(scope.row.timestamp) }} </template>
+                                </el-table-column>
+                                <el-table-column label="操作" align="center" width="150">
+                                    <template slot-scope="scope">
+                                        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">
+                                            预览
+                                        </el-button>
+                                        <el-button
+                                            size="mini"
+                                            type="primary"
+                                            @click="loadAutoSave(scope.$index, scope.row)"
+                                        >
+                                            载入
+                                        </el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </el-tab-pane>
+                        <el-tab-pane id="special-building" label="特殊建筑" name="second">
                             <div id="special-building-preview">
                                 <div class="preview-box">
                                     <div class="preview-box-sheet">
@@ -747,7 +797,7 @@
                                 </div>
                             </div>
                         </el-tab-pane>
-                        <el-tab-pane id="user-sign-editor" label="添加水印" name="second">
+                        <el-tab-pane id="user-sign-editor" label="添加水印" name="third">
                             <div id="user-sign-preview">
                                 <div class="preview-box">
                                     <canvas
@@ -1027,7 +1077,7 @@
                                 <div class="setting-row" style="margin: 0"></div>
                             </div>
                         </el-tab-pane>
-                        <el-tab-pane id="civil-editor" label="生成文明" name="third">
+                        <el-tab-pane id="civil-editor" label="生成文明" name="forth">
                             <div id="civil-editor-step">
                                 <div style="height: 100%">
                                     <el-steps
@@ -1714,7 +1764,7 @@
         <script src="./library/vue.v2.6.12.js"></script>
         <script src="./library/element-ui.v2.14.1.js"></script>
         <script>
-            var $config = new Config();
+            let $config = new Config();
         </script>
         <script src="./js/vm.js"></script>
         <script src="./js/main.js"></script>
