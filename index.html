@@ -520,7 +520,7 @@
                                         {{ scope.row.isLightMode ? '亮色' : '暗色' }}
                                     </template>
                                 </el-table-column>
-                                <el-table-column prop="showMiniMap" label="小地图" align="center">
+                                <!-- <el-table-column prop="showMiniMap" label="小地图" align="center">
                                     <template slot-scope="scope">
                                         <span
                                             :style="{ color: scope.row.showMiniMap ? 'var(--color-success)' : 'var(--color-danger)' }"
@@ -528,18 +528,21 @@
                                             {{ scope.row.showMiniMap ? '√' : '×' }}
                                         </span>
                                     </template>
-                                </el-table-column>
+                                </el-table-column> -->
                                 <el-table-column prop="buildings.length" label="建筑总数" align="center">
                                 </el-table-column>
                                 <el-table-column prop="roads.length" label="道路总数" align="center"> </el-table-column>
-                                <el-table-column prop="timestamp" label="存档时间" align="center" width="150">
+                                <el-table-column prop="timestamp" label="存档时间" align="center">
                                     <template slot-scope="scope"> {{ formatTimestamp(scope.row.timestamp) }} </template>
                                 </el-table-column>
-                                <el-table-column label="操作" align="center" width="150">
+                                <el-table-column label="操作" align="center">
                                     <template slot-scope="scope">
-                                        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">
-                                            预览
-                                        </el-button>
+                                        <el-tooltip effect="dark" placement="left-start" popper-class="hint-popper">
+                                            <div slot="content">
+                                                <img height="348" width="348" :src="scope.row.img" />
+                                            </div>
+                                            <el-button size="mini"> 预览 </el-button>
+                                        </el-tooltip>
                                         <el-button
                                             size="mini"
                                             type="primary"

@@ -40,11 +40,19 @@ body {
     border-radius: 10px;
 }
 
-.hint-popper .popper__arrow {
+.hint-popper[x-placement^="left"] .popper__arrow {
+    border-left-color: var(--color-border-darker) !important;
+}
+
+.hint-popper[x-placement^="left"] .popper__arrow::after {
+    border-left-color: var(--color-background-base) !important;
+}
+
+.hint-popper[x-placement^="bottom"] .popper__arrow {
     border-bottom-color: var(--color-border-darker) !important;
 }
 
-.hint-popper .popper__arrow::after {
+.hint-popper[x-placement^="bottom"] .popper__arrow::after {
     border-bottom-color: var(--color-background-base) !important;
 }
 

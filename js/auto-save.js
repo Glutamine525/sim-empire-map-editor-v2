@@ -2,6 +2,7 @@ function startAutoSave(first) {
     if (first) {
         let initData = generateData();
         initData.timestamp = new Date().valueOf();
+        initData.img = $$("mini-map").toDataURL("image/png");
         $vm.autoSave.unshift(initData);
     }
     $autoSave = setInterval(() => {
@@ -13,6 +14,7 @@ function startAutoSave(first) {
             $vm.autoSave.pop();
         }
         data.timestamp = new Date().valueOf();
+        data.img = $$("mini-map").toDataURL("image/png");
         $vm.autoSave.unshift(data);
     }, 1000 * 30);
 }
