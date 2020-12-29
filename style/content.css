@@ -507,12 +507,18 @@
     text-align: right;
     font-size: 30px;
     text-shadow: 0 0 5px var(--color-border-base);
+    -webkit-transition: color, text-shadow 0.3s;
+    -o-transition: color, text-shadow 0.3s;
+    transition: color, text-shadow 0.3s;
 }
 
 #author-sign .highlight,
 #user-sign .highlight {
     font-weight: bold;
     color: var(--color-text-primary);
+    -webkit-transition: color, text-shadow 0.3s;
+    -o-transition: color, text-shadow 0.3s;
+    transition: color, text-shadow 0.3s;
 }
 
 #author-sign .link {
@@ -524,6 +530,9 @@
     color: var(--color-text-regular);
     position: absolute;
     font-size: 30px;
+    -webkit-transition: color, text-shadow 0.3s;
+    -o-transition: color, text-shadow 0.3s;
+    transition: color, text-shadow 0.3s;
 }
 
 #user-sign span {
@@ -540,7 +549,8 @@
     );
     background-image: -webkit-gradient(
         linear,
-        left top, right bottom,
+        left top,
+        right bottom,
         from(var(--color-background-lighter)),
         color-stop(50%, var(--color-background-base)),
         to(var(--color-background-darker))

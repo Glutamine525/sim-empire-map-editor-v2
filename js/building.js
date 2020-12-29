@@ -51,7 +51,7 @@ class Building {
         node.id = this.id;
         node.className = "building";
         if ((!this.isFixed || this.text) && !this.isRoad) node.className += " hoverable";
-        if (this.isProtection && $config.showEffect) node.className += " protection-mask";
+        // if (this.isProtection && $config.showEffect) node.className += " protection-mask";
         if (this.isRoad) node.className += " road";
         text.innerHTML = this.text;
         text.className = "text";
@@ -146,8 +146,6 @@ class Building {
     }
 
     onMouseEnter() {
-        // if ($config.operation === "selecting-building") return;
-        // if ($config.operation === "deleting-building") return;
         if ($config.isMouseDown) return;
         if ($config.dragMap.isDragging) return;
         let u = parseID(this.id);
@@ -159,10 +157,6 @@ class Building {
     }
 
     onMouseLeave() {
-        // if ($config.operation === "selecting-building") return;
-        // if ($config.operation === "deleting-building") return;
-        // if ($config.isMouseDown) return;
-        // if ($config.dragMap.isDragging) return;
         let u = parseID(this.id);
         let building = $cell[u[0]][u[1]].occupied;
         if (building.range) window.requestAnimationFrame(() => $range.hide(this.id));
