@@ -55,10 +55,12 @@ class BuildingRange {
     }
 
     hide(id) {
-        if ($config.operation === "null") {
-            $(`#range-${id}`).fadeOut(150, () => $$("range-container").removeChild($$(`range-${id}`)));
-        } else {
-            if ($$(`range-${id}`)) $$("range-container").removeChild($$(`range-${id}`));
+        if ($$(`range-${id}`)) {
+            if ($config.operation === "null") {
+                $(`#range-${id}`).fadeOut(150, () => $$("range-container").removeChild($$(`range-${id}`)));
+            } else {
+                $$("range-container").removeChild($$(`range-${id}`));
+            }
         }
     }
 }

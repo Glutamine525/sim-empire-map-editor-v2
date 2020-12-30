@@ -2,12 +2,10 @@ var $vm = new Vue({
     el: "#app",
     data() {
         return {
+            minorPatch: "",
             labelText: LabelText,
             buildingCatagory: LabelText.building_catagory,
             operationCatagory: LabelText.operation_catagory,
-            backgroundColor: "",
-            textColor: "",
-            activeTextColor: "",
             buildingInfo: {
                 住宅: [],
                 农业: [],
@@ -224,7 +222,7 @@ var $vm = new Vue({
                     newHolding.range = 0;
                     newHolding.color = "var(--color-black)";
                     newHolding.background = BuildingFixed.color_road;
-                    newHolding.borderColor = "var(--color-border-base)";
+                    newHolding.borderColor = DarkMode["color-border-base"];
                     newHolding.borderWidth = 1;
                     newHolding.isProtection = false;
                     newHolding.isRoad = true;

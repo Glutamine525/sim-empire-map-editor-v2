@@ -1,23 +1,3 @@
-// let minorPatch = getCookie("minor-patch");
-// if (!minorPatch) {
-//     setCookie("minor-patch", $config.minorPatch);
-// } else if (minorPatch !== $config.minorPatch) {
-//     setCookie("minor-patch", $config.minorPatch);
-//     $.ajax({
-//         url: window.location.href,
-//         dataType: "json",
-//         data: {},
-//         beforeSend: function (xmlHttp) {
-//             xmlHttp.setRequestHeader("If-Modified-Since", "0");
-//             xmlHttp.setRequestHeader("Cache-Control", "no-cache");
-//         },
-//         success: function (response) {
-//             console.log(1);
-//         },
-//         async: false,
-//     });
-// }
-
 const $length = 116;
 const $cellSize = 30;
 
@@ -70,6 +50,7 @@ onClickDisplayMode(true);
 drawBoundary("black");
 drawCell(getColor("--color-border-lighter"), getColor("--color-background-lighter"));
 onClickWoodNum(5);
+$vm.minorPatch = $config.minorPatch;
 $$("top-nav-version").innerHTML = $config.version;
 $$("sign-version").innerHTML = $config.version;
 $$("sign-civil").innerHTML = "中国";
@@ -142,10 +123,11 @@ $$("loading-background-container").style.display = "none";
 
 window.onload = () => {
     startAutoSave(true);
-    document.onclick = onMouseClick;
-    document.onmousemove = onMouseMove;
-    document.onmousedown = onMouseDown;
-    document.onmouseup = onMouseUp;
+    assignMouseEvent();
+    // document.onclick = onMouseClick;
+    // document.onmousemove = onMouseMove;
+    // document.onmousedown = onMouseDown;
+    // document.onmouseup = onMouseUp;
     document.onkeydown = onKeyDown;
     document.onkeyup = onKeyUp;
     document.onscroll = onScroll;

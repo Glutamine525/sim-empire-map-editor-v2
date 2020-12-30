@@ -1,7 +1,7 @@
 class Config {
     constructor() {
         this.version = "V2.3";
-        this.minorPatch = "2.3.0";
+        this.minorPatch = "2.3.1";
         this.core = "default";
 
         this.isMouseDown = false;

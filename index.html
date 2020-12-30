@@ -275,8 +275,13 @@
                 </el-tooltip>
                 <div id="top-nav-info">
                     <div>
-                        模拟帝国地图编辑器:
-                        <strong id="top-nav-version"></strong>
+                        <el-tooltip effect="dark" placement="bottom">
+                            <div slot="content">Minor Patch: v{{ minorPatch }}</div>
+                            <span>
+                                模拟帝国地图编辑器:
+                                <strong id="top-nav-version"></strong>
+                            </span>
+                        </el-tooltip>
                     </div>
                     <div>
                         作者:
