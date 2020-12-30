@@ -42,6 +42,8 @@ class Config {
 
         this.roadCache = [];
 
+        this.dragCivilBuildingTagID = "";
+
         this.civilBuilding = {
             中国: BuildingChina,
             波斯: BuildingPersian,

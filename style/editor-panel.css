@@ -457,3 +457,11 @@
     -ms-flex-align: center;
     align-items: center;
 }
+
+#civil-editor-setting .drop-container {
+    display: flex;
+}
+
+#civil-editor-setting .drop-container:focus {
+    outline-width: 0;
+}

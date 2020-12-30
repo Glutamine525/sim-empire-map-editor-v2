@@ -40,6 +40,7 @@ var $vm = new Vue({
                 range: 0,
                 isDecoration: false,
                 isMiracle: false,
+                changableBorderColor: false,
             },
             userSign: [
                 {
@@ -114,7 +115,7 @@ var $vm = new Vue({
                         range: 0,
                         color: BuildingColor.Black,
                         backgroundColor: BuildingColor["住宅"][0],
-                        borderColor: BuildingColor.Black,
+                        borderColor: "var(--color-border-base)",
                         isDecoration: false,
                         isMiracle: false,
                         isProtection: false,
@@ -129,7 +130,7 @@ var $vm = new Vue({
                         range: 0,
                         color: BuildingColor.Black,
                         backgroundColor: BuildingColor["住宅"][1],
-                        borderColor: BuildingColor.Black,
+                        borderColor: "var(--color-border-base)",
                         isDecoration: false,
                         isMiracle: false,
                         isProtection: false,
@@ -149,7 +150,7 @@ var $vm = new Vue({
                         range: 4,
                         color: BuildingColor.Black,
                         backgroundColor: BuildingColor["市政"]["水"],
-                        borderColor: BuildingColor.Black,
+                        borderColor: "var(--color-border-base)",
                         isDecoration: false,
                         isMiracle: false,
                         isProtection: false,
@@ -169,7 +170,7 @@ var $vm = new Vue({
                         range: 0,
                         color: BuildingColor.Black,
                         backgroundColor: BuildingColor["美化"]["树"],
-                        borderColor: BuildingColor.Black,
+                        borderColor: "var(--color-border-base)",
                         isDecoration: true,
                         isMiracle: false,
                         isProtection: false,
@@ -222,7 +223,8 @@ var $vm = new Vue({
                     newHolding.range = 0;
                     newHolding.color = "var(--color-black)";
                     newHolding.background = BuildingFixed.color_road;
-                    newHolding.borderColor = DarkMode["color-border-base"];
+                    // newHolding.borderColor = DarkMode["color-border-base"];
+                    newHolding.borderColor = "var(--color-border-base)";
                     newHolding.borderWidth = 1;
                     newHolding.isProtection = false;
                     newHolding.isRoad = true;
@@ -301,7 +303,8 @@ var $vm = new Vue({
             newHolding.range = selectedBuilding.range_size || selectedBuilding.range;
             newHolding.color = selectedBuilding.color;
             newHolding.background = selectedBuilding.background_color || selectedBuilding.backgroundColor;
-            newHolding.borderColor = selectedBuilding.border_color || selectedBuilding.borderColor;
+            // newHolding.borderColor = selectedBuilding.border_color || selectedBuilding.borderColor;
+            newHolding.borderColor = "var(--color-border-base)";
             newHolding.borderWidth = 1;
             newHolding.isPreview = true;
             newHolding.isProtection =
@@ -390,7 +393,11 @@ var $vm = new Vue({
                     offset: $config.topNavHeight + 10,
                 });
             }
-            this.specialBuildingList.push(Object.assign({}, this.specialBuilding));
+            let tmp = Object.assign({}, this.specialBuilding);
+            if (tmp.changableBorderColor) {
+                tmp.borderColor = "var(--color-border-base)";
+            }
+            this.specialBuildingList.push(tmp);
         },
         deleteSpecialBuilding(index) {
             this.$message({
@@ -737,7 +744,7 @@ var $vm = new Vue({
                                 : BuildingColor.Black,
                         backgroundColor:
                             BuildingColor[this.civilEditorStepLabel[this.civilEditorActiveStep]][length - 1],
-                        borderColor: BuildingColor.Black,
+                        borderColor: "var(--color-border-base)",
                         isDecoration: this.civilEditorStepLabel[this.civilEditorActiveStep] === "美化",
                         isMiracle: this.civilEditorStepLabel[this.civilEditorActiveStep] === "奇迹",
                         isProtection: false,

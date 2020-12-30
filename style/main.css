@@ -40,12 +40,20 @@ body {
     border-radius: 10px;
 }
 
-.hint-popper[x-placement^="left"] .popper__arrow {
-    border-left-color: var(--color-border-darker) !important;
+.hint-popper[x-placement^="top"] .popper__arrow {
+    border-top-color: var(--color-border-darker) !important;
 }
 
-.hint-popper[x-placement^="left"] .popper__arrow::after {
-    border-left-color: var(--color-background-base) !important;
+.hint-popper[x-placement^="top"] .popper__arrow::after {
+    border-top-color: var(--color-background-base) !important;
+}
+
+.hint-popper[x-placement^="right"] .popper__arrow {
+    border-right-color: var(--color-border-darker) !important;
+}
+
+.hint-popper[x-placement^="right"] .popper__arrow::after {
+    border-right-color: var(--color-background-base) !important;
 }
 
 .hint-popper[x-placement^="bottom"] .popper__arrow {
@@ -54,6 +62,14 @@ body {
 
 .hint-popper[x-placement^="bottom"] .popper__arrow::after {
     border-bottom-color: var(--color-background-base) !important;
+}
+
+.hint-popper[x-placement^="left"] .popper__arrow {
+    border-left-color: var(--color-border-darker) !important;
+}
+
+.hint-popper[x-placement^="left"] .popper__arrow::after {
+    border-left-color: var(--color-background-base) !important;
 }
 
 .el-button--primary {
@@ -216,6 +232,14 @@ body {
 .el-tag--dark .el-tag__close:hover {
     color: var(--color-white);
     background-color: var(--color-danger);
+}
+
+.el-tag--plain:focus {
+    outline-width: 0;
+}
+
+.el-tag--dark:focus {
+    outline-width: 0;
 }
 
 .el-message-box {

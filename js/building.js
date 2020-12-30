@@ -94,18 +94,30 @@ class Building {
 
     getRoadBorderColor() {
         let color = "";
-        if (this.rBorderTop) color += DarkMode["color-border-lighter"] + " ";
-        else if (this.borderTop) color += DarkMode["color-border-base"] + " ";
+        if (this.rBorderTop) color += "var(--color-border-darker)" + " ";
+        else if (this.borderTop) color += "var(--color-border-base)" + " ";
         else color += "transparent ";
-        if (this.rBorderRight) color += DarkMode["color-border-lighter"] + " ";
-        else if (this.borderRight) color += DarkMode["color-border-base"] + " ";
+        if (this.rBorderRight) color += "var(--color-border-darker)" + " ";
+        else if (this.borderRight) color += "var(--color-border-base)" + " ";
         else color += "transparent ";
-        if (this.rBorderBottom) color += DarkMode["color-border-lighter"] + " ";
-        else if (this.borderBottom) color += DarkMode["color-border-base"] + " ";
+        if (this.rBorderBottom) color += "var(--color-border-darker)" + " ";
+        else if (this.borderBottom) color += "var(--color-border-base)" + " ";
         else color += "transparent ";
-        if (this.rBorderLeft) color += DarkMode["color-border-lighter"] + " ";
-        else if (this.borderLeft) color += DarkMode["color-border-base"] + " ";
+        if (this.rBorderLeft) color += "var(--color-border-darker)" + " ";
+        else if (this.borderLeft) color += "var(--color-border-base)" + " ";
         else color += "transparent ";
+        // if (this.rBorderTop) color += DarkMode["color-border-lighter"] + " ";
+        // else if (this.borderTop) color += DarkMode["color-border-base"] + " ";
+        // else color += "transparent ";
+        // if (this.rBorderRight) color += DarkMode["color-border-lighter"] + " ";
+        // else if (this.borderRight) color += DarkMode["color-border-base"] + " ";
+        // else color += "transparent ";
+        // if (this.rBorderBottom) color += DarkMode["color-border-lighter"] + " ";
+        // else if (this.borderBottom) color += DarkMode["color-border-base"] + " ";
+        // else color += "transparent ";
+        // if (this.rBorderLeft) color += DarkMode["color-border-lighter"] + " ";
+        // else if (this.borderLeft) color += DarkMode["color-border-base"] + " ";
+        // else color += "transparent ";
         return color;
     }
 

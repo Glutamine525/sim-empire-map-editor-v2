@@ -218,7 +218,8 @@ function drawFixedBuilding(type, woodNum) {
             color: "var(--color-black)",
             background: BuildingFixed[`color_${type}`],
             borderWidth: 1,
-            borderColor: DarkMode["color-border-base"],
+            // borderColor: DarkMode["color-border-base"],
+            borderColor: "var(--color-border-base)",
         });
     });
 }
