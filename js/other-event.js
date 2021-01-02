@@ -10,6 +10,10 @@ function onDragStartCivilBuildingTag(event, self) {
     $config.dragCivilBuildingTagID = self.parentNode.id;
 }
 
+function onDragEndCivilBuildingTag(event, self) {
+    $config.dragCivilBuildingTagID = "";
+}
+
 function onDragOverCivilBuildingTag(event, self) {
     let startID = $config.dragCivilBuildingTagID.split("-");
     let selfID = self.parentNode.id.split("-");
@@ -22,18 +26,9 @@ function onDropCivilBuildingTag(event, self, dir) {
     if (startID[3] === selfID[3]) {
         let selfIndex = +selfID[4];
         let startIndex = +startID[4];
-        if (startIndex === selfIndex) {
-            $config.dragCivilBuildingTagID = "";
-            return;
-        }
-        if (startIndex - selfIndex === -1 && dir === "left") {
-            $config.dragCivilBuildingTagID = "";
-            return;
-        }
-        if (startIndex - selfIndex === 1 && dir === "right") {
-            $config.dragCivilBuildingTagID = "";
-            return;
-        }
+        if (startIndex === selfIndex) return;
+        if (startIndex - selfIndex === -1 && dir === "left") return;
+        if (startIndex - selfIndex === 1 && dir === "right") return;
         event.preventDefault();
         let index = +startID[3];
         let startObj = $vm.civilEditorResult[$vm.civilEditorStepLabel[index]][startIndex];
@@ -51,5 +46,4 @@ function onDropCivilBuildingTag(event, self, dir) {
             $vm.civilEditorResult[$vm.civilEditorStepLabel[index]].splice(selfIndex + 1, 0, startObj);
         }
     }
-    $config.dragCivilBuildingTagID = "";
 }

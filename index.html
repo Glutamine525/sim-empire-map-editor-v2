@@ -1162,6 +1162,7 @@
                                             popper-class="hint-popper"
                                             effect="dark"
                                             placement="bottom"
+                                            :enterable="false"
                                         >
                                             <div slot="content" class="building-hint">
                                                 <div class="building-hint-row div1">
@@ -1613,6 +1614,7 @@
                                                 popper-class="hint-popper"
                                                 effect="dark"
                                                 placement="bottom"
+                                                :enterable="false"
                                             >
                                                 <div slot="content" class="building-hint">
                                                     <div class="building-hint-row div1">
@@ -1715,6 +1717,7 @@
                                                         @click="selectCivilTag(index, index0-1)"
                                                         draggable="true"
                                                         ondragstart="onDragStartCivilBuildingTag(event, this)"
+                                                        ondragend="onDragEndCivilBuildingTag(event, this)"
                                                     >
                                                         {{ (index+1) + ". " + item.name }}
                                                     </el-tag>

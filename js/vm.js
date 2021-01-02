@@ -2,6 +2,7 @@ var $vm = new Vue({
     el: "#app",
     data() {
         return {
+            config: $config,
             minorPatch: "",
             labelText: LabelText,
             buildingCatagory: LabelText.building_catagory,
