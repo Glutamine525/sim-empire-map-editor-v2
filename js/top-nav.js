@@ -179,10 +179,12 @@ function onClickDisplayMode(isLightMode) {
         Object.keys(LightMode).forEach((v) => {
             document.body.style.setProperty(`--${v}`, LightMode[v]);
         });
+        localStorage.setItem("display", "light");
     } else {
         Object.keys(DarkMode).forEach((v) => {
             document.body.style.setProperty(`--${v}`, DarkMode[v]);
         });
+        localStorage.setItem("display", "dark");
     }
     drawCell(getColor("--color-border-lighter"), getColor("--color-background-lighter"));
     $miniMap.onChangeDisplayMode();

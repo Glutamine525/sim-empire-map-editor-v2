@@ -551,6 +551,7 @@ function assignMouseEvent() {
         },
         true
     );
+    document.addEventListener("mousemove", () => minionEyeballs(event));
     document.addEventListener(
         "mouseup",
         () => {

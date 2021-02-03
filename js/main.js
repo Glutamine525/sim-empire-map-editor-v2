@@ -46,7 +46,13 @@ userSignPreviewResizeObserver.observe($$("user-sign-map-preview"));
 
 initCell();
 $miniMap.init();
-onClickDisplayMode(true);
+let displayCache = localStorage.getItem("display");
+if (displayCache === "dark") {
+    $$("toggle-display-mode").checked = false;
+    onClickDisplayMode(false);
+} else {
+    onClickDisplayMode(true);
+}
 drawBoundary("black");
 drawCell(getColor("--color-border-lighter"), getColor("--color-background-lighter"));
 onClickWoodNum(5);
