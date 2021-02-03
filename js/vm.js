@@ -239,6 +239,11 @@ var $vm = new Vue({
                     $config.operation = "null";
                     $config.holding = {};
                     $topNav.setOperation("无");
+                    $config.roadCache = [];
+                    $$("road-helper").style.display = "none";
+                    $$("preview").style.display = "none";
+                    $selectionBlock.hide();
+                    $deletionBlock.hide();
                     break;
                 case "选中建筑":
                     $config.operation = "selecting-building";
