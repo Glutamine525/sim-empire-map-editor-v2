@@ -149,8 +149,10 @@ function addZero(m) {
 
 function formatTimestamp(timestamp) {
     let time = new Date(timestamp);
-    let m = addZero(time.getMonth() + 1);
-    let d = addZero(time.getDate());
+    // let m = addZero(time.getMonth() + 1);
+    let m = time.getMonth() + 1;
+    // let d = addZero(time.getDate());
+    let d = time.getDate();
     let h = addZero(time.getHours());
     let mm = addZero(time.getMinutes());
     let s = addZero(time.getSeconds());
