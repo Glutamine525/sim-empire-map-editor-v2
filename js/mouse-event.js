@@ -325,6 +325,7 @@ function eDragMap() {
     let nowX = -1;
     let nowY = -1;
     target.addEventListener("mousedown", (event) => {
+        if (event.button !== 0) return;
         if ($config.operation !== "null" && !$config.isCtrlDown) return;
         $config.dragMap.isDragging = true;
         startScrollLeft = html.scrollLeft;
@@ -542,8 +543,22 @@ function eDeletionBlock() {
 }
 
 function assignMouseEvent() {
-    document.addEventListener("mousedown", () => ($config.isMouseDown = true), true);
-    document.addEventListener("mouseup", () => ($config.isMouseDown = false), false);
+    document.addEventListener(
+        "mousedown",
+        () => {
+            if (event.button !== 0) return;
+            $config.isMouseDown = true;
+        },
+        true
+    );
+    document.addEventListener(
+        "mouseup",
+        () => {
+            if (event.button !== 0) return;
+            $config.isMouseDown = false;
+        },
+        false
+    );
     eDragMap();
     ePreviewBuilding();
     ePlaceBuilding();

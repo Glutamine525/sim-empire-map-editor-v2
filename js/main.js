@@ -122,7 +122,6 @@ $$("ghost-container").style.display = "none";
 $$("loading-background-container").style.display = "none";
 
 window.onload = () => {
-    startAutoSave(true);
     assignMouseEvent();
     // document.onclick = onMouseClick;
     // document.onmousemove = onMouseMove;
@@ -136,6 +135,11 @@ window.onload = () => {
         window.event.returnValue = false;
         return false;
     };
+    let autoSaveCache = localStorage.getItem("autoSave");
+    if (autoSaveCache) {
+        loadData(JSON.parse(autoSaveCache), true);
+    }
+    startAutoSave(true);
     $$("ghost-text-hint").style.display = "none";
     console.timeEnd("loading");
 };

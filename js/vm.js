@@ -338,6 +338,7 @@ var $vm = new Vue({
             })
                 .then(() => {
                     loadData(row, true);
+                    localStorage.setItem("autoSave", JSON.stringify(row));
                     this.$message({
                         message: `已载入${this.formatTimestamp(row.timestamp)}的数据！`,
                         type: "success",

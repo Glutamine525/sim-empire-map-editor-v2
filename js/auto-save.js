@@ -15,6 +15,7 @@ function startAutoSave(first) {
         }
         data.timestamp = new Date().valueOf();
         data.img = $$("mini-map").toDataURL("image/png");
+        localStorage.setItem("autoSave", JSON.stringify(data));
         $vm.autoSave.unshift(data);
         $vm.$message({
             message: "自动保存",
