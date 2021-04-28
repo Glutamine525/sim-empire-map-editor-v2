@@ -399,7 +399,8 @@ function base64ToString(base64) {
     }
 }
 
-const tags = ["br", "hr", "img", "input", "param", "meta", "link"];
+// const tags = ["br", "hr", "img", "input", "param", "meta", "link"];
+const tags = ["hr", "img", "input", "param", "meta", "link"];
 
 function separatorToCamelNaming(name) {
     const nameArr = name.split(/-/g);
