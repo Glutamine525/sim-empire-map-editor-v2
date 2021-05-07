@@ -215,6 +215,7 @@ function drawFixedBuilding(type, woodNum) {
             barrierType: barrierType,
             isRoad: type === "road",
             text: BuildingFixed[`text_${type}`],
+            name: BuildingFixed[`text_${type}`],
             color: "var(--color-black)",
             background: BuildingFixed[`color_${type}`],
             borderWidth: 1,

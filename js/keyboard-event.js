@@ -86,6 +86,90 @@ function onKeyUp(event) {
         if ($config.protectionFull.length > 3)
             $vm.onSelectBuilding($config.protectionFull[3], ["市政", $config.protectionFull[3]]);
         else return;
+    } else if (event.keyCode === 49) {
+        if ($vm.$data.buildingInfo["商业"].length > 0)
+            $vm.onSelectBuilding($vm.$data.buildingInfo["商业"][0].name, [
+                "商业",
+                $vm.$data.buildingInfo["商业"][0].name,
+            ]);
+        else return;
+    } else if (event.keyCode === 50) {
+        if ($vm.$data.buildingInfo["商业"].length > 1)
+            $vm.onSelectBuilding($vm.$data.buildingInfo["商业"][1].name, [
+                "商业",
+                $vm.$data.buildingInfo["商业"][1].name,
+            ]);
+        else return;
+    } else if (event.keyCode === 51) {
+        if ($vm.$data.buildingInfo["商业"].length > 2)
+            $vm.onSelectBuilding($vm.$data.buildingInfo["商业"][2].name, [
+                "商业",
+                $vm.$data.buildingInfo["商业"][2].name,
+            ]);
+        else return;
+    } else if (event.keyCode === 52) {
+        if ($vm.$data.buildingInfo["商业"].length > 3)
+            $vm.onSelectBuilding($vm.$data.buildingInfo["商业"][3].name, [
+                "商业",
+                $vm.$data.buildingInfo["商业"][3].name,
+            ]);
+        else return;
+    } else if (event.keyCode === 53) {
+        if ($vm.$data.buildingInfo["商业"].length > 4)
+            $vm.onSelectBuilding($vm.$data.buildingInfo["商业"][4].name, [
+                "商业",
+                $vm.$data.buildingInfo["商业"][4].name,
+            ]);
+        else return;
+    } else if (event.keyCode === 54) {
+        if ($vm.$data.buildingInfo["商业"].length > 5)
+            $vm.onSelectBuilding($vm.$data.buildingInfo["商业"][5].name, [
+                "商业",
+                $vm.$data.buildingInfo["商业"][5].name,
+            ]);
+        else return;
+    } else if (event.keyCode === 55) {
+        if ($vm.$data.buildingInfo["商业"].length > 6)
+            $vm.onSelectBuilding($vm.$data.buildingInfo["商业"][6].name, [
+                "商业",
+                $vm.$data.buildingInfo["商业"][6].name,
+            ]);
+        else return;
+    } else if (event.keyCode === 56) {
+        if ($vm.$data.buildingInfo["商业"].length > 7)
+            $vm.onSelectBuilding($vm.$data.buildingInfo["商业"][7].name, [
+                "商业",
+                $vm.$data.buildingInfo["商业"][7].name,
+            ]);
+        else return;
+    } else if (event.keyCode === 57) {
+        if ($vm.$data.buildingInfo["商业"].length > 8)
+            $vm.onSelectBuilding($vm.$data.buildingInfo["商业"][8].name, [
+                "商业",
+                $vm.$data.buildingInfo["商业"][8].name,
+            ]);
+        else return;
+    } else if (event.keyCode === 48) {
+        if ($vm.$data.buildingInfo["商业"].length > 9)
+            $vm.onSelectBuilding($vm.$data.buildingInfo["商业"][9].name, [
+                "商业",
+                $vm.$data.buildingInfo["商业"][9].name,
+            ]);
+        else return;
+    } else if (event.keyCode === 189) {
+        if ($vm.$data.buildingInfo["商业"].length > 10)
+            $vm.onSelectBuilding($vm.$data.buildingInfo["商业"][10].name, [
+                "商业",
+                $vm.$data.buildingInfo["商业"][10].name,
+            ]);
+        else return;
+    } else if (event.keyCode === 187) {
+        if ($vm.$data.buildingInfo["商业"].length > 11)
+            $vm.onSelectBuilding($vm.$data.buildingInfo["商业"][11].name, [
+                "商业",
+                $vm.$data.buildingInfo["商业"][11].name,
+            ]);
+        else return;
     } else {
         return;
     }

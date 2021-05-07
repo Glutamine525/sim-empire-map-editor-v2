@@ -105,6 +105,7 @@ function onClickWoodNum(woodNum) {
     clearBuilding();
     $miniMap.clear();
     initCell();
+    resetBuildingCount();
     drawFixedBuilding("water");
     drawFixedBuilding("mountain");
     drawFixedBuilding("road");
@@ -121,7 +122,6 @@ function onClickWoodNum(woodNum) {
     $selectionBlock.hide();
     $deletionBlock.hide();
     $$("sign-wood-num").innerHTML = `${woodNum}木`;
-    resetBuildingCount();
 }
 
 function onClickCivil(civil) {
@@ -146,7 +146,7 @@ function onClickCivil(civil) {
             }
         }
     }
-    resetBuildingCount();
+    // resetBuildingCount();
 }
 
 function onClickNoWood(isNoWood) {
@@ -249,6 +249,29 @@ function updateBuildingCount(diff, building) {
             if (building.catagory !== "市政") return;
             $$("top-nav-warehouse-1").innerHTML = +$$("top-nav-warehouse-1").innerHTML + diff;
             break;
+        case "码头":
+            $$("top-nav-agriculture").innerHTML = +$$("top-nav-agriculture").innerHTML + diff;
+            break;
+        case "铜矿场":
+            $$("top-nav-industry").innerHTML = +$$("top-nav-industry").innerHTML + diff;
+            break;
+        case "采石场":
+            $$("top-nav-industry").innerHTML = +$$("top-nav-industry").innerHTML + diff;
+            break;
+        case "粘土矿":
+            $$("top-nav-industry").innerHTML = +$$("top-nav-industry").innerHTML + diff;
+            break;
+    }
+    switch (building.catagory) {
+        case "农业":
+            $$("top-nav-agriculture").innerHTML = +$$("top-nav-agriculture").innerHTML + diff;
+            break;
+        case "工业":
+            $$("top-nav-industry").innerHTML = +$$("top-nav-industry").innerHTML + diff;
+            break;
+        case "通用":
+            $$("top-nav-general").innerHTML = +$$("top-nav-general").innerHTML + diff;
+            break;
     }
 }
 
@@ -257,6 +280,9 @@ function resetBuildingCount() {
     $$("top-nav-residence-1").innerHTML = 0;
     $$("top-nav-warehouse-0").innerHTML = 0;
     $$("top-nav-warehouse-1").innerHTML = 0;
+    $$("top-nav-agriculture").innerHTML = 0;
+    $$("top-nav-industry").innerHTML = 0;
+    $$("top-nav-general").innerHTML = 0;
 }
 
 function minionEyeballs(event) {

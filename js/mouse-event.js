@@ -380,6 +380,7 @@ function ePlaceBuilding() {
         if ($config.operation !== "placing-building") return;
         let { li, co } = getPosition(event);
         if (li < 0 || co < 0 || li > 116 || co > 116) return;
+        if (!$cell[li][co].isInRange) return;
         if (canReplaceGeneral(li, co)) {
             let targetLi = $cell[li][co].occupied.line;
             let targetCo = $cell[li][co].occupied.column;
