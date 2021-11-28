@@ -1,0 +1,34 @@
+#footer {
+  position: fixed;
+  width: 100vw;
+  left: 0;
+  bottom: 0;
+  color: var(--color-text-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  font-weight: bold;
+}
+
+#footer > * {
+  display: flex;
+  align-items: center;
+}
+
+#footer img {
+  margin-right: 4px;
+}
+
+#footer .splitter {
+  margin: 0 8px;
+}
+
+#footer .email {
+  cursor: pointer;
+}
+
+#footer a {
+  text-decoration: none;
+  color: var(--color-text-primary);
+}
